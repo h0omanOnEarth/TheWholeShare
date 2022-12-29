@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="450dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginLeft="-30dp"
+            android:layout_marginTop="150dp"
+            android:background="@drawable/circle_1"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="-300dp"
+            android:background="@drawable/circle_2"
+            android:orientation="vertical"></LinearLayout>
+
+        <LinearLayout
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_marginTop="-165dp"
+            android:background="@drawable/circle_3"
+            android:orientation="vertical"></LinearLayout>
+
+        <LinearLayout
+            android:layout_width="220dp"
+            android:layout_height="180dp"
+            android:layout_marginLeft="170dp"
+            android:layout_marginTop="-80dp"
+            android:background="@drawable/logo"
+            android:orientation="vertical"></LinearLayout>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-250dp"
+            android:fontFamily="@font/montserrat_subrayada"
+            android:text="WHOLE"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="55sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="15dp"
+            android:fontFamily="@font/montserrat_subrayada"
+            android:text="SHARE"
+            android:textAlignment="inherit"
+            android:textColor="#000000"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnToLogin"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="80dp"
+        android:background="@drawable/shadow_button_layer_list"
+        android:text="LOGIN"
+        android:textColor="#190000"
+        android:textSize="18dp"
+        android:textStyle="bold" />'
+
+    <Button
+        android:id="@+id/btnToRegister"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="80dp"
+        android:background="@drawable/shadow_button_layer_list"
+        android:text="REGISTER"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+</LinearLayout>

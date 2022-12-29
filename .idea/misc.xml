@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/TheWholeShare/app/src/main/res/drawable/bottom_navbar_color.xml" value="0.1" />
+        <entry key="..\:/TheWholeShare/app/src/main/res/drawable/button_border.xml" value="0.1" />
+        <entry key="..\:/TheWholeShare/app/src/main/res/drawable/button_state_list_animator.xml" value="0.1" />
+        <entry key="..\:/TheWholeShare/app/src/main/res/drawable/circle_1.xml" value="0.13" />
+        <entry key="..\:/TheWholeShare/app/src/main/res/drawable/circle_2.xml" value="0.13" />
+        <entry key="..\:/TheWholeShare/app/src/main/res/drawable/circle_3.xml" value="0.13" />
+        <entry key="..\:/TheWholeShare/app/src/main/res/drawable/rounded_square_1.xml" value="0.1" />
+        <entry key="..\:/TheWholeShare/app/src/main/res/drawable/rounded_square_2.xml" value="0.1" />
+        <entry key="..\:/TheWholeShare/app/src/main/res/layout/activity_login.xml" value="0.176" />
+        <entry key="..\:/TheWholeShare/app/src/main/res/layout/activity_main.xml" value="0.22826086956521738" />
+        <entry key="..\:/TheWholeShare/app/src/main/res/layout/activity_register.xml" value="0.2" />
+        <entry key="..\:/TheWholeShare/app/src/main/res/layout/activity_user_main.xml" value="0.13949275362318841" />
+        <entry key="..\:/TheWholeShare/app/src/main/res/layout/fragment_home_user.xml" value="0.11398176291793313" />
+        <entry key="..\:/TheWholeShare/app/src/main/res/layout/fragment_user_donate.xml" value="0.2" />
+        <entry key="..\:/TheWholeShare/app/src/main/res/layout/fragment_user_list_status.xml" value="0.16799999999999998" />
+        <entry key="..\:/TheWholeShare/app/src/main/res/menu/nav_menu_user.xml" value="0.234375" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
