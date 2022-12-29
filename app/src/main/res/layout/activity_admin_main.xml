@@ -8,7 +8,7 @@
     tools:context=".UserMainActivity">
 
     <FrameLayout
-        android:id="@+id/fragment_container_user"
+        android:id="@+id/fragment_container_admin"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
@@ -29,7 +29,7 @@
             app:itemIconTint="@drawable/bottom_navbar_color"
             app:itemTextColor="@drawable/bottom_navbar_color"
             app:labelVisibilityMode="labeled"
-            app:menu="@menu/nav_menu_user" />
+            app:menu="@menu/nav_menu_admin" />
     </LinearLayout>
 
 </LinearLayout>
