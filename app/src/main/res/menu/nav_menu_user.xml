@@ -2,19 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/item_home"
+        android:id="@+id/item_home_user"
         android:icon="@drawable/ic_baseline_home_24"
         android:title="Home" />
     <item
-        android:id="@+id/item_donate"
+        android:id="@+id/item_donate_user"
         android:icon="@drawable/donate_50px"
         android:title="Donate" />
     <item
-        android:id="@+id/item_status"
+        android:id="@+id/item_status_user"
         android:icon="@drawable/ic_baseline_check_circle_24"
         android:title="Status" />
     <item
-        android:id="@+id/item_profile"
+        android:id="@+id/item_profile_user"
         android:icon="@drawable/profile"
         android:title="Profile" />
 </menu>
