@@ -13,6 +13,7 @@
         <entry key="..\:/TheWholeShare/app/src/main/res/drawable/rounded_square_2.xml" value="0.1" />
         <entry key="..\:/TheWholeShare/app/src/main/res/drawable/shadow_button_layer_list.xml" value="0.1" />
         <entry key="..\:/TheWholeShare/app/src/main/res/layout/activity_admin_main.xml" value="0.19927536231884058" />
+        <entry key="..\:/TheWholeShare/app/src/main/res/layout/activity_driver_main.xml" value="0.12158054711246201" />
         <entry key="..\:/TheWholeShare/app/src/main/res/layout/activity_login.xml" value="0.176" />
         <entry key="..\:/TheWholeShare/app/src/main/res/layout/activity_main.xml" value="0.22826086956521738" />
         <entry key="..\:/TheWholeShare/app/src/main/res/layout/activity_register.xml" value="0.2" />
@@ -27,6 +28,7 @@
         <entry key="..\:/TheWholeShare/app/src/main/res/layout/fragment_user_list_status.xml" value="0.16799999999999998" />
         <entry key="..\:/TheWholeShare/app/src/main/res/layout/fragment_user_profile.xml" value="0.19927536231884058" />
         <entry key="..\:/TheWholeShare/app/src/main/res/menu/nav_menu_admin.xml" value="0.23333333333333334" />
+        <entry key="..\:/TheWholeShare/app/src/main/res/menu/nav_menu_driver.xml" value="0.15" />
         <entry key="..\:/TheWholeShare/app/src/main/res/menu/nav_menu_user.xml" value="0.234375" />
       </map>
     </option>

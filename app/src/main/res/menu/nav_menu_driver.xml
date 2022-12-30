@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/item_home_driver"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="Home" />
+    <item
+        android:id="@+id/item_packages_driver"
+        android:icon="@drawable/ic_baseline_shopping_bag_24"
+        android:title="Packages" />
+    <item
+        android:id="@+id/item_delivered_driver"
+        android:icon="@drawable/deliver"
+        android:title="Delivered" />
+    <item
+        android:id="@+id/item_canceled_driver"
+        android:icon="@drawable/cancel_subscription_50px"
+        android:title="Canceled" />
+    <item
+        android:id="@+id/item_profile_driver"
+        android:icon="@drawable/profile"
+        android:title="Profile" />
+</menu>
