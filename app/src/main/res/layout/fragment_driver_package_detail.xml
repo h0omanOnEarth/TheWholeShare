@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".AdminVerifyPackageFragment">
+    tools:context=".DriverPackageDetailFragment">
 
 
     <LinearLayout
@@ -13,14 +13,13 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/rounded_square_1"
-        android:gravity="center"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-20dp"
+            android:layout_marginTop="20dp"
             android:fontFamily="@font/montserrat"
             android:text="#ID"
             android:textAlignment="center"
@@ -30,7 +29,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="37dp"
             android:layout_marginTop="20dp"
             android:orientation="horizontal">
 
@@ -42,7 +41,7 @@
                 android:text="To : "
                 android:textAlignment="textEnd"
                 android:textColor="#000000"
-                android:textSize="14sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/textView7"
@@ -53,12 +52,12 @@
                 android:fontFamily="@font/montserrat"
                 android:text="Jl. Kedinding No.17"
                 android:textColor="#000000"
-                android:textSize="14sp" />
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="37dp"
             android:orientation="horizontal">
 
             <TextView
@@ -70,7 +69,7 @@
                 android:text="Qty :"
                 android:textAlignment="textEnd"
                 android:textColor="#000000"
-                android:textSize="14sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/textView9"
@@ -81,12 +80,12 @@
                 android:fontFamily="@font/montserrat"
                 android:text="5"
                 android:textColor="#000000"
-                android:textSize="14sp" />
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="100dp"
             android:orientation="horizontal">
 
             <TextView
@@ -98,7 +97,7 @@
                 android:text="Note :"
                 android:textAlignment="textEnd"
                 android:textColor="#000000"
-                android:textSize="14sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/textView11"
@@ -109,12 +108,12 @@
                 android:fontFamily="@font/montserrat"
                 android:text="TextView"
                 android:textColor="#000000"
-                android:textSize="14sp" />
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="37dp"
             android:orientation="horizontal">
 
             <TextView
@@ -122,10 +121,10 @@
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:fontFamily="@font/montserrat"
-                android:text="Status :"
+                android:text="Address :"
                 android:textAlignment="textEnd"
                 android:textColor="#000000"
-                android:textSize="14sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/textView13"
@@ -134,14 +133,14 @@
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/montserrat"
-                android:text="Finished"
+                android:text="TextView"
                 android:textColor="#000000"
-                android:textSize="14sp" />
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="37dp"
             android:orientation="horizontal">
 
             <TextView
@@ -150,10 +149,10 @@
                 android:layout_height="match_parent"
                 android:fontFamily="@font/montserrat"
                 android:paddingRight="4dp"
-                android:text="Date :"
+                android:text="Sender :"
                 android:textAlignment="textEnd"
                 android:textColor="#000000"
-                android:textSize="14sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/textView15"
@@ -164,144 +163,21 @@
                 android:fontFamily="@font/montserrat"
                 android:text="TextView"
                 android:textColor="#000000"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvSender_title_admin_verify"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/montserrat"
-                android:paddingRight="4dp"
-                android:text="Sender :"
-                android:textAlignment="textEnd"
-                android:textColor="#000000"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/tvSender_admin_verify"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_weight="1"
-                android:fontFamily="@font/montserrat"
-                android:text="TextView"
-                android:textColor="#000000"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvFrom_title_admin_verify"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/montserrat"
-                android:paddingRight="4dp"
-                android:text="From :"
-                android:textAlignment="textEnd"
-                android:textColor="#000000"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/tvFrom_admin_verify"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_weight="1"
-                android:fontFamily="@font/montserrat"
-                android:text="TextView"
-                android:textColor="#000000"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvVerifiedAt_title_admin_verify"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/montserrat"
-                android:paddingRight="4dp"
-                android:text="Verified at :"
-                android:textAlignment="textEnd"
-                android:textColor="#000000"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/tvVerifiedAt_admin_verify"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_weight="1"
-                android:fontFamily="@font/montserrat"
-                android:text="TextView"
-                android:textColor="#000000"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textView16"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat"
-                    android:paddingRight="3dp"
-                    android:text="Result :"
-                    android:textAlignment="textEnd"
-                    android:textColor="#000000"
-                    android:textSize="18sp" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/imageView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:paddingLeft="-200dp"
-                        tools:src="@tools:sample/avatars" />
-                </LinearLayout>
-            </LinearLayout>
+                android:textSize="18sp" />
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button2"
+            android:id="@+id/btnTake_driver_detail_package"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/rounded_square_2"
-            android:text="VERIFY" />
+            android:text="TAKE" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnBack_admin_verify_package"
+            android:id="@+id/button2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -311,6 +187,7 @@
             android:text="BACK" />
 
     </LinearLayout>
+
 
 
 
