@@ -22,7 +22,8 @@
         <entry key="..\:/TheWholeShare/app/src/main/res/layout/fragment_admin_home.xml" value="0.19927536231884058" />
         <entry key="..\:/TheWholeShare/app/src/main/res/layout/fragment_admin_list_package.xml" value="0.2" />
         <entry key="..\:/TheWholeShare/app/src/main/res/layout/fragment_admin_master.xml" value="0.19927536231884058" />
-        <entry key="..\:/TheWholeShare/app/src/main/res/layout/fragment_driver_home.xml" value="0.12158054711246201" />
+        <entry key="..\:/TheWholeShare/app/src/main/res/layout/fragment_admin_verify_package.xml" value="0.12158054711246201" />
+        <entry key="..\:/TheWholeShare/app/src/main/res/layout/fragment_driver_home.xml" value="0.176" />
         <entry key="..\:/TheWholeShare/app/src/main/res/layout/fragment_driver_list_canceled.xml" value="0.12158054711246201" />
         <entry key="..\:/TheWholeShare/app/src/main/res/layout/fragment_driver_list_deliver.xml" value="0.12158054711246201" />
         <entry key="..\:/TheWholeShare/app/src/main/res/layout/fragment_driver_packages.xml" value="0.12158054711246201" />

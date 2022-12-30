@@ -16,49 +16,185 @@
         android:gravity="center"
         android:orientation="vertical">
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
             <LinearLayout
-                android:layout_width="200dp"
+                android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:background="@drawable/rounded_square_2"
-                android:orientation="vertical">
+                android:gravity="center"
+                android:orientation="horizontal">
 
+                <LinearLayout
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:background="@drawable/rounded_square_2"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:textAlignment="center">
+
+                    <TextView
+                        android:id="@+id/tv_totalPackAvailable"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="20"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="60sp" />
+
+                    <TextView
+                        android:id="@+id/tvPackage_homeAdmin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat"
+                        android:text="PACKAGES"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="28sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvAvailable_homeAdmin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat"
+                        android:text="AVAILABLE"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="28sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:background="@drawable/rounded_square_2"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_totalPackOnGoing"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="5"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="60sp" />
+
+                    <TextView
+                        android:id="@+id/tvPackage_onGoing_homeAdmin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat"
+                        android:text="PACKAGES"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="28sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvOnGoing_homeAdmin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat"
+                        android:text="ON GOING"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="28sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="200dp"
+                android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:background="@drawable/rounded_square_2"
-                android:orientation="vertical"></LinearLayout>
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:background="@drawable/rounded_square_2"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvTotalPackCanceled_HomeAdmin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="6"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="60sp" />
+
+                    <TextView
+                        android:id="@+id/tvPackage_canceled_homeAdmin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat"
+                        android:text="PACKAGES"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="28sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvCanceled_homeAdmin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat"
+                        android:text="CANCELED"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="28sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:background="@drawable/rounded_square_2"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvTotalFinished_homeAdmin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="10"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="60sp" />
+
+                    <TextView
+                        android:id="@+id/tvPackage_finished_homeAdmin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat"
+                        android:text="PACKAGES"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="28sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvFinished_homeAdmin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat"
+                        android:text="FINISHED"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="28sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:background="@drawable/rounded_square_2"
-                android:orientation="vertical">
 
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:background="@drawable/rounded_square_2"
-                android:orientation="vertical"></LinearLayout>
-        </LinearLayout>
     </LinearLayout>
 
 
