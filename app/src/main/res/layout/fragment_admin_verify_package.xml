@@ -298,20 +298,37 @@
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/rounded_square_2"
-            android:text="VERIFY" />
+            android:text="VERIFY DETAIL" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnBack_admin_verify_package"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/rounded_square_2"
-            android:text="BACK" />
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_square_2"
+                android:fontFamily="@font/montserrat"
+                android:text="Verify"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnBack_admin_verify_package"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_square_2"
+                android:text="BACK" />
+        </LinearLayout>
 
     </LinearLayout>
-
 
 
 </LinearLayout>
