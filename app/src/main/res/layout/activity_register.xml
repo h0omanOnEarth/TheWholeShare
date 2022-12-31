@@ -197,7 +197,7 @@
                 app:strokeWidth="10dp" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button"
+                android:id="@+id/btnBackRegister"
                 android:layout_width="150dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="-10dp"
