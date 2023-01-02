@@ -93,7 +93,7 @@ class UserProfileFragment(
                 },
                 Response.ErrorListener {
                     println(it.message)
-//                    Toast.makeText(context,it.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context,it.message, Toast.LENGTH_SHORT).show()
                 }
             ){
                 override fun getParams(): MutableMap<String, String>? {
