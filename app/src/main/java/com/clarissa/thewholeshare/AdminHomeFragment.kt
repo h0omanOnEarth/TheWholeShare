@@ -30,8 +30,8 @@ class AdminHomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         tvTotalLocations = view.findViewById(R.id.tvTotalLoc_homeAdmin)
         tvTotalPackages_OnGoing = view.findViewById(R.id.tvTotalPackagesOnGoing_homeAdmin)
-        tvTotalPackages_Canceled = view.findViewById(R.id.tvTotalPackCanceled_HomeAdmin)
-        tvTotalPackages_Finished = view.findViewById(R.id.tvTotalFinishedPackage_homeAdmin)
+        tvTotalPackages_Canceled = view.findViewById(R.id.tvTotalFinishedPackage_homeAdmin)
+        tvTotalPackages_Finished = view.findViewById(R.id.tvTotalCanceledPackages_homeAdmin)
     }
 
 
