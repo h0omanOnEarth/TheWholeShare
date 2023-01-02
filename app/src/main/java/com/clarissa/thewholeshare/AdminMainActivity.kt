@@ -119,11 +119,21 @@ class AdminMainActivity : AppCompatActivity() {
     //load fragment master
     fun loadFragmentMaster(){
         fragmentMaster = AdminMasterFragment()
+        fragmentMaster.onClickButton = {resource: String ->
+            if(resource=="add"){
+                switchFragment(R.id.fragment_container_admin,fragmentAddLocation)
+            }
+        }
     }
 
     //load fragment add location
     fun loadFragmentAddLocation(){
         fragmentAddLocation = AdminAddLocationFragment()
+        fragmentAddLocation.onClickButton = {resource: String ->
+            if(resource=="cancel"){
+                switchFragment(R.id.fragment_container_admin,fragmentMaster)
+            }
+        }
     }
 
     //load fragment list packages
