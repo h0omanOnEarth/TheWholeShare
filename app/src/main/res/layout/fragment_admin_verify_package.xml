@@ -58,34 +58,6 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView8"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/montserrat"
-                android:paddingRight="4dp"
-                android:text="Qty :"
-                android:textAlignment="textEnd"
-                android:textColor="#000000"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/textView9"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_weight="1"
-                android:fontFamily="@font/montserrat"
-                android:text="5"
-                android:textColor="#000000"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
             android:layout_height="80dp"
             android:orientation="horizontal">
 
@@ -298,7 +270,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/rounded_square_2"
-            android:text="VERIFY DETAIL" />
+            android:text="VERIFY" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -314,7 +286,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/rounded_square_2"
                 android:fontFamily="@font/montserrat"
-                android:text="Verify"
+                android:text="CANCEL"
                 android:textStyle="bold" />
 
             <androidx.appcompat.widget.AppCompatButton

@@ -18,7 +18,7 @@
             android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="50dp"
             android:fontFamily="@font/montserrat"
             android:text="#ID"
             android:textAlignment="center"
@@ -50,34 +50,6 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/montserrat"
                 android:text="Jl. Kedinding No.17"
-                android:textColor="#000000"
-                android:textSize="18sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView8"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/montserrat"
-                android:paddingRight="4dp"
-                android:text="Qty :"
-                android:textAlignment="textEnd"
-                android:textColor="#000000"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/textView9"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_weight="1"
-                android:fontFamily="@font/montserrat"
-                android:text="5"
                 android:textColor="#000000"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -167,42 +139,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="85dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView33"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat"
-                android:text="Reasons :"
-                android:textAlignment="textEnd"
-                android:textColor="#000000"
-                android:textSize="18sp" />
-
-            <EditText
-                android:id="@+id/editTextTextMultiLine3"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="20dp"
-                android:layout_weight="1"
-                android:background="@drawable/rounded_square_2"
-                android:ems="10"
-                android:fontFamily="@font/montserrat"
-                android:gravity="start|top"
-                android:hint="Reasons"
-                android:inputType="textMultiLine"
-                android:paddingLeft="20dp"
-                android:paddingTop="10dp"
-                android:paddingRight="20dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="80dp"
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
@@ -213,7 +151,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/rounded_square_2"
                 android:fontFamily="@font/montserrat"
-                android:text="SEND"
+                android:text="CANCEL"
                 android:textColor="#000000"
                 android:textStyle="bold" />
 

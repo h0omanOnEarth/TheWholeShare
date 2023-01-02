@@ -14,7 +14,7 @@ import android.widget.Spinner
 class UserDonateFragment : Fragment() {
 
     lateinit var spinnerLocation:Spinner
-    lateinit var etQty_donate:EditText
+    lateinit var etPickUpAddress:EditText
     lateinit var etNote_donate:EditText
     lateinit var btnDonate:Button
 
@@ -39,7 +39,7 @@ class UserDonateFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         spinnerLocation = view.findViewById(R.id.spinnerLocations)
-        etQty_donate = view.findViewById(R.id.etQty_donate)
+        etPickUpAddress = view.findViewById(R.id.etPickUpAddress_User)
         etNote_donate = view.findViewById(R.id.etNote_donate)
         btnDonate = view.findViewById(R.id.btnDonate)
 
