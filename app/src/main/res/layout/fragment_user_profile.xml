@@ -95,7 +95,7 @@
             android:background="@drawable/rounded_square_2"
             android:ems="10"
             android:fontFamily="@font/montserrat"
-            android:hint="Password"
+            android:hint="New Password"
             android:inputType="textPassword"
             android:paddingLeft="20dp" />
 
