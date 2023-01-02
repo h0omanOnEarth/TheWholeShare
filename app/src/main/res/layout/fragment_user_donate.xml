@@ -27,7 +27,7 @@
             android:textStyle="bold" />
 
         <Spinner
-            android:id="@+id/spinnerLocation"
+            android:id="@+id/spinnerLocations"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginLeft="20dp"
@@ -38,7 +38,7 @@
             android:spinnerMode="dropdown" />
 
         <EditText
-            android:id="@+id/editTextNumber"
+            android:id="@+id/etQty_donate"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginLeft="20dp"
@@ -52,7 +52,7 @@
             android:paddingLeft="20dp" />
 
         <EditText
-            android:id="@+id/editTextTextMultiLine"
+            android:id="@+id/etNote_donate"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_marginLeft="20dp"
@@ -68,7 +68,7 @@
             android:paddingTop="10dp" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button3"
+            android:id="@+id/btnDonate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
