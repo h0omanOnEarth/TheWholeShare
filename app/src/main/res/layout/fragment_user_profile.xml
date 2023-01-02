@@ -16,7 +16,7 @@
 
 
         <EditText
-            android:id="@+id/editTextTextPersonName3"
+            android:id="@+id/etUsername_Profile"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginLeft="20dp"
@@ -31,7 +31,7 @@
             android:paddingLeft="20dp" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName4"
+            android:id="@+id/etFullName_Profile"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginLeft="20dp"
@@ -45,7 +45,7 @@
             android:paddingLeft="20dp" />
 
         <EditText
-            android:id="@+id/editTextPhone2"
+            android:id="@+id/etPhoneNumber_Profile"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginLeft="20dp"
@@ -59,7 +59,7 @@
             android:paddingLeft="20dp" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName5"
+            android:id="@+id/etAddress_Profile"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginLeft="20dp"
@@ -73,7 +73,7 @@
             android:paddingLeft="20dp" />
 
         <EditText
-            android:id="@+id/editTextTextEmailAddress2"
+            android:id="@+id/etEmail_Profile"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginLeft="20dp"
@@ -86,7 +86,7 @@
             android:paddingLeft="20dp" />
 
         <EditText
-            android:id="@+id/editTextTextPassword3"
+            android:id="@+id/etPassword_profile"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginLeft="20dp"
@@ -100,7 +100,7 @@
             android:paddingLeft="20dp" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button4"
+            android:id="@+id/btnEdit_Profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
