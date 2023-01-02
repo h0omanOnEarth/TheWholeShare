@@ -207,6 +207,7 @@ class RegisterActivity : AppCompatActivity() {
         mAlertDialog.show()
     }
 
+    //alert dialog sukses
     fun alertDialogSuccess(title:String, message:String){
         val mAlertDialog = AlertDialog.Builder(this@RegisterActivity)
         mAlertDialog.setIcon(R.drawable.ok_80px) //set alertdialog icon
