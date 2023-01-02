@@ -33,7 +33,7 @@
                 android:textAlignment="center">
 
                 <TextView
-                    android:id="@+id/textView18"
+                    android:id="@+id/tvTotalLoc_homeAdmin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat_bold"
@@ -47,7 +47,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat"
-                    android:text="NEW"
+                    android:text="TOTAL"
                     android:textAlignment="center"
                     android:textColor="#000000"
                     android:textSize="28sp"
@@ -73,7 +73,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView24"
+                    android:id="@+id/tvTotalPackagesOnGoing_homeAdmin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat_bold"
@@ -87,7 +87,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat"
-                    android:text="REC"
+                    android:text="PACKAGES"
                     android:textAlignment="center"
                     android:textColor="#000000"
                     android:textSize="28sp"
@@ -98,7 +98,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat"
-                    android:text="LOCATIONS"
+                    android:text="ON GOING"
                     android:textAlignment="center"
                     android:textColor="#000000"
                     android:textSize="28sp"
@@ -123,7 +123,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView21"
+                    android:id="@+id/tvTotalFinishedPackage_homeAdmin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat_bold"
@@ -163,7 +163,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView27"
+                    android:id="@+id/tvTotalCanceledPackages_homeAdmin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat_bold"
