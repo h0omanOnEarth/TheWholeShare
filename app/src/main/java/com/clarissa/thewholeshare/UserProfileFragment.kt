@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
@@ -57,6 +58,81 @@ class UserProfileFragment(
 
         getUserLoggedIn(unameActive)
 
+        //alert dialog warning
+        fun alertDialogFailed(title:String, message:String){
+            val mAlertDialog = AlertDialog.Builder(view.context)
+            mAlertDialog.setIcon(R.drawable.high_priority_80px) //set alertdialog icon
+            mAlertDialog.setTitle(title) //set alertdialog title
+            mAlertDialog.setMessage(message) //set alertdialog message
+            mAlertDialog.setPositiveButton("OK") { dialog, id ->
+
+            }
+            mAlertDialog.show()
+        }
+
+        //alert dialog sukses
+        fun alertDialogSuccess(title:String, message:String){
+            val mAlertDialog = AlertDialog.Builder(view.context)
+            mAlertDialog.setIcon(R.drawable.ok_80px) //set alertdialog icon
+            mAlertDialog.setTitle(title) //set alertdialog title
+            mAlertDialog.setMessage(message) //set alertdialog message
+            mAlertDialog.setPositiveButton("OK") { dialog, id ->
+
+            }
+            mAlertDialog.show()
+        }
+
+        //do edit
+        fun doEditProfile(full_name:String, phone:String, address:String, email:String, password:String){
+            val strReq = object : StringRequest(
+                Method.POST,
+                "$WS_HOST/updateUser",
+                Response.Listener {
+                    getUserLoggedIn(unameActive)
+                    alertDialogSuccess("SUCCESS","Success Edit Profile!")
+                },
+                Response.ErrorListener {
+                    println(it.message)
+//                    Toast.makeText(context,it.message, Toast.LENGTH_SHORT).show()
+                }
+            ){
+                override fun getParams(): MutableMap<String, String>? {
+                    val params = HashMap<String,String>()
+                    params["id"] = userActive.id.toString()
+                    params["username"] = unameActive
+                    if(password!="") {
+                        params["password"] = password
+                    }else if(password==""){
+                        params["password"] = userActive.password
+                    }
+                    params["full_name"] = full_name
+                    params["phone"] = phone
+                    params["address"] = address
+                    params["email"] = email
+                    params["role"] = userActive.role.toString()
+                    return params
+                }
+            }
+            val queue: RequestQueue = Volley.newRequestQueue(context)
+            queue.add(strReq)
+        }
+
+
+        btnEdit.setOnClickListener {
+            val full_name = etFullName.text.toString()
+            val phone = etPhone.text.toString()
+            val address = etAddress.text.toString()
+            val email = etEmail.text.toString()
+            val password = etPassword.text.toString()
+
+            if(full_name!="" &&phone!="" && address!="" && email!=""){
+                //do edit
+                doEditProfile(full_name,phone,address,email,password)
+            }else{
+                alertDialogFailed("ERROR","Fill all the fIelds!")
+            }
+
+        }
     }
 
     //to get user who logged in
@@ -105,5 +181,7 @@ class UserProfileFragment(
         etAddress.setText(userActive.address)
         etEmail.setText(userActive.email)
     }
+
+
 
 }
