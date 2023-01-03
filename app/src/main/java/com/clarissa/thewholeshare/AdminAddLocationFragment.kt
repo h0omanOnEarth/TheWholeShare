@@ -82,30 +82,7 @@ class AdminAddLocationFragment : Fragment() {
             etAddress.text.clear()
         }
 
-        fun doInsertLocation(address:String, note:String){
-            val strReq = object : StringRequest(
-                Method.POST,
-                "$WS_HOST/insertLocation",
-                Response.Listener {
-                    alertDialogSuccess("SUCCESS", "Location Added!")
-                    clearAllFields()
-                },
-                Response.ErrorListener {
-                    println(it.message)
-                    Toast.makeText(context,it.message, Toast.LENGTH_SHORT).show()
-                }
-            ){
-                override fun getParams(): MutableMap<String, String>? {
-                    val params = HashMap<String,String>()
-                    params["address"] = address
-                    params["note"] = note
-                    return params
 
-                }
-            }
-            val queue: RequestQueue = Volley.newRequestQueue(context)
-            queue.add(strReq)
-        }
 
         btnAdd.setOnClickListener {
             val address = etAddress.text.toString()
@@ -113,7 +90,7 @@ class AdminAddLocationFragment : Fragment() {
 
             if(address!="" && note!=""){
                 //do insert
-                doInsertLocation(address,note)
+
             }else{
                 alertDialogFailed("ERROR", "Fill all the fields!")
             }

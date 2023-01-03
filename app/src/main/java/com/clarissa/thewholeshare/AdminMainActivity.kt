@@ -60,10 +60,8 @@ class AdminMainActivity : AppCompatActivity() {
 
             if(it.itemId == R.id.item_home_admin){
                 switchFragment(R.id.fragment_container_admin, fragmentHome)
-            }else if(it.itemId == R.id.item_master_admin){
+            }else if(it.itemId == R.id.item_master_admin) {
                 switchFragment(R.id.fragment_container_admin, fragmentMaster)
-            }else if(it.itemId == R.id.item_packages_admin){
-                switchFragment(R.id.fragment_container_admin,fragmentListPackage)
             }else if(it.itemId == R.id.item_profile_admin){
                 switchFragment(R.id.fragment_container_admin, fragmentProfile)
             }

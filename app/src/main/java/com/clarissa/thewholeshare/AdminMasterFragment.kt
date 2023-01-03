@@ -55,45 +55,6 @@ class AdminMasterFragment(
             onClickButton?.invoke("add")
         }
 
-        arrLocations = mutableListOf()
-        rvLocations.layoutManager = LinearLayoutManager(view.context?.applicationContext)
-        locationAdapter = LocationAdapter(view.context, arrLocations, R.layout.item_location)
-        rvLocations.adapter = locationAdapter
-
-        fun refreshList(){
-            val strReq = object: StringRequest(
-                Method.GET,
-                "$WS_HOST/listLocations",
-                //kalau sukses callback nya apa
-                Response.Listener {
-                    //it itu hasil nembak laravel nanti masuk ke variable it
-                    val obj: JSONArray = JSONArray(it)
-                    arrLocations.clear()
-                    for (i in 0 until obj.length()){
-                        val o = obj.getJSONObject(i)
-                        val id = o.getInt("id")
-                        val address = o.getString("address")
-                        val note = o.getString("note")
-                        val status = o.getInt("status")
-                        val deleted_at = o.get("deleted_at").toString()
-                        val loc = Location(
-                           id,address,note,status,deleted_at
-                        )
-                        arrLocations.add(loc)
-                    }
-                    locationAdapter.notifyDataSetChanged()
-                },
-
-                Response.ErrorListener {
-                    Toast.makeText(context,"ERROR!", Toast.LENGTH_SHORT).show()
-                }
-            ){}
-            val queue: RequestQueue = Volley.newRequestQueue(context)
-            queue.add(strReq)
-        }
-
-        refreshList()
-
     }
 
 }
