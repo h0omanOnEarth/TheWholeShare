@@ -1,4 +1,4 @@
-package com.clarissa.thewholeshare
+package com.clarissa.thewholeshare.models
 
 data class Location(
     var id:Int,

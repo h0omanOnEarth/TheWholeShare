@@ -1,14 +1,13 @@
-package com.clarissa.thewholeshare
+package com.clarissa.thewholeshare.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.clarissa.thewholeshare.R
 
-
-class DriverCanceledPageDetailFragment : Fragment() {
-
+class DriverPackagesFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +19,8 @@ class DriverCanceledPageDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_driver_canceled_page_detail, container, false)
+        return inflater.inflate(R.layout.fragment_driver_packages, container, false)
     }
+
 
 }

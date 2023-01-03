@@ -1,13 +1,14 @@
-package com.clarissa.thewholeshare
+package com.clarissa.thewholeshare.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.clarissa.thewholeshare.R
 
 
-class DriverFinishDetailFragment : Fragment() {
+class DriverPackageDetailFragment : Fragment() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,8 +21,7 @@ class DriverFinishDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_driver_finish_detail, container, false)
+        return inflater.inflate(R.layout.fragment_driver_package_detail, container, false)
     }
-
 
 }

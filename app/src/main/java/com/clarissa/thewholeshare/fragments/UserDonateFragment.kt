@@ -1,4 +1,4 @@
-package com.clarissa.thewholeshare
+package com.clarissa.thewholeshare.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
+import com.clarissa.thewholeshare.R
+import com.clarissa.thewholeshare.models.Location
 
 
 class UserDonateFragment : Fragment() {

@@ -1,6 +1,4 @@
-package com.clarissa.thewholeshare
-
-import java.sql.Timestamp
+package com.clarissa.thewholeshare.models
 
 data class User(
     var id:Int,
@@ -11,6 +9,8 @@ data class User(
     var address:String,
     var email:String,
     var role : Int,
+    var created_at : String? = null,
+    var updated_at : String? = null,
     var deleted_at : String? = null
 ) {
 

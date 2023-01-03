@@ -1,14 +1,13 @@
-package com.clarissa.thewholeshare
+package com.clarissa.thewholeshare.adapters
 
 import android.content.Context
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.launch
+import com.clarissa.thewholeshare.R
+import com.clarissa.thewholeshare.models.Location
 
 class LocationAdapter(
     private val context: Context,
@@ -19,14 +18,14 @@ class LocationAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): LocationAdapter.CustomViewHolder {
+    ): CustomViewHolder {
         var itemView = LayoutInflater.from(parent.context)
         return CustomViewHolder(itemView.inflate(
             layout, parent ,false
         ))
     }
 
-    override fun onBindViewHolder(holder: LocationAdapter.CustomViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         var item = arrLocations[position]
 
         holder.tvLocationName.text = item.address

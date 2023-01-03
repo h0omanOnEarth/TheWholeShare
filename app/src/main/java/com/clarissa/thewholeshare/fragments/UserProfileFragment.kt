@@ -1,4 +1,4 @@
-package com.clarissa.thewholeshare
+package com.clarissa.thewholeshare.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,6 +13,8 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.clarissa.thewholeshare.R
+import com.clarissa.thewholeshare.models.User
 import org.json.JSONArray
 
 class UserProfileFragment(

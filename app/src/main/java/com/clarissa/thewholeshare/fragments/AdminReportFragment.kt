@@ -1,12 +1,14 @@
-package com.clarissa.thewholeshare
+package com.clarissa.thewholeshare.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.clarissa.thewholeshare.R
 
-class AdminListPackageFragment : Fragment() {
+class AdminReportFragment : Fragment() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -16,7 +18,7 @@ class AdminListPackageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_admin_list_package, container, false)
+        return inflater.inflate(R.layout.fragment_admin_report, container, false)
     }
 
 }

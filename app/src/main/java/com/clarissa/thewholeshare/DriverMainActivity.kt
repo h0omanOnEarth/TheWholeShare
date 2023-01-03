@@ -10,6 +10,8 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.clarissa.thewholeshare.fragments.*
+import com.clarissa.thewholeshare.models.User
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.json.JSONArray
 

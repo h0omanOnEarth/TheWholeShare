@@ -1,20 +1,30 @@
 package com.clarissa.thewholeshare
 
+import android.content.ContextParams
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.android.volley.DefaultRetryPolicy
+import com.android.volley.Request.Method
 import com.android.volley.RequestQueue
 import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.clarissa.thewholeshare.api.WholeShareApiService
+import com.clarissa.thewholeshare.models.User
+import com.google.gson.Gson
 import org.json.JSONArray
+import org.json.JSONObject
+import org.json.JSONTokener
 
 class LoginActivity : AppCompatActivity() {
-    lateinit var btnLogin:Button
+    lateinit var btnLogin: Button
     lateinit var btnBack : Button
 
     //isian :
@@ -24,8 +34,68 @@ class LoginActivity : AppCompatActivity() {
     //mutable list untuk memasukkan daftar users
     lateinit var arrUsers : MutableList<User>
 
-    //web service :
-    val WS_HOST = "http://10.0.2.2:8000/api"
+    /**
+     * Attempt to log in to the application using the provided username and password.
+     * Uses the Volley library to communicate with the server implementing a REST API,
+     * returning a response whether the login attempt is successful or not.
+     *
+     * @param username The username of the user being attempted.
+     * @param password The password of the user being attempted.
+     */
+    private fun attemptLogin(username: String, password: String) {
+        // Create the request body for the request
+        val requestBody = JSONObject()
+        requestBody.put("username", username)
+        requestBody.put("password", password)
+
+        // Create the actual request object
+        val loginRequest = JsonObjectRequest(Method.POST, "${WholeShareApiService.WS_HOST}/login",
+            requestBody,
+            { response ->
+                val status = response.getInt("status")
+
+                // Check the login attempt status, has it failed?
+                // 0 = Failed, 1 = Success
+                if (status == 0) {
+                    val message = response.getString("reason")
+
+                    alertDialogFailed("Login Failed!", message)
+                }
+                else if (status == 1) {
+                    val userJson = response.getJSONObject("user")
+                    val loggedUser = Gson().fromJson(userJson.toString(), User::class.java)
+//                    alertDialogSuccess("Login Successful!", loggedUser.toString())
+
+                    // Check for the logged in user role, and logged the user in to the appropriate page
+                    // 1 = User, 2 = Admin, 3 = Courier
+                    if (loggedUser.role == 1) {
+                        // user
+                        val intent = Intent(this@LoginActivity, UserMainActivity::class.java)
+                        intent.putExtra("active_username",username)
+                        startActivity(intent)
+                    } else if (loggedUser.role == 2) {
+                        //admin
+                        val intent = Intent(this@LoginActivity, AdminMainActivity::class.java)
+                        intent.putExtra("active_username",username)
+                        startActivity(intent)
+                    } else if (loggedUser.role == 3) {
+                        //driver
+                        val intent = Intent(this@LoginActivity, DriverMainActivity::class.java)
+                        intent.putExtra("active_username",username)
+                        startActivity(intent)
+                    }
+                }
+                else alertDialogFailed("Login Failed!", "Unknown Status")
+            },
+            { error ->
+                alertDialogFailed("Login Failed!", error.toString())
+            }
+        )
+        loginRequest.retryPolicy =
+            DefaultRetryPolicy(5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+
+        WholeShareApiService.getInstance(this).addToRequestQueue(loginRequest)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,44 +112,46 @@ class LoginActivity : AppCompatActivity() {
             val username = etUsername.text.toString()
             val password = etPassword.text.toString()
 
-            if(username!="" && password!=""){
-                //maka lakukan login
-                if(isUsernameRegistered(username)==true){
+            attemptLogin(username, password)
 
-                    if(isPasswordTrue(username,password)!=-1){
-                        val role = isPasswordTrue(username,password)
-
-                        if(role==1){
-                            //user
-                            val intent = Intent(this@LoginActivity, UserMainActivity::class.java)
-                            intent.putExtra("active_username",username)
-                            startActivity(intent)
-                        }else if(role==2){
-                            //admin
-                            val intent = Intent(this@LoginActivity, AdminMainActivity::class.java)
-                            intent.putExtra("active_username",username)
-                            startActivity(intent)
-                        }else if(role==3){
-                            //driver
-                            val intent = Intent(this@LoginActivity, DriverMainActivity::class.java)
-                            intent.putExtra("active_username",username)
-                            startActivity(intent)
-                        }
-
-                        etUsername.text.clear()
-                        etPassword.text.clear()
-
-                    }else{
-                        alertDialogFailed("ERROR","Wrong password!")
-                    }
-
-                }else{
-                    alertDialogFailed("ERROR","Username isn't registered!")
-                }
-
-            }else{
-                alertDialogFailed("ERROR","Fill all the fields!")
-            }
+//            if(username!="" && password!=""){
+//                //maka lakukan login
+//                if(isUsernameRegistered(username)==true) {
+//
+//                    if(isPasswordTrue(username,password)!=-1){
+//                        val role = isPasswordTrue(username,password)
+//
+//                        if(role==1){
+//                            //user
+//                            val intent = Intent(this@LoginActivity, UserMainActivity::class.java)
+//                            intent.putExtra("active_username",username)
+//                            startActivity(intent)
+//                        }else if(role==2){
+//                            //admin
+//                            val intent = Intent(this@LoginActivity, AdminMainActivity::class.java)
+//                            intent.putExtra("active_username",username)
+//                            startActivity(intent)
+//                        }else if(role==3){
+//                            //driver
+//                            val intent = Intent(this@LoginActivity, DriverMainActivity::class.java)
+//                            intent.putExtra("active_username",username)
+//                            startActivity(intent)
+//                        }
+//
+//                        etUsername.text.clear()
+//                        etPassword.text.clear()
+//
+//                    }else{
+//                        alertDialogFailed("ERROR","Wrong password!")
+//                    }
+//
+//                }else{
+//                    alertDialogFailed("ERROR","Username isn't registered!")
+//                }
+//
+//            }else{
+//                alertDialogFailed("ERROR","Fill all the fields!")
+//            }
         }
 
         btnBack.setOnClickListener {
@@ -118,7 +190,7 @@ class LoginActivity : AppCompatActivity() {
     fun refreshList(){
         val strReq = object: StringRequest(
             Method.GET,
-            "$WS_HOST/listUsers",
+            "${WholeShareApiService.WS_HOST}/listUsers",
             Response.Listener {
                 val obj: JSONArray = JSONArray(it)
                 arrUsers.clear()
