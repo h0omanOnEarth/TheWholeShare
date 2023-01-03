@@ -41,26 +41,6 @@ class LocationAdapter(
         var tvLocationName: TextView = view.findViewById(R.id.tvLocationName)
         var tvNote: TextView = view.findViewById(R.id.tvNote)
 
-        init{
-            view.setOnClickListener {
-                val popUp = PopupMenu(context,view, Gravity.RIGHT)
-                popUp.menuInflater.inflate(R.menu.pop_up_menu_location, popUp.menu)
-
-                popUp.setOnMenuItemClickListener {
-                    return@setOnMenuItemClickListener when(it.itemId){
-                        R.id.item_delete_location->{
-
-                            true
-                        }
-                        else->{
-                            false
-                        }
-                    }
-                }
-                popUp.show()
-            }
-        }
-
     }
 
 }
