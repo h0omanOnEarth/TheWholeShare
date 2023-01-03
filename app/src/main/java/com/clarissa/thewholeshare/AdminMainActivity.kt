@@ -24,6 +24,7 @@ class AdminMainActivity : AppCompatActivity() {
     lateinit var fragmentListPackage : AdminListPackageFragment
     lateinit var fragmentVerifyPackage : AdminVerifyPackageFragment
     lateinit var fragmentProfile : UserProfileFragment
+    lateinit var fragmentReport : AdminReportFragment
 
     //untuk user yang sedang login
     lateinit var userActive : User
@@ -147,6 +148,11 @@ class AdminMainActivity : AppCompatActivity() {
     //load fragment Verify Package
     fun loadFragmentVerifyPackage(){
         fragmentVerifyPackage = AdminVerifyPackageFragment()
+    }
+
+    //load fragment report
+    fun loadFragmentReport(){
+        fragmentReport = AdminReportFragment()
     }
 
     //fungsi untuk berganti fragment
