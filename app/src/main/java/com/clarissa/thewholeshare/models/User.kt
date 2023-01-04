@@ -12,6 +12,4 @@ data class User(
     var created_at : String? = null,
     var updated_at : String? = null,
     var deleted_at : String? = null
-) {
-
-}
+) : java.io.Serializable
