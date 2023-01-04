@@ -14,6 +14,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.clarissa.thewholeshare.R
+import com.clarissa.thewholeshare.api.WholeShareApiService
 import com.clarissa.thewholeshare.models.User
 import org.json.JSONArray
 
@@ -30,9 +31,6 @@ class UserProfileFragment(
     lateinit var btnEdit : Button
 
     lateinit var userActive : User
-
-    //web service :
-    val WS_HOST = "http://10.0.2.2:8000/api"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +58,8 @@ class UserProfileFragment(
 
         getUserLoggedIn(unameActive)
 
+
+
         //alert dialog warning
         fun alertDialogFailed(title:String, message:String){
             val mAlertDialog = AlertDialog.Builder(view.context)
@@ -84,11 +84,42 @@ class UserProfileFragment(
             mAlertDialog.show()
         }
 
-        //do edit
+        //do edit kalau ngelakuin edit password
         fun doEditProfile(full_name:String, phone:String, address:String, email:String, password:String){
             val strReq = object : StringRequest(
                 Method.POST,
-                "$WS_HOST/updateUser",
+                "${WholeShareApiService.WS_HOST}/updateUser",
+                Response.Listener {
+                    getUserLoggedIn(unameActive)
+                    alertDialogSuccess("SUCCESS","Success Edit Profile!")
+                    etPassword.text.clear()
+                },
+                Response.ErrorListener {
+                    println(it.message)
+                    Toast.makeText(context,it.message, Toast.LENGTH_SHORT).show()
+                }
+            ){
+                override fun getParams(): MutableMap<String, String>? {
+                    val params = HashMap<String,String>()
+                    params["id"] = userActive.id.toString()
+                    params["username"] = unameActive
+                    params["password"] = password
+                    params["full_name"] = full_name
+                    params["phone"] = phone
+                    params["address"] = address
+                    params["email"] = email
+                    params["role"] = userActive.role.toString()
+                    return params
+                }
+            }
+            val queue: RequestQueue = Volley.newRequestQueue(context)
+            queue.add(strReq)
+        }
+
+        fun doEditNoHash(full_name:String, phone:String, address:String, email:String){
+            val strReq = object : StringRequest(
+                Method.POST,
+                "${WholeShareApiService.WS_HOST}/updateUserNoHash",
                 Response.Listener {
                     getUserLoggedIn(unameActive)
                     alertDialogSuccess("SUCCESS","Success Edit Profile!")
@@ -102,11 +133,6 @@ class UserProfileFragment(
                     val params = HashMap<String,String>()
                     params["id"] = userActive.id.toString()
                     params["username"] = unameActive
-                    if(password!="") {
-                        params["password"] = password
-                    }else if(password==""){
-                        params["password"] = userActive.password
-                    }
                     params["full_name"] = full_name
                     params["phone"] = phone
                     params["address"] = address
@@ -129,7 +155,11 @@ class UserProfileFragment(
 
             if(full_name!="" &&phone!="" && address!="" && email!=""){
                 //do edit
-                doEditProfile(full_name,phone,address,email,password)
+                if(password!="") {
+                    doEditProfile(full_name, phone, address, email, password)
+                }else{
+                    doEditNoHash(full_name,phone,address,email)
+                }
             }else{
                 alertDialogFailed("ERROR","Fill all the fIelds!")
             }
@@ -141,7 +171,7 @@ class UserProfileFragment(
     fun getUserLoggedIn(uname:String){
         val strReq = object: StringRequest(
             Method.GET,
-            "$WS_HOST/listUsers",
+            "${WholeShareApiService.WS_HOST}/listUsers",
             Response.Listener {
                 val obj: JSONArray = JSONArray(it)
                 println(obj.length())

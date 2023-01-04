@@ -5,13 +5,10 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioButton
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
-import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.StringRequest
 import com.clarissa.thewholeshare.api.WholeShareApiService
 import com.clarissa.thewholeshare.models.User
 import com.google.gson.Gson
@@ -36,9 +33,6 @@ class RegisterActivity : AppCompatActivity() {
     lateinit var rbDriver : RadioButton
 
     lateinit var radios: Array<RadioButton>
-
-    //web service :
-    val WS_HOST = "http://10.0.2.2:8000/api"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
