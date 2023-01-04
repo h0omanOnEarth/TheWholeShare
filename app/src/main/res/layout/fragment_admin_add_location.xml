@@ -72,7 +72,7 @@
             android:ems="10"
             android:fontFamily="@font/montserrat"
             android:hint="Deadline"
-            android:inputType="date"
+            android:inputType="date|datetime|text"
             android:paddingLeft="20dp"
             android:textColor="#000000" />
 

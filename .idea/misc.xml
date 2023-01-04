@@ -3,6 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Proyek FPW/Git/TheWholeShare/app/src/main/res/layout/fragment_admin_add_location.xml" value="0.25416666666666665" />
+        <entry key="..\:/Proyek FPW/Git/TheWholeShare/app/src/main/res/layout/fragment_admin_home.xml" value="0.25416666666666665" />
+        <entry key="..\:/Proyek FPW/Git/TheWholeShare/app/src/main/res/layout/fragment_admin_list_package.xml" value="0.25416666666666665" />
+        <entry key="..\:/Proyek FPW/Git/TheWholeShare/app/src/main/res/layout/fragment_admin_master.xml" value="0.25416666666666665" />
+        <entry key="..\:/Proyek FPW/Git/TheWholeShare/app/src/main/res/layout/item_location.xml" value="0.25416666666666665" />
         <entry key="..\:/TheWholeShare/app/src/main/res/drawable/bottom_navbar_color.xml" value="0.1" />
         <entry key="..\:/TheWholeShare/app/src/main/res/drawable/button_border.xml" value="0.1" />
         <entry key="..\:/TheWholeShare/app/src/main/res/drawable/button_state_list_animator.xml" value="0.1" />
@@ -35,14 +40,11 @@
         <entry key="..\:/TheWholeShare/app/src/main/res/layout/fragment_driver_package_detail.xml" value="0.16" />
         <entry key="..\:/TheWholeShare/app/src/main/res/layout/fragment_driver_packages.xml" value="0.12158054711246201" />
         <entry key="..\:/TheWholeShare/app/src/main/res/layout/fragment_home_user.xml" value="0.11398176291793313" />
-        <entry key="..\:/TheWholeShare/app/src/main/res/layout/fragment_user_donate.xml" value="0.264" />
+        <entry key="..\:/TheWholeShare/app/src/main/res/layout/fragment_user_donate.xml" value="0.2" />
         <entry key="..\:/TheWholeShare/app/src/main/res/layout/fragment_user_donate_detail.xml" value="0.264" />
         <entry key="..\:/TheWholeShare/app/src/main/res/layout/fragment_user_list_status.xml" value="0.16799999999999998" />
         <entry key="..\:/TheWholeShare/app/src/main/res/layout/fragment_user_profile.xml" value="0.19927536231884058" />
         <entry key="..\:/TheWholeShare/app/src/main/res/layout/item_location.xml" value="0.264" />
-        <entry key="..\:/TheWholeShare/app/src/main/res/layout/item_news.xml" value="0.264" />
-        <entry key="..\:/TheWholeShare/app/src/main/res/layout/item_user_status.xml" value="0.2" />
-        <entry key="..\:/TheWholeShare/app/src/main/res/layout/location_item_spinner.xml" value="0.16799999999999998" />
         <entry key="..\:/TheWholeShare/app/src/main/res/menu/nav_menu_admin.xml" value="0.23333333333333334" />
         <entry key="..\:/TheWholeShare/app/src/main/res/menu/nav_menu_driver.xml" value="0.15" />
         <entry key="..\:/TheWholeShare/app/src/main/res/menu/nav_menu_user.xml" value="0.234375" />
