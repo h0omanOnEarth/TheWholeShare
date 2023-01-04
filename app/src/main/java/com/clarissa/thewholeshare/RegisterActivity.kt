@@ -7,16 +7,17 @@ import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.android.volley.RequestQueue
+import com.android.volley.DefaultRetryPolicy
+import com.android.volley.Request
 import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
+import com.clarissa.thewholeshare.api.WholeShareApiService
 import com.clarissa.thewholeshare.models.User
-import org.json.JSONArray
-
+import com.google.gson.Gson
+import org.json.JSONObject
 
 class RegisterActivity : AppCompatActivity() {
-
     lateinit var btnRegister : Button
     lateinit var btnBack : Button
 
@@ -35,9 +36,6 @@ class RegisterActivity : AppCompatActivity() {
     lateinit var rbDriver : RadioButton
 
     lateinit var radios: Array<RadioButton>
-
-    //mutable list untuk memasukkan daftar users
-    lateinit var arrUsers : MutableList<User>
 
     //web service :
     val WS_HOST = "http://10.0.2.2:8000/api"
@@ -59,10 +57,6 @@ class RegisterActivity : AppCompatActivity() {
         rbAdmin = findViewById(R.id.rbAdmin_Register)
         rbDriver = findViewById(R.id.rbDriver_Register)
         radios = arrayOf(rbUser, rbAdmin, rbDriver)
-        arrUsers = mutableListOf()
-
-        refreshList()
-
 
         btnRegister.setOnClickListener {
             val username  = etUsername.text.toString()
@@ -91,14 +85,7 @@ class RegisterActivity : AppCompatActivity() {
                 }
 
                 if(password==confirm){
-
-                    if(checkUsername(username)==true){
-                        alertDialogFailed("ERROR","Username has been taken!")
-                    }else{
-                        //username belum terdaftar
-                        doRegister(username,password,full_name,phone,address,email,role_int)
-                    }
-
+                    doRegister(username,password,full_name,phone,address,email,role_int)
                 }else{
                   alertDialogFailed("ERROR","Password and Confirmation Password didn't match!")
                 }
@@ -114,86 +101,58 @@ class RegisterActivity : AppCompatActivity() {
 
     }
 
-    fun doRegister(username:String, password:String, full_name:String, phone:String, address:String, email:String, role_int:Int){
-        val strReq = object : StringRequest(
-            Method.POST,
-            "$WS_HOST/register",
-            Response.Listener {
-                refreshList()
-                alertDialogSuccess("SUCCESS", "Register Success!")
-                clearAllFileds()
-            },
-            Response.ErrorListener {
-                println(it.message)
-                Toast.makeText(this,it.message, Toast.LENGTH_SHORT).show()
-            }
-        ){
-            override fun getParams(): MutableMap<String, String>? {
-                val params = HashMap<String,String>()
-                params["username"] = username
-                params["password"] = password
-                params["full_name"] = full_name
-                params["phone"] = phone
-                params["address"] = address
-                params["email"] = email
-                params["role"] = role_int.toString()
-                return params
+    /**
+     * Registers a new user to the server.
+     *
+     * @param username  The username of the account.
+     * @param password  The password of the account.
+     * @param full_name The full name of the account.
+     * @param phone     The phone number of the user.
+     * @param address   The address of the user.
+     * @param email     The email of the user.
+     * @param role_int  The account privilage.
+     */
+    fun doRegister(username:String, password:String, full_name:String, phone:String, address:String, email:String, role_int:Int) {
+        // Create the request body
+        val requestBody = JSONObject()
+        requestBody.put("username", username)
+        requestBody.put("password", password)
+        requestBody.put("full_name", full_name)
+        requestBody.put("phone", phone)
+        requestBody.put("address", address)
+        requestBody.put("email", email)
+        requestBody.put("role", role_int.toString())
 
-            }
-        }
-        val queue: RequestQueue = Volley.newRequestQueue(this)
-        queue.add(strReq)
-    }
+        // Create the actual register request object with the request body
+        val registerRequest = JsonObjectRequest(Request.Method.POST, "${WholeShareApiService.WS_HOST}/register", requestBody,
+            { response ->
+                // Retrieve the response status on the operation
+                val status = response.getInt("status")
 
-    //fungsi untuk cek username
-    fun checkUsername(uname:String):Boolean{
-        var isAda = false
-
-        for(i in arrUsers.indices){
-            if(arrUsers[i].username==uname){
-                isAda = true
-                break
-            }
-        }
-
-        return  isAda
-    }
-
-    //fungsi untuk refresh semua data ke dalam list
-    fun refreshList(){
-        val strReq = object:StringRequest(
-            Method.GET,
-            "$WS_HOST/listUsers",
-            Response.Listener {
-                val obj: JSONArray = JSONArray(it)
-                arrUsers.clear()
-                println(obj.length())
-                for (i in 0 until obj.length()){
-                    val o = obj.getJSONObject(i)
-                    println(o)
-                    val id = o.getInt("id")
-                    val username = o.getString("username")
-                    val password = o.getString("password")
-                    val full_name = o.getString("full_name")
-                    val phone = o.getString("phone")
-                    val address = o.getString("address")
-                    val email = o.getString("email")
-                    val role = o.getInt("role")
-                    val deleted_at = o.get("deleted_at").toString()
-                    val u = User(
-                       id,username,password,full_name,phone,address,email,role,deleted_at
-                    )
-                    arrUsers.add(u)
-
+                // Notify the user if the register attempt failed
+                if (status == 0) {
+                    val reason = response.getString("reason")
+                    alertDialogFailed("Register failed!", reason)
                 }
-                println(arrUsers.size)
+                // Notify the user if the register attempt succeeded
+                else if (status == 1) {
+                    val userJson = response.getJSONObject("user")
+                    val registeredUser = Gson().fromJson(userJson.toString(), User::class.java)
+
+                    alertDialogSuccess("Register Successful!", "User ${username} has successfully been registered!")
+                    clearAllFileds()
+                }
+                else alertDialogFailed("Unknown Status", "Unknown status code")
             },
-            Response.ErrorListener {
-                Toast.makeText(this,"ERROR!",Toast.LENGTH_SHORT).show()
-            }
-        ){}
-        val queue:RequestQueue = Volley.newRequestQueue(this)
-        queue.add(strReq)
+            { error ->
+                alertDialogFailed("Register failed!", error.toString())
+            })
+        // Set the timeout retry policy
+        registerRequest.retryPolicy =
+            DefaultRetryPolicy(5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+
+        // Queue the request to the service
+        WholeShareApiService.getInstance(this).addToRequestQueue(registerRequest)
     }
 
     //alert dialog warning
@@ -235,7 +194,5 @@ class RegisterActivity : AppCompatActivity() {
                 radio.isChecked = false
             }
         }
-
     }
-
 }
