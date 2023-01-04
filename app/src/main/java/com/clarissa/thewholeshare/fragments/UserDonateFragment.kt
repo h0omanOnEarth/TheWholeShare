@@ -27,9 +27,6 @@ class UserDonateFragment : Fragment() {
     lateinit var etNote_donate:EditText
     lateinit var btnDonate:Button
 
-    //web service :
-    val WS_HOST = "http://10.0.2.2:8000/api"
-
     lateinit var arrRequests : MutableList<Request>
     lateinit var spinnerAdapter: ArrayAdapter<Request>
 
