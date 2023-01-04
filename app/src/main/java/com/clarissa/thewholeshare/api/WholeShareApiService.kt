@@ -4,6 +4,7 @@ import com.android.volley.toolbox.Volley
 import android.content.Context
 import com.android.volley.Request
 import com.android.volley.RequestQueue
+//import com.clarissa.thewholeshare.BuildConfig
 
 class WholeShareApiService(context: Context) {
     companion object {
@@ -16,8 +17,12 @@ class WholeShareApiService(context: Context) {
                 }
             }
 
-        // Web service :
-        val WS_HOST = "https://2a05-202-80-212-73.ap.ngrok.io/api"
+//        // Web service :
+//        val WS_HOST = "https://2a05-202-80-212-73.ap.ngrok.io/api"
+
+        // Web service:
+        val WS_HOST: String = "https://38f1-103-213-128-156.ap.ngrok.io/api"
+
     }
     private val requestQueue: RequestQueue by lazy {
         // applicationContext is key, it keeps you from leaking the
