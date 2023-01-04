@@ -17,7 +17,7 @@ class WholeShareApiService(context: Context) {
             }
 
         // Web service :
-        val WS_HOST = "https://80c4-202-80-212-221.ap.ngrok.io/api"
+        val WS_HOST = "https://2a05-202-80-212-73.ap.ngrok.io/api"
     }
     private val requestQueue: RequestQueue by lazy {
         // applicationContext is key, it keeps you from leaking the
