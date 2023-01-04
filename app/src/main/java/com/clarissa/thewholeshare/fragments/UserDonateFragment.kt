@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
@@ -52,12 +53,23 @@ class UserDonateFragment : Fragment() {
         etNote_donate = view.findViewById(R.id.etNote_donate)
         btnDonate = view.findViewById(R.id.btnDonate)
 
-        refreshList()
-
         spinnerAdapter = ArrayAdapter(view.context,android.R.layout.simple_spinner_item,listLocations)
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
         spinnerLocation.adapter = spinnerAdapter
-        spinnerLocation.setSelection(0)
+
+        refreshList()
+
+        spinnerLocation.onItemSelectedListener = object  :
+            AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+        }
+
     }
 
     fun refreshList(){
@@ -86,6 +98,7 @@ class UserDonateFragment : Fragment() {
                     )
                     arrRequests.add(req)
                     listLocations.add(req.location)
+                    spinnerAdapter.notifyDataSetChanged()
 
                 }
                 println(arrRequests.size)
