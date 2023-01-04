@@ -26,16 +26,35 @@
             android:textSize="28sp"
             android:textStyle="bold" />
 
-        <Spinner
-            android:id="@+id/spinnerLocations"
-            android:layout_width="match_parent"
+
+        <LinearLayout
+            android:layout_width="360dp"
             android:layout_height="55dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
-            android:background="@drawable/rounded_square_2"
-            android:paddingLeft="20dp"
-            android:spinnerMode="dropdown" />
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/rounded_square_2"
+                android:paddingTop="10dp">
+
+                <Spinner
+                    android:id="@+id/spinnerLocations"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:dropDownWidth="match_parent"
+                    android:dropDownSelector="@color/myYellow"
+                    android:popupBackground="@drawable/rounded_square_2"
+                    android:spinnerMode="dropdown"
+                    android:tooltipText="Select floor" />
+            </FrameLayout>
+        </LinearLayout>
+
 
         <EditText
             android:id="@+id/etPickUpAddress_User"

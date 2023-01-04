@@ -28,11 +28,13 @@ class UserDonateFragment : Fragment() {
     lateinit var btnDonate:Button
 
     lateinit var arrRequests : MutableList<Request>
-    lateinit var spinnerAdapter: ArrayAdapter<Request>
+    lateinit var spinnerAdapter: ArrayAdapter<String>
+    lateinit var listLocations:MutableList<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arrRequests=  mutableListOf()
+        listLocations = mutableListOf()
     }
 
     override fun onCreateView(
@@ -52,16 +54,16 @@ class UserDonateFragment : Fragment() {
 
         refreshList()
 
-        spinnerAdapter = ArrayAdapter(view.context,android.R.layout.simple_spinner_item,arrRequests)
+        spinnerAdapter = ArrayAdapter(view.context,android.R.layout.simple_spinner_item,listLocations)
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
         spinnerLocation.adapter = spinnerAdapter
-
+        spinnerLocation.setSelection(0)
     }
 
     fun refreshList(){
         val strReq = object: StringRequest(
             Method.GET,
-            "${WholeShareApiService.WS_HOST}/listRequests",
+            "${WholeShareApiService.WS_HOST}/listRequest",
             Response.Listener {
                 val obj: JSONArray = JSONArray(it)
                 arrRequests.clear()
@@ -83,6 +85,7 @@ class UserDonateFragment : Fragment() {
                         id,location,batch,deadline,note,status,created_at,updated_at,deleted_at
                     )
                     arrRequests.add(req)
+                    listLocations.add(req.location)
 
                 }
                 println(arrRequests.size)
