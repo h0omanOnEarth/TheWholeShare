@@ -40,6 +40,8 @@
         <entry key="..\:/TheWholeShare/app/src/main/res/layout/fragment_user_list_status.xml" value="0.16799999999999998" />
         <entry key="..\:/TheWholeShare/app/src/main/res/layout/fragment_user_profile.xml" value="0.19927536231884058" />
         <entry key="..\:/TheWholeShare/app/src/main/res/layout/item_location.xml" value="0.264" />
+        <entry key="..\:/TheWholeShare/app/src/main/res/layout/item_news.xml" value="0.264" />
+        <entry key="..\:/TheWholeShare/app/src/main/res/layout/item_user_status.xml" value="0.2" />
         <entry key="..\:/TheWholeShare/app/src/main/res/menu/nav_menu_admin.xml" value="0.23333333333333334" />
         <entry key="..\:/TheWholeShare/app/src/main/res/menu/nav_menu_driver.xml" value="0.15" />
         <entry key="..\:/TheWholeShare/app/src/main/res/menu/nav_menu_user.xml" value="0.234375" />
