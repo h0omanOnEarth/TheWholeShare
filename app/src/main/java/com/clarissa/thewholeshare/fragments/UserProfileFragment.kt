@@ -92,6 +92,7 @@ class UserProfileFragment(
                 Response.Listener {
                     getUserLoggedIn(unameActive)
                     alertDialogSuccess("SUCCESS","Success Edit Profile!")
+                    etPassword.text.clear()
                 },
                 Response.ErrorListener {
                     println(it.message)
