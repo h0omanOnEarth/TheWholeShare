@@ -11,6 +11,7 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.clarissa.thewholeshare.api.WholeShareApiService
 import com.clarissa.thewholeshare.models.User
 import org.json.JSONArray
 
@@ -38,9 +39,6 @@ class RegisterActivity : AppCompatActivity() {
 
     //mutable list untuk memasukkan daftar users
     lateinit var arrUsers : MutableList<User>
-
-    //web service :
-    val WS_HOST = "http://10.0.2.2:8000/api"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -117,7 +115,7 @@ class RegisterActivity : AppCompatActivity() {
     fun doRegister(username:String, password:String, full_name:String, phone:String, address:String, email:String, role_int:Int){
         val strReq = object : StringRequest(
             Method.POST,
-            "$WS_HOST/register",
+            "${WholeShareApiService.WS_HOST}/register",
             Response.Listener {
                 refreshList()
                 alertDialogSuccess("SUCCESS", "Register Success!")
@@ -163,7 +161,7 @@ class RegisterActivity : AppCompatActivity() {
     fun refreshList(){
         val strReq = object:StringRequest(
             Method.GET,
-            "$WS_HOST/listUsers",
+            "${WholeShareApiService.WS_HOST}/listUsers",
             Response.Listener {
                 val obj: JSONArray = JSONArray(it)
                 arrUsers.clear()
