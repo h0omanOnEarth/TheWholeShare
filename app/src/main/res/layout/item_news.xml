@@ -1,54 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="200dp"
-    android:layout_height="200dp"
+    android:layout_width="190dp"
+    android:layout_height="190dp"
     android:background="@drawable/rounded_square_2"
+    android:gravity="center"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/tvTitle_news"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="60dp"
         android:fontFamily="@font/montserrat"
         android:text="Title"
         android:textAlignment="center"
         android:textColor="#000000"
+        android:textSize="16sp"
         android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/tvContent_news"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/montserrat"
-        android:text="Content"
-        android:textAlignment="center"
-        android:textColor="#000000" />
 
     <TextView
         android:id="@+id/tvLocation_News"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:paddingLeft="2dp"
         android:text="Location"
-        android:textAlignment="center"
-        android:textColor="#000000" />
+        android:textAlignment="textStart"
+        android:textColor="#000000"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tvBatch_news"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="2dp"
         android:text="Batch"
-        android:textAlignment="center"
-        android:textColor="#000000" />
+        android:textAlignment="textStart"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvDeadline_news"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="2dp"
         android:text="Deadline"
-        android:textAlignment="center"
-        android:textColor="#000000" />
+        android:textAlignment="textStart"
+        android:textColor="#000000"
+        android:textSize="16sp" />
 </LinearLayout>
