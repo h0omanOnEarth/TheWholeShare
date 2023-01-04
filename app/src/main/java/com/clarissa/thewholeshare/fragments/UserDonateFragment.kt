@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.RequestQueue
 import com.android.volley.Response
@@ -14,6 +15,7 @@ import com.android.volley.toolbox.Volley
 import com.clarissa.thewholeshare.R
 import com.clarissa.thewholeshare.api.WholeShareApiService
 import com.clarissa.thewholeshare.models.Location
+import com.clarissa.thewholeshare.models.News
 import com.clarissa.thewholeshare.models.Request
 import com.clarissa.thewholeshare.models.User
 import org.json.JSONArray
@@ -21,7 +23,9 @@ import java.sql.Timestamp
 import java.util.*
 
 
-class UserDonateFragment : Fragment() {
+class UserDonateFragment(
+    var id_user:Int
+) : Fragment() {
 
     lateinit var spinnerLocation:Spinner
     lateinit var etPickUpAddress:EditText
@@ -31,11 +35,18 @@ class UserDonateFragment : Fragment() {
     lateinit var arrRequests : MutableList<Request>
     lateinit var spinnerAdapter: ArrayAdapter<String>
     lateinit var listLocations:MutableList<String>
+    lateinit var arrIdRequests : MutableList<Int>
+
+    var selectedPosition:Int = -1
+
+    var onClickButton:((resource:String,news: News)->Unit)? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arrRequests=  mutableListOf()
         listLocations = mutableListOf()
+        arrIdRequests = mutableListOf()
+        selectedPosition = 0
     }
 
     override fun onCreateView(
@@ -62,7 +73,7 @@ class UserDonateFragment : Fragment() {
         spinnerLocation.onItemSelectedListener = object  :
             AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-
+                    selectedPosition = p2
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -70,8 +81,49 @@ class UserDonateFragment : Fragment() {
             }
         }
 
+        //alert dialog warning
+        fun alertDialogFailed(title:String, message:String){
+            val mAlertDialog = AlertDialog.Builder(view.context)
+            mAlertDialog.setIcon(R.drawable.high_priority_80px) //set alertdialog icon
+            mAlertDialog.setTitle(title) //set alertdialog title
+            mAlertDialog.setMessage(message) //set alertdialog message
+            mAlertDialog.setPositiveButton("OK") { dialog, id ->
+
+            }
+            mAlertDialog.show()
+        }
+
+        //alert dialog sukses
+        fun alertDialogSuccess(title:String, message:String){
+            val mAlertDialog = AlertDialog.Builder(view.context)
+            mAlertDialog.setIcon(R.drawable.ok_80px) //set alertdialog icon
+            mAlertDialog.setTitle(title) //set alertdialog title
+            mAlertDialog.setMessage(message) //set alertdialog message
+            mAlertDialog.setPositiveButton("OK") { dialog, id ->
+
+            }
+            mAlertDialog.show()
+        }
+
+        btnDonate.setOnClickListener {
+            val loc = spinnerLocation.selectedItem.toString()
+            val pickup_address = etPickUpAddress.text.toString()
+            val note = etNote_donate.text.toString()
+
+            if(loc!="" && pickup_address!="" && note!=""){
+
+            }else{
+                alertDialogFailed("ERROR","Fill all the fields!")
+            }
+
+        }
+
     }
 
+    //do insert data
+
+
+    //fetch data requests
     fun refreshList(){
         val strReq = object: StringRequest(
             Method.GET,
@@ -98,6 +150,7 @@ class UserDonateFragment : Fragment() {
                     )
                     arrRequests.add(req)
                     listLocations.add(req.location)
+                    arrIdRequests.add(id)
                     spinnerAdapter.notifyDataSetChanged()
 
                 }
@@ -110,5 +163,7 @@ class UserDonateFragment : Fragment() {
         val queue: RequestQueue = Volley.newRequestQueue(context)
         queue.add(strReq)
     }
+
+
 
 }

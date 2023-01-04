@@ -11,6 +11,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.clarissa.thewholeshare.fragments.*
+import com.clarissa.thewholeshare.models.News
 import com.clarissa.thewholeshare.models.User
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.json.JSONArray
@@ -26,6 +27,7 @@ class UserMainActivity : AppCompatActivity() {
     lateinit var fragmentListStatusDonate : UserListStatusFragment
     lateinit var fragmentDetailStatus : UserDonateDetailFragment
     lateinit var fragmentProfile : UserProfileFragment
+    lateinit var fragmentDetailNews : UserDetailNewsFragment
 
     //untuk user yang sedang login
     lateinit var userActive : User
@@ -56,6 +58,7 @@ class UserMainActivity : AppCompatActivity() {
         loadListStatusDonate()
         loadDetailStatuDonate()
         loadFragmentProfile()
+
 
         //karena pertama yang diload adalah home maka : home terlebih dahulu
         switchFragment(R.id.fragment_container_user,fragmentHome)
@@ -114,14 +117,30 @@ class UserMainActivity : AppCompatActivity() {
         queue.add(strReq)
     }
 
+    //load fragment detail news
+    fun loadFragmentDetailNews(news:News){
+        fragmentDetailNews = UserDetailNewsFragment(news)
+        fragmentDetailNews.onClickButton = {resource: String->
+            if(resource == "back"){
+                switchFragment(R.id.fragment_container_user,fragmentHome)
+            }
+        }
+    }
+
     //load fragment home nya user
     fun loadFragmentHome(){
         fragmentHome = HomeUserFragment()
+        fragmentHome.onClickButton = {resource: String,news:News ->
+            if(resource == "edit"){
+                loadFragmentDetailNews(news)
+                switchFragment(R.id.fragment_container_user,fragmentDetailNews)
+            }
+        }
     }
 
     //load fragment donasi nya user
     fun loadFragmentDonate(){
-        fragmentDonate = UserDonateFragment()
+        fragmentDonate = UserDonateFragment(userActive.id)
     }
 
     //load fragment list status

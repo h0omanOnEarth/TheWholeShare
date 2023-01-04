@@ -17,6 +17,7 @@ import com.clarissa.thewholeshare.adapters.NewsAdapter
 import com.clarissa.thewholeshare.api.WholeShareApiService
 import com.clarissa.thewholeshare.models.News
 import com.clarissa.thewholeshare.models.Request
+import kotlinx.coroutines.launch
 import org.json.JSONArray
 
 class HomeUserFragment : Fragment() {
@@ -26,6 +27,8 @@ class HomeUserFragment : Fragment() {
 
     lateinit var arrNews : MutableList<News>
     lateinit var arrRequests : MutableList<Request>
+
+    var onClickButton:((resource:String,news:News)->Unit)? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,6 +91,12 @@ class HomeUserFragment : Fragment() {
 
         fetchRequests()
         fetchNews()
+
+        newsAdapter.onClick = object:NewsAdapter.clickListener{
+            override fun onEdit(news: News) {
+                onClickButton?.invoke("edit",news)
+            }
+        }
 
     }
 

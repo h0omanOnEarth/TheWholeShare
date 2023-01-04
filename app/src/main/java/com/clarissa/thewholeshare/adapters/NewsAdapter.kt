@@ -1,14 +1,17 @@
 package com.clarissa.thewholeshare.adapters
 
 import android.content.Context
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.clarissa.thewholeshare.R
 import com.clarissa.thewholeshare.models.News
 import com.clarissa.thewholeshare.models.Request
+import kotlinx.coroutines.launch
 import org.w3c.dom.Text
 
 
@@ -18,6 +21,8 @@ class NewsAdapter(
     private val arrRequests:MutableList<Request>,
     private val layout:Int
 ): RecyclerView.Adapter<NewsAdapter.CustomViewHolder>() {
+
+    var onClick:clickListener? = null
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -60,6 +65,17 @@ class NewsAdapter(
         var tvLocation : TextView = view.findViewById(R.id.tvLocation_News)
         var tvBatch : TextView = view.findViewById(R.id.tvBatch_news)
         var tvDeadline : TextView = view.findViewById(R.id.tvDeadline_news)
+
+        init{
+            view.setOnClickListener {
+                onClick?.onEdit(arrNews[adapterPosition])
+            }
+        }
+
+    }
+
+    interface clickListener{
+        fun onEdit(news:News)
     }
 
 }
