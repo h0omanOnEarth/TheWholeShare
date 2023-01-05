@@ -15,6 +15,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.clarissa.thewholeshare.R
 import com.clarissa.thewholeshare.api.WholeShareApiService
+import com.clarissa.thewholeshare.models.News
 import com.clarissa.thewholeshare.models.Participant
 import com.clarissa.thewholeshare.models.Request
 import org.json.JSONArray
@@ -31,12 +32,18 @@ class UserDonateDetailFragment(
     lateinit var tvDate : TextView
     lateinit var imgView : ImageView
     lateinit var tvId : TextView
+    lateinit var btnToReport : Button
 
     lateinit var arrRequests : MutableList<Request>
+
+    lateinit var arrNews : MutableList<News>
+    var onClickButtonReport:((resource:String,news: News)->Unit)? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arrRequests = mutableListOf()
+        arrNews = mutableListOf()
     }
 
     override fun onCreateView(
@@ -56,17 +63,22 @@ class UserDonateDetailFragment(
         tvDate = view.findViewById(R.id.tvDate_detailUserDonate)
         imgView = view.findViewById(R.id.imgView_detailUserDonate)
         tvId = view.findViewById(R.id.tvId_detailDonateUser)
+        btnToReport = view.findViewById(R.id.btnToReport_detailUserDonate)
 
         val statusParticipant = status.status
 
         if(statusParticipant==0){
             tvStatus.text = "Pending"
+            btnToReport.isEnabled = false
         }else if(statusParticipant==1){
             tvStatus.text = "On The Way"
+            btnToReport.isEnabled = false
         }else if(statusParticipant==2){
             tvStatus.text = "Delivered"
+            btnToReport.isEnabled = true
         }else if(statusParticipant==3){
             tvStatus.text = "Canceled"
+            btnToReport.isEnabled = false
         }
 
         tvId.text = "#" + status.id
@@ -85,6 +97,22 @@ class UserDonateDetailFragment(
 
         btnBack.setOnClickListener {
             onClickButton?.invoke("back")
+        }
+
+        fetchNews()
+
+        btnToReport.setOnClickListener {
+
+            var news : News = News(-1,"","",-1)
+
+            for(i in arrNews.indices){
+                if(arrNews[i].request_id==status.request_id){
+                    news = arrNews[i]
+                    break
+                }
+            }
+
+            onClickButtonReport?.invoke("report",news)
         }
 
     }
@@ -117,6 +145,42 @@ class UserDonateDetailFragment(
                     arrRequests.add(req)
                 }
 
+            },
+            Response.ErrorListener {
+                Toast.makeText(context,"ERROR!", Toast.LENGTH_SHORT).show()
+            }
+        ){}
+        val queue: RequestQueue = Volley.newRequestQueue(context)
+        queue.add(strReq)
+    }
+
+
+    //fetch data news
+    fun fetchNews(){
+        val strReq = object: StringRequest(
+            Method.GET,
+            "${WholeShareApiService.WS_HOST}/listNews",
+            Response.Listener {
+                val obj: JSONArray = JSONArray(it)
+                arrNews.clear()
+                println(obj.length())
+                for (i in 0 until obj.length()){
+                    val o = obj.getJSONObject(i)
+                    println(o)
+                    val id = o.getInt("id")
+                    val title = o.getString("title")
+                    val content = o.getString("content")
+                    val request_id = o.getInt("request_id")
+                    val created_at = o.get("created_at").toString()
+                    val updated_at = o.get("updated_at").toString()
+                    val deleted_at = o.get("deleted_at").toString()
+
+                    val news = News(
+                        id,title,content,request_id,created_at,updated_at,deleted_at
+                    )
+                    arrNews.add(news)
+                }
+                println(arrNews.size)
             },
             Response.ErrorListener {
                 Toast.makeText(context,"ERROR!", Toast.LENGTH_SHORT).show()

@@ -29,7 +29,7 @@ class UserMainActivity : AppCompatActivity() {
     lateinit var fragmentDetailStatus : UserDonateDetailFragment
     lateinit var fragmentProfile : UserProfileFragment
     lateinit var fragmentDetailNews : UserDetailNewsFragment
-
+    lateinit var fragmentReportUser : UserDonateReportFragment
 
     //untuk user yang sedang login
     lateinit var userActive : User
@@ -165,12 +165,27 @@ class UserMainActivity : AppCompatActivity() {
         }
     }
 
+    fun loadFragmentReportDetail(news: News){
+        fragmentReportUser = UserDonateReportFragment(news)
+        fragmentReportUser.onClickButton = {resource: String ->
+            if(resource=="back"){
+                switchFragment(R.id.fragment_container_user,fragmentDetailStatus)
+            }
+        }
+    }
+
     //load fragment detail status
     fun loadDetailStatusDonate(status:Participant){
         fragmentDetailStatus = UserDonateDetailFragment(status)
         fragmentDetailStatus.onClickButton = {resource: String ->
             if(resource=="back"){
                 switchFragment(R.id.fragment_container_user, fragmentListStatusDonate)
+            }
+        }
+        fragmentDetailStatus.onClickButtonReport = {resource: String, news: News ->
+            if(resource=="report"){
+                loadFragmentReportDetail(news)
+                switchFragment(R.id.fragment_container_user,fragmentReportUser)
             }
         }
     }
