@@ -147,7 +147,11 @@ class UserDonateFragment(
                 val pickup_address = etPickUpAddress.text.toString()
 
                 if(loc!="" && pickup_address!=""){
-                    doInsertParticipant(pickup_address)
+                    if(isAlreadyParticipated(arrIdRequests[selectedPosition])){
+                        alertDialogFailed("ERROR","You have already participated!")
+                    }else {
+                        doInsertParticipant(pickup_address)
+                    }
                 }else{
                     alertDialogFailed("ERROR","Fill all the fields!")
                 }

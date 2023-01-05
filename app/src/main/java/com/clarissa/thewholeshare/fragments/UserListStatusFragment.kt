@@ -172,13 +172,13 @@ class UserListStatusFragment(
             queue.add(strReq)
         }
 
+        statusAdapter =  StatusAdapter(view.context,arrParticipants,arrRequests,R.layout.item_user_status)
+        rvListStatus_User.adapter = statusAdapter
+
         getUserLoggedIn(username)
 
         refreshListParticipants()
         refreshListRequests()
-
-        statusAdapter =  StatusAdapter(view.context,arrParticipants,arrRequests,R.layout.item_user_status)
-        rvListStatus_User.adapter = statusAdapter
 
         statusAdapter.onClick = object:StatusAdapter.clickListener{
             override fun onClick(status: Participant) {
