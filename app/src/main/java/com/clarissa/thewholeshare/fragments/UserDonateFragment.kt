@@ -21,7 +21,10 @@ import java.util.*
 
 
 class UserDonateFragment(
-    var username:String
+    var username:String,
+    var arrParticipants : MutableList<Participant>,
+    var arrRequests : MutableList<Request>,
+    var arrNews : MutableList<News>
 ) : Fragment() {
 
     lateinit var spinnerLocation:Spinner
@@ -29,11 +32,10 @@ class UserDonateFragment(
     lateinit var btnDonate:Button
     lateinit var tvBatch:TextView
 
-    lateinit var arrRequests : MutableList<Request>
     lateinit var spinnerAdapter: ArrayAdapter<String>
     lateinit var listLocations:MutableList<String>
     lateinit var arrIdRequests : MutableList<Int>
-    lateinit var arrParticipants : MutableList<Participant>
+
 
     var selectedPosition:Int = -1
     lateinit var userActive : User
@@ -42,10 +44,8 @@ class UserDonateFragment(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arrRequests=  mutableListOf()
         listLocations = mutableListOf()
         arrIdRequests = mutableListOf()
-        arrParticipants = mutableListOf()
         selectedPosition = 0
         userActive = User(-1,"","","","","","",-1,"")
     }
@@ -65,12 +65,19 @@ class UserDonateFragment(
         btnDonate = view.findViewById(R.id.btnDonate)
         tvBatch = view.findViewById(R.id.tvBatch)
 
+
+        if(listLocations.size>0) {
+            tvBatch.text = "Batch : " + arrRequests[selectedPosition].batch.toString()
+        }else{
+            tvBatch.text = "Batch : -"
+        }
+
         spinnerAdapter = ArrayAdapter(view.context,android.R.layout.simple_spinner_item,listLocations)
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
         spinnerLocation.adapter = spinnerAdapter
 
         getUserLoggedIn(username)
-        refreshList()
+        fetchRequests()
 
         spinnerLocation.onItemSelectedListener = object  :
             AdapterView.OnItemSelectedListener{
@@ -115,8 +122,10 @@ class UserDonateFragment(
                 "${WholeShareApiService.WS_HOST}/insertParticipant",
                 Response.Listener {
                     alertDialogSuccess("SUCCESS", "Donate request sent!")
+                    spinnerAdapter.clear()
+                    fetchParticipants()
+                    fetchRequests()
                     clearAllFields()
-                    refreshList()
                     onClickButton?.invoke("donate")
                 },
                 Response.ErrorListener {
@@ -136,7 +145,6 @@ class UserDonateFragment(
             val queue: RequestQueue = Volley.newRequestQueue(context)
             queue.add(strReq)
         }
-
 
         btnDonate.setOnClickListener {
             if(listLocations.size>0){
@@ -162,45 +170,23 @@ class UserDonateFragment(
 
     }
 
-    fun clearAllFields(){
-        etPickUpAddress.text.clear()
+    //check participated or not yet
+    fun isAlreadyParticipated(id_request:Int):Boolean{
+        var isParticipated = false
+
+        for(i in arrParticipants.indices){
+            if(arrParticipants[i].request_id==id_request){
+                isParticipated = true
+                break
+            }
+        }
+
+        return isParticipated
     }
 
-    //fetch data participants dari user yang sedang login
-    fun refreshListMyParticipants(){
-        val strReq = object: StringRequest(
-            Method.GET,
-            "${WholeShareApiService.WS_HOST}/listParticipants",
-            Response.Listener {
-                val obj: JSONArray = JSONArray(it)
-                arrParticipants.clear()
-                println(obj.length())
-                for (i in 0 until obj.length()){
-                    val o = obj.getJSONObject(i)
-                    println(o)
-                    val id = o.getInt("id")
-                    val user_id = o.getInt("user_id")
-                    val request_id = o.getInt("request_id")
-                    val pickup = o.getString("pickup")
-                    val status = o.getInt("status")
-                    val created_at = o.get("created_at").toString()
-                    val updated_at = o.get("updated_at").toString()
 
-                    val participant = Participant(
-                        id,user_id,request_id,pickup,status,created_at,updated_at
-                    )
-
-                    if(user_id==userActive.id){
-                        arrParticipants.add(participant)
-                    }
-                }
-            },
-            Response.ErrorListener {
-                Toast.makeText(context,"ERROR!", Toast.LENGTH_SHORT).show()
-            }
-        ){}
-        val queue: RequestQueue = Volley.newRequestQueue(context)
-        queue.add(strReq)
+    fun clearAllFields(){
+        etPickUpAddress.text.clear()
     }
 
     //to get user who logged in
@@ -241,32 +227,15 @@ class UserDonateFragment(
         queue.add(strReq)
     }
 
-    //check participated or not yet
-    fun isAlreadyParticipated(id_request:Int):Boolean{
-        var isParticipated = false
-
-        for(i in arrParticipants.indices){
-            if(arrParticipants[i].request_id==id_request && arrParticipants[i].user_id==userActive.id){
-                isParticipated = true
-                break
-            }
-        }
-
-        return isParticipated
-    }
-
-    //fetch data Requests
-    fun refreshList(){
-        refreshListMyParticipants()
+    //fetch data requests
+    fun fetchRequests(){
         val strReq = object: StringRequest(
             Method.GET,
             "${WholeShareApiService.WS_HOST}/listRequest",
             Response.Listener {
                 val obj: JSONArray = JSONArray(it)
-                listLocations.clear()
                 arrRequests.clear()
-                arrIdRequests.clear()
-
+                println(obj.length())
                 for (i in 0 until obj.length()){
                     val o = obj.getJSONObject(i)
                     println(o)
@@ -284,19 +253,12 @@ class UserDonateFragment(
                         id,location,batch,deadline,note,status,created_at,updated_at,deleted_at
                     )
 
-                    if(!isAlreadyParticipated(req.id)){
+                    if(isAlreadyParticipated(req.id)==false) {
                         arrRequests.add(req)
                         listLocations.add(req.location)
-                        arrIdRequests.add(id)
-                        spinnerAdapter.notifyDataSetChanged()
-                    }else{
+                        arrIdRequests.add(req.id)
                         spinnerAdapter.notifyDataSetChanged()
                     }
-                }
-                if(listLocations.size>0) {
-                    tvBatch.text = "Batch : " + arrRequests[selectedPosition].batch.toString()
-                }else{
-                    tvBatch.text = "Batch : -"
                 }
             },
             Response.ErrorListener {
@@ -307,6 +269,41 @@ class UserDonateFragment(
         queue.add(strReq)
     }
 
+    //fetch data participants
+    fun fetchParticipants(){
+        val strReq = object: StringRequest(
+            Method.GET,
+            "${WholeShareApiService.WS_HOST}/listParticipants",
+            Response.Listener {
+                val obj: JSONArray = JSONArray(it)
+                arrParticipants.clear()
+                println(obj.length())
+                for (i in 0 until obj.length()){
+                    val o = obj.getJSONObject(i)
+                    println(o)
+                    val id = o.getInt("id")
+                    val user_id = o.getInt("user_id")
+                    val request_id = o.getInt("request_id")
+                    val pickup = o.getString("pickup")
+                    val status = o.getInt("status")
+                    val created_at = o.get("created_at").toString()
+                    val updated_at = o.get("updated_at").toString()
 
+                    val participant = Participant(
+                        id,user_id,request_id,pickup,status,created_at,updated_at
+                    )
+
+                    if(user_id==userActive.id){
+                        arrParticipants.add(participant)
+                    }
+                }
+            },
+            Response.ErrorListener {
+                Toast.makeText(context,"ERROR!", Toast.LENGTH_SHORT).show()
+            }
+        ){}
+        val queue: RequestQueue = Volley.newRequestQueue(context)
+        queue.add(strReq)
+    }
 
 }
