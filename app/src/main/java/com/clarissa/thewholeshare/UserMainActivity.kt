@@ -32,6 +32,7 @@ class UserMainActivity : AppCompatActivity() {
     //untuk user yang sedang login
     lateinit var userActive : User
     var unameActive = ""
+    var id_active = -1
 
     //web service :
     val WS_HOST = "http://10.0.2.2:8000/api"
@@ -43,6 +44,47 @@ class UserMainActivity : AppCompatActivity() {
         navbar_user = findViewById(R.id.navbar_user)
 
         userActive = User(-1,"","","","","","",-1,"")
+
+
+        //to get user who logged in
+        fun getUserLoggedIn(uname:String){
+            val strReq = object: StringRequest(
+                Method.GET,
+                "$WS_HOST/listUsers",
+                Response.Listener {
+                    val obj: JSONArray = JSONArray(it)
+                    println(obj.length())
+                    for (i in 0 until obj.length()){
+                        val o = obj.getJSONObject(i)
+                        println(o)
+                        val id = o.getInt("id")
+                        val username = o.getString("username")
+                        val password = o.getString("password")
+                        val full_name = o.getString("full_name")
+                        val phone = o.getString("phone")
+                        val address = o.getString("address")
+                        val email = o.getString("email")
+                        val role = o.getInt("role")
+                        val deleted_at = o.get("deleted_at").toString()
+                        val u = User(
+                            id,username,password,full_name,phone,address,email,role,deleted_at
+                        )
+                        if(username==uname) {
+                            userActive = u
+                            id_active = u.id
+                            break
+                        }
+                    }
+                    println(userActive)
+                    println(id_active)
+                },
+                Response.ErrorListener {
+                    Toast.makeText(this,"ERROR!", Toast.LENGTH_SHORT).show()
+                }
+            ){}
+            val queue: RequestQueue = Volley.newRequestQueue(this)
+            queue.add(strReq)
+        }
 
         //ambil data dari intent
         val usernameActive = intent.getStringExtra("active_username")
@@ -79,43 +121,6 @@ class UserMainActivity : AppCompatActivity() {
         }
     }
 
-    //to get user who logged in
-    fun getUserLoggedIn(uname:String){
-        val strReq = object: StringRequest(
-            Method.GET,
-            "$WS_HOST/listUsers",
-            Response.Listener {
-                val obj: JSONArray = JSONArray(it)
-                println(obj.length())
-                for (i in 0 until obj.length()){
-                    val o = obj.getJSONObject(i)
-                    println(o)
-                    val id = o.getInt("id")
-                    val username = o.getString("username")
-                    val password = o.getString("password")
-                    val full_name = o.getString("full_name")
-                    val phone = o.getString("phone")
-                    val address = o.getString("address")
-                    val email = o.getString("email")
-                    val role = o.getInt("role")
-                    val deleted_at = o.get("deleted_at").toString()
-                    val u = User(
-                        id,username,password,full_name,phone,address,email,role,deleted_at
-                    )
-                    if(username==uname) {
-                        userActive = u
-                        break
-                    }
-                }
-                println(userActive)
-            },
-            Response.ErrorListener {
-                Toast.makeText(this,"ERROR!", Toast.LENGTH_SHORT).show()
-            }
-        ){}
-        val queue: RequestQueue = Volley.newRequestQueue(this)
-        queue.add(strReq)
-    }
 
     //load fragment detail news
     fun loadFragmentDetailNews(news:News){
@@ -140,12 +145,17 @@ class UserMainActivity : AppCompatActivity() {
 
     //load fragment donasi nya user
     fun loadFragmentDonate(){
-        fragmentDonate = UserDonateFragment(userActive.id)
+        fragmentDonate = UserDonateFragment(unameActive)
+        fragmentDonate.onClickButton = {resource: String ->
+            if(resource=="donate"){
+                switchFragment(R.id.fragment_container_user,fragmentDonate)
+            }
+        }
     }
 
     //load fragment list status
     fun loadListStatusDonate(){
-        fragmentListStatusDonate = UserListStatusFragment()
+        fragmentListStatusDonate = UserListStatusFragment(unameActive)
     }
 
     //load fragment detail status

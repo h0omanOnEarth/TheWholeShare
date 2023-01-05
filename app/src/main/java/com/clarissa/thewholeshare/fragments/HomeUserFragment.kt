@@ -49,9 +49,6 @@ class HomeUserFragment : Fragment() {
         rv_ListNews = view.findViewById(R.id.rv_ListNews)
         rv_ListNews.layoutManager = GridLayoutManager(view.context, 2)
 
-        newsAdapter =  NewsAdapter(view.context,arrNews,arrRequests,R.layout.item_news)
-        rv_ListNews.adapter = newsAdapter
-
         //fetch data requests
         fun fetchRequests(){
             val strReq = object: StringRequest(
@@ -91,6 +88,9 @@ class HomeUserFragment : Fragment() {
 
         fetchRequests()
         fetchNews()
+
+        newsAdapter =  NewsAdapter(view.context,arrNews,arrRequests,R.layout.item_news)
+        rv_ListNews.adapter = newsAdapter
 
         newsAdapter.onClick = object:NewsAdapter.clickListener{
             override fun onEdit(news: News) {

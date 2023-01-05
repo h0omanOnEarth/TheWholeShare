@@ -98,6 +98,8 @@ class LoginActivity : AppCompatActivity() {
                         intent.putExtra("active_username",username)
                         startActivity(intent)
                     }
+                    etPassword.text.clear()
+                    etUsername.text.clear()
                 }
                 else alertDialogFailed("Login Failed!", "Unknown Status")
             },
