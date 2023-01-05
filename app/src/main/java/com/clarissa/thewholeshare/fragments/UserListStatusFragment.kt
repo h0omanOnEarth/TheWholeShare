@@ -6,14 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.clarissa.thewholeshare.R
+import com.clarissa.thewholeshare.adapters.NewsAdapter
+import com.clarissa.thewholeshare.adapters.StatusAdapter
 import com.clarissa.thewholeshare.api.WholeShareApiService
 import com.clarissa.thewholeshare.models.Participant
+import com.clarissa.thewholeshare.models.Request
 import com.clarissa.thewholeshare.models.User
 import org.json.JSONArray
 
@@ -22,8 +26,12 @@ class UserListStatusFragment(
 ) : Fragment() {
 
     lateinit var arrParticipants : MutableList<Participant>
+    lateinit var arrRequests : MutableList<Request>
+
     lateinit var userActive : User
     lateinit var rvListStatus_User:RecyclerView
+
+    lateinit var statusAdapter: StatusAdapter
 
     var onClickButton:((resource:String)->Unit)? = null
 
@@ -32,6 +40,7 @@ class UserListStatusFragment(
         super.onCreate(savedInstanceState)
 
         arrParticipants = mutableListOf()
+        arrRequests = mutableListOf()
         userActive = User(-1,"","","","","","",-1,"")
     }
 
@@ -47,8 +56,17 @@ class UserListStatusFragment(
         super.onViewCreated(view, savedInstanceState)
 
         rvListStatus_User = view.findViewById(R.id.rvListStatus_User)
+        rvListStatus_User.layoutManager = LinearLayoutManager(view.context.applicationContext)
 
         getUserLoggedIn(username)
+
+
+        refreshListParticipants()
+        refreshListRequests()
+
+        statusAdapter =  StatusAdapter(view.context,arrParticipants,arrRequests,R.layout.item_user_status)
+        rvListStatus_User.adapter = statusAdapter
+
     }
 
     //to get user who logged in
@@ -80,6 +98,81 @@ class UserListStatusFragment(
                     }
                 }
                 println(userActive)
+            },
+            Response.ErrorListener {
+                Toast.makeText(context,"ERROR!", Toast.LENGTH_SHORT).show()
+            }
+        ){}
+        val queue: RequestQueue = Volley.newRequestQueue(context)
+        queue.add(strReq)
+    }
+
+    //fetch data participants
+    fun refreshListParticipants(){
+        val strReq = object: StringRequest(
+            Method.GET,
+            "${WholeShareApiService.WS_HOST}/listParticipants",
+            Response.Listener {
+                val obj: JSONArray = JSONArray(it)
+                arrParticipants.clear()
+                println(obj.length())
+                for (i in 0 until obj.length()){
+                    val o = obj.getJSONObject(i)
+                    println(o)
+                    val id = o.getInt("id")
+                    val user_id = o.getInt("user_id")
+                    val request_id = o.getInt("request_id")
+                    val pickup = o.getString("pickup")
+                    val status = o.getInt("status")
+                    val created_at = o.get("created_at").toString()
+                    val updated_at = o.get("updated_at").toString()
+
+                    val participant = Participant(
+                        id,user_id,request_id,pickup,status,created_at,updated_at
+                    )
+
+                    if(user_id==userActive.id){
+                        arrParticipants.add(participant)
+                    }
+                }
+            },
+            Response.ErrorListener {
+                Toast.makeText(context,"ERROR!", Toast.LENGTH_SHORT).show()
+            }
+        ){}
+        val queue: RequestQueue = Volley.newRequestQueue(context)
+        queue.add(strReq)
+    }
+
+    //fetch data Requests
+    fun refreshListRequests(){
+        val strReq = object: StringRequest(
+            Method.GET,
+            "${WholeShareApiService.WS_HOST}/listRequest",
+            Response.Listener {
+                val obj: JSONArray = JSONArray(it)
+                arrRequests.clear()
+
+                for (i in 0 until obj.length()){
+                    val o = obj.getJSONObject(i)
+                    println(o)
+                    val id = o.getInt("id")
+                    val location = o.getString("location")
+                    val batch = o.getInt("batch")
+                    val deadline = o.get("deadline").toString()
+                    val note = o.getString("note")
+                    val status = o.getInt("status")
+                    val created_at = o.get("created_at").toString()
+                    val updated_at = o.get("updated_at").toString()
+                    val deleted_at = o.get("deleted_at").toString()
+
+                    val req = Request(
+                        id,location,batch,deadline,note,status,created_at,updated_at,deleted_at
+                    )
+                        arrRequests.add(req)
+                        statusAdapter.notifyDataSetChanged()
+                }
+
             },
             Response.ErrorListener {
                 Toast.makeText(context,"ERROR!", Toast.LENGTH_SHORT).show()
