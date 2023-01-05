@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.clarissa.thewholeshare.R
 import com.clarissa.thewholeshare.models.Location
+import com.clarissa.thewholeshare.models.News
 import com.clarissa.thewholeshare.models.Participant
 import com.clarissa.thewholeshare.models.Request
 
@@ -19,6 +20,8 @@ class StatusAdapter(
     private val arrRequests:MutableList<Request>,
     private val layout:Int
 ): RecyclerView.Adapter<StatusAdapter.CustomViewHolder>()  {
+
+    var onClick: StatusAdapter.clickListener? = null
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -75,5 +78,16 @@ class StatusAdapter(
         var tvFrom : TextView = view.findViewById(R.id.tvFrom_status)
         var tvStatus : TextView = view.findViewById(R.id.tvStatus_status)
         var imgView_status : ImageView =  view.findViewById(R.id.imgView_status)
+
+        init{
+            view.setOnClickListener {
+                onClick?.onClick(arrStatus[adapterPosition])
+            }
+        }
     }
+
+    interface clickListener{
+        fun onClick(status:Participant)
+    }
+
 }

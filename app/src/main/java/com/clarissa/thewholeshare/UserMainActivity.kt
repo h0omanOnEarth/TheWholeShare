@@ -12,6 +12,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.clarissa.thewholeshare.fragments.*
 import com.clarissa.thewholeshare.models.News
+import com.clarissa.thewholeshare.models.Participant
 import com.clarissa.thewholeshare.models.User
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.json.JSONArray
@@ -28,6 +29,7 @@ class UserMainActivity : AppCompatActivity() {
     lateinit var fragmentDetailStatus : UserDonateDetailFragment
     lateinit var fragmentProfile : UserProfileFragment
     lateinit var fragmentDetailNews : UserDetailNewsFragment
+
 
     //untuk user yang sedang login
     lateinit var userActive : User
@@ -98,7 +100,6 @@ class UserMainActivity : AppCompatActivity() {
         loadFragmentHome()
         loadFragmentDonate()
         loadListStatusDonate()
-        loadDetailStatuDonate()
         loadFragmentProfile()
 
 
@@ -156,11 +157,22 @@ class UserMainActivity : AppCompatActivity() {
     //load fragment list status
     fun loadListStatusDonate(){
         fragmentListStatusDonate = UserListStatusFragment(unameActive)
+        fragmentListStatusDonate.onClickButton = {resource: String, status: Participant ->
+            if(resource=="detail") {
+                loadDetailStatusDonate(status)
+                switchFragment(R.id.fragment_container_user, fragmentDetailStatus)
+            }
+        }
     }
 
     //load fragment detail status
-    fun loadDetailStatuDonate(){
-        fragmentDetailStatus = UserDonateDetailFragment()
+    fun loadDetailStatusDonate(status:Participant){
+        fragmentDetailStatus = UserDonateDetailFragment(status)
+        fragmentDetailStatus.onClickButton = {resource: String ->
+            if(resource=="back"){
+                switchFragment(R.id.fragment_container_user, fragmentListStatusDonate)
+            }
+        }
     }
 
     //load fragment profile
