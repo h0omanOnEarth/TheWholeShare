@@ -139,15 +139,21 @@ class UserDonateFragment(
 
 
         btnDonate.setOnClickListener {
-            val loc = spinnerLocation.selectedItem.toString()
-            val pickup_address = etPickUpAddress.text.toString()
+            if(listLocations.size>0){
+                var loc = ""
+                if(listLocations.size>0) {
+                    loc = spinnerLocation.selectedItem.toString()
+                }
+                val pickup_address = etPickUpAddress.text.toString()
 
-            if(loc!="" && pickup_address!=""){
-                doInsertParticipant(pickup_address)
+                if(loc!="" && pickup_address!=""){
+                    doInsertParticipant(pickup_address)
+                }else{
+                    alertDialogFailed("ERROR","Fill all the fields!")
+                }
             }else{
-                alertDialogFailed("ERROR","Fill all the fields!")
+                alertDialogFailed("ERROR","There's no location available!")
             }
-
         }
 
     }
