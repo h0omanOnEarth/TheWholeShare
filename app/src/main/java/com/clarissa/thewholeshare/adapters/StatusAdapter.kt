@@ -9,10 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.clarissa.thewholeshare.R
 import com.clarissa.thewholeshare.models.Location
 import com.clarissa.thewholeshare.models.Participant
+import com.clarissa.thewholeshare.models.Request
 
 class StatusAdapter(
     private val context: Context,
     private val arrStatus:MutableList<Participant>,
+    private val arrRequests:MutableList<Request>,
     private val layout:Int
 ): RecyclerView.Adapter<StatusAdapter.CustomViewHolder>()  {
 

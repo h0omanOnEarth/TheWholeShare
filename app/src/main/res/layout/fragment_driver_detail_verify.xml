@@ -71,7 +71,7 @@
             android:paddingLeft="20dp" />
 
         <EditText
-            android:id="@+id/editTextTextMultiLine4"
+            android:id="@+id/etReport_report"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_marginLeft="20dp"
@@ -93,7 +93,7 @@
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button19"
+                android:id="@+id/btnSend_report"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -105,7 +105,7 @@
                 android:textStyle="bold" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button20"
+                android:id="@+id/btnCancel_report"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
