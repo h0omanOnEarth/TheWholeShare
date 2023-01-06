@@ -28,6 +28,7 @@ class AdminAddLocationFragment : Fragment() {
     lateinit var etDeadline : EditText
     lateinit var btnAdd : Button
     lateinit var btnCancel : Button
+    lateinit var fragmentMaster: AdminMasterFragment
 
 //    //web service :
 //    val WS_HOST = "http://10.0.2.2:8000/api"
@@ -58,7 +59,7 @@ class AdminAddLocationFragment : Fragment() {
         btnCancel = view.findViewById(R.id.btnCancel_addLocation)
 
         btnCancel.setOnClickListener {
-            onClickButton?.invoke("cancel")
+            (context as AdminMainActivity).switchFragment(1)
         }
 
 
@@ -91,26 +92,9 @@ class AdminAddLocationFragment : Fragment() {
 
         val addRequest = JsonObjectRequest(Request.Method.POST,"${ WholeShareApiService.WS_HOST}/addrequest",requestBody,
             {
-                    response ->
-                val status = response.getInt("status")
-                println("baris 1");
-                println(response);
-                println("baris 2");
-                println(status);
-                // Notify the user if the register attempt failed
-                if (status == 0) {
-                    val reason = response.getString("reason")
-                    alertDialogFailed("Register failed!", reason)
-                }
-                // Notify the user if the register attempt succeeded
-                else if (status == 1) {
-                    val userJson = response.getJSONObject("requestloc")
-                    val registeredLocation = Gson().fromJson(userJson.toString(), Location::class.java)
-
-                    alertDialogSuccess("Register Successful!", "Location at ${address} has successfully been registered!")
-                    clearAllFields()
-                }
-                else alertDialogFailed("Unknown Status", "Unknown status code")
+                    response -> alertDialogSuccess("Location Added!", "${address} has successfully been added!")
+                clearAllFields()
+                (context as AdminMainActivity).switchFragment(1)
             },
             {
                     error -> alertDialogFailed("Add Location Failed", error.toString())

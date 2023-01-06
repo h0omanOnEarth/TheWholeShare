@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.recyclerview.widget.RecyclerView
+import com.clarissa.thewholeshare.AdminMainActivity
 import com.clarissa.thewholeshare.adapters.LocationAdapter
 import com.clarissa.thewholeshare.R
 import com.clarissa.thewholeshare.models.Location
@@ -22,8 +23,8 @@ class AdminMasterFragment(
 
     lateinit var locationAdapter: LocationAdapter
 
-    //web service :
-    val WS_HOST = "http://10.0.2.2:8000/api"
+//    //web service :
+//    val WS_HOST = "http://10.0.2.2:8000/api"
 
     //mutable list
     lateinit var arrLocations : MutableList<Location>
@@ -48,7 +49,7 @@ class AdminMasterFragment(
         btnToAddLocation = view.findViewById(R.id.btnToAddLocation)
 
         btnToAddLocation.setOnClickListener {
-            onClickButton?.invoke("add")
+            (context as AdminMainActivity).switchFragment(3)
         }
 
     }
