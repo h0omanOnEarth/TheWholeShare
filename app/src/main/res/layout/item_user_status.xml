@@ -2,12 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="110dp"
+    android:layout_height="125dp"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="105dp"
+        android:layout_height="120dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -26,9 +26,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat_bold"
+                android:paddingLeft="55dp"
                 android:text="#1"
+                android:textAlignment="textStart"
                 android:textColor="#000000"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -37,22 +39,23 @@
 
                 <TextView
                     android:id="@+id/textView21"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat"
                     android:text="To :"
+                    android:textAlignment="textEnd"
                     android:textColor="#000000"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tvTo_status"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="35dp"
                     android:fontFamily="@font/montserrat"
                     android:paddingLeft="5dp"
                     android:text="TextView"
                     android:textColor="#000000"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -62,17 +65,18 @@
 
                 <TextView
                     android:id="@+id/textView27"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat"
                     android:text="From :"
+                    android:textAlignment="textEnd"
                     android:textColor="#000000"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tvFrom_status"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="35dp"
                     android:layout_weight="1"
                     android:fontFamily="@font/montserrat"
                     android:paddingLeft="5dp"
@@ -91,6 +95,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserrat"
                     android:text="Status :"
+                    android:textAlignment="textEnd"
                     android:textColor="#000000" />
 
                 <TextView

@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="90dp"
             android:fontFamily="@font/montserrat_bold"
             android:text="Donate"
             android:textAlignment="textStart"
@@ -26,6 +26,18 @@
             android:textSize="28sp"
             android:textStyle="bold" />
 
+
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:paddingLeft="10dp"
+            android:text="Location :"
+            android:textColor="#000000" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -39,8 +51,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp" />
+                android:layout_marginRight="20dp"
+                android:dropDownWidth="match_parent" />
         </FrameLayout>
+
+        <TextView
+            android:id="@+id/tvBatch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:fontFamily="@font/montserrat"
+            android:paddingLeft="10dp"
+            android:text="Batch : -"
+            android:textColor="#000000"
+            android:textStyle="normal" />
 
         <EditText
             android:id="@+id/etPickUpAddress_User"
@@ -54,22 +79,6 @@
             android:fontFamily="@font/montserrat"
             android:gravity="start"
             android:hint="Pick Up Address"
-            android:inputType="textMultiLine"
-            android:paddingLeft="20dp"
-            android:paddingTop="10dp" />
-
-        <EditText
-            android:id="@+id/etNote_donate"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/rounded_square_2"
-            android:ems="10"
-            android:fontFamily="@font/montserrat"
-            android:gravity="start|top"
-            android:hint="Note"
             android:inputType="textMultiLine"
             android:paddingLeft="20dp"
             android:paddingTop="10dp" />

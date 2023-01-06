@@ -5,33 +5,38 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.clarissa.thewholeshare.R
-import com.clarissa.thewholeshare.adapters.NewsAdapter
 import com.clarissa.thewholeshare.api.WholeShareApiService
 import com.clarissa.thewholeshare.models.News
 import com.clarissa.thewholeshare.models.Request
-import kotlinx.coroutines.launch
 import org.json.JSONArray
 
-class HomeUserFragment(
-    var arrRequests : MutableList<Request>,
-    var arrNews : MutableList<News>
+class UserDonateReportFragment(
+    var current_news : News
 ) : Fragment() {
 
-    lateinit var rv_ListNews : RecyclerView
-    lateinit var newsAdapter : NewsAdapter
+    lateinit var tvTitle_detailNews : TextView
+    lateinit var tvLocation_detailNews : TextView
+    lateinit var tvBatch_detailNews: TextView
+    lateinit var tvDeadline_detailNews: TextView
+    lateinit var tvContent_detailNews: TextView
+    lateinit var btnBack_detailNews: Button
 
-    var onClickButton:((resource:String,news:News)->Unit)? = null
+    lateinit var arrRequests : MutableList<Request>
+
+    var onClickButton:((resource:String)->Unit)? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        arrRequests = mutableListOf()
     }
 
     override fun onCreateView(
@@ -39,65 +44,41 @@ class HomeUserFragment(
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home_user, container, false)
+        return inflater.inflate(R.layout.fragment_user_donate_report, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        rv_ListNews = view.findViewById(R.id.rv_ListNews)
-        rv_ListNews.layoutManager = GridLayoutManager(view.context, 2)
 
-        newsAdapter =  NewsAdapter(view.context,arrNews,arrRequests,R.layout.item_news)
-        rv_ListNews.adapter = newsAdapter
+        tvTitle_detailNews = view.findViewById(R.id.tvTitle_reportDetailDonate)
+        tvLocation_detailNews = view.findViewById(R.id.tvLocation_reportDetailDonate)
+        tvBatch_detailNews = view.findViewById(R.id.tvBatch_reportDetailDonate)
+        tvDeadline_detailNews = view.findViewById(R.id.tvDeadline_reportDetailDonate)
+        tvContent_detailNews = view.findViewById(R.id.tvContent_reportDetailDonate)
+        btnBack_detailNews = view.findViewById(R.id.btnBack_reportDetailDonate)
 
-        fetchRequests()
-        fetchNews()
+        btnBack_detailNews.setOnClickListener {
+            onClickButton?.invoke("back")
+        }
 
-        newsAdapter.onClick = object:NewsAdapter.clickListener{
-            override fun onEdit(news: News) {
-                onClickButton?.invoke("edit",news)
+        refreshList()
+
+        tvTitle_detailNews.text = current_news.title
+        tvContent_detailNews.text = current_news.content
+
+        for(i in arrRequests.indices){
+            if(arrRequests[i].id==current_news.request_id){
+                tvLocation_detailNews.text = arrRequests[i].location
+                tvBatch_detailNews.text = arrRequests[i].batch.toString()
+                tvDeadline_detailNews.text = arrRequests[i].deadline
+                break
             }
         }
 
     }
 
-    //fetch data news
-    fun fetchNews(){
-        val strReq = object: StringRequest(
-            Method.GET,
-            "${WholeShareApiService.WS_HOST}/listNews",
-            Response.Listener {
-                val obj: JSONArray = JSONArray(it)
-                arrNews.clear()
-                println(obj.length())
-                for (i in 0 until obj.length()){
-                    val o = obj.getJSONObject(i)
-                    println(o)
-                    val id = o.getInt("id")
-                    val title = o.getString("title")
-                    val content = o.getString("content")
-                    val request_id = o.getInt("request_id")
-                    val created_at = o.get("created_at").toString()
-                    val updated_at = o.get("updated_at").toString()
-                    val deleted_at = o.get("deleted_at").toString()
-
-                    val news = News(
-                        id,title,content,request_id,created_at,updated_at,deleted_at
-                    )
-                    arrNews.add(news)
-                    newsAdapter.notifyDataSetChanged()
-                }
-            },
-            Response.ErrorListener {
-                Toast.makeText(context,"ERROR!", Toast.LENGTH_SHORT).show()
-            }
-        ){}
-        val queue: RequestQueue = Volley.newRequestQueue(context)
-        queue.add(strReq)
-    }
-
     //fetch data requests
-    fun fetchRequests(){
+    fun refreshList(){
         val strReq = object: StringRequest(
             Method.GET,
             "${WholeShareApiService.WS_HOST}/listRequest",
@@ -122,7 +103,6 @@ class HomeUserFragment(
                         id,location,batch,deadline,note,status,created_at,updated_at,deleted_at
                     )
                     arrRequests.add(req)
-                    newsAdapter.notifyDataSetChanged()
                 }
                 println(arrRequests.size)
             },
@@ -133,5 +113,6 @@ class HomeUserFragment(
         val queue: RequestQueue = Volley.newRequestQueue(context)
         queue.add(strReq)
     }
+
 
 }
