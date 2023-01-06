@@ -3,6 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+<<<<<<< HEAD
+=======
+        <entry key="..\:/Proyek FPW/Git/TheWholeShare/app/src/main/res/layout/activity_admin_main.xml" value="0.18177083333333333" />
+        <entry key="..\:/Proyek FPW/Git/TheWholeShare/app/src/main/res/layout/fragment_admin_master.xml" value="0.14444444444444443" />
+>>>>>>> 30172d0014c594bc25c61af6ad2987e12b861887
         <entry key="..\:/TheWholeShare/app/src/main/res/drawable/bottom_navbar_color.xml" value="0.1" />
         <entry key="..\:/TheWholeShare/app/src/main/res/drawable/button_border.xml" value="0.1" />
         <entry key="..\:/TheWholeShare/app/src/main/res/drawable/button_state_list_animator.xml" value="0.1" />
