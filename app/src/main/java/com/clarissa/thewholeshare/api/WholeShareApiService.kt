@@ -16,7 +16,7 @@ class WholeShareApiService(context: Context) {
                     INSTANCE = it
                 }
             }
-        
+
 //        // Web service sachio:
         //val WS_HOST: String = "https://aded-202-80-212-73.ap.ngrok.io/api"
 //        // Web service Ian:
@@ -26,7 +26,7 @@ class WholeShareApiService(context: Context) {
 //        val WS_HOST = "https://7039-36-81-177-193.ap.ngrok.io/api"
 
         //web service Cyrelle:
-    val WS_HOST: String = "https://4905-140-0-79-152.ap.ngrok.io/api"
+    val WS_HOST: String = "https://d362-140-0-79-152.ap.ngrok.io/api"
 
     }
     private val requestQueue: RequestQueue by lazy {

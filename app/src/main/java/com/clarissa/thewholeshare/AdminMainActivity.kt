@@ -16,6 +16,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.clarissa.thewholeshare.api.WholeShareApiService
 import com.clarissa.thewholeshare.fragments.*
+import com.clarissa.thewholeshare.models.Location
 import com.clarissa.thewholeshare.models.User
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.json.JSONArray
@@ -27,7 +28,6 @@ import com.google.gson.Gson
 class AdminMainActivity : AppCompatActivity() {
 
     lateinit var navbar_admin : BottomNavigationView
-
     //untuk user yang sedang login
     lateinit var userActive : User
     var unameActive = ""

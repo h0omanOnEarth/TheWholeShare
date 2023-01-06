@@ -6,11 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.RequestQueue
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.clarissa.thewholeshare.AdminMainActivity
 import com.clarissa.thewholeshare.adapters.LocationAdapter
 import com.clarissa.thewholeshare.R
+import com.clarissa.thewholeshare.adapters.MasterLocationAdapter
+import com.clarissa.thewholeshare.api.WholeShareApiService
 import com.clarissa.thewholeshare.models.Location
+import com.clarissa.thewholeshare.models.Request
+import org.json.JSONArray
 
 
 class AdminMasterFragment(
@@ -27,31 +37,68 @@ class AdminMasterFragment(
 //    val WS_HOST = "http://10.0.2.2:8000/api"
 
     //mutable list
-    lateinit var arrLocations : MutableList<Location>
+    var arrLocations = ArrayList<Location>()
+    //rv
+    lateinit var locationrv:RecyclerView
+    lateinit var adapterLocation:MasterLocationAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_admin_master, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        rvLocations = view.findViewById(R.id.rvLocations)
+        val view =  inflater.inflate(R.layout.fragment_admin_master, container, false)
+        locationrv = view.findViewById(R.id.rvLocations)
         btnToAddLocation = view.findViewById(R.id.btnToAddLocation)
 
         btnToAddLocation.setOnClickListener {
             (context as AdminMainActivity).switchFragment(3)
         }
+        getRequests()
+        refreshRecycler()
+        return view
+    }
+    fun refreshRecycler()
+    {
+        adapterLocation = MasterLocationAdapter(activity as AdminMainActivity, arrLocations)
+        locationrv.adapter = adapterLocation
+        val lm: RecyclerView.LayoutManager = LinearLayoutManager(activity as AdminMainActivity)
+        locationrv.layoutManager = lm
+    }
+    //fungsi get requests
+    fun getRequests(){
+        val strReq = object: StringRequest(
+            Method.GET,
+            "${WholeShareApiService.WS_HOST}/listRequest",
+            Response.Listener {
+                val obj: JSONArray = JSONArray(it)
+                println(obj.length())
+                for (i in 0 until obj.length()) {
+                    val o = obj.getJSONObject(i)
+                    println(o)
+                    val id = o.getInt("id")
+                    val location = o.getString("location")
+                    val batch = o.getInt("batch")
+                    val deadline = o.get("deadline").toString()
+                    val note = o.getString("note")
+                    val status = o.getString("status")
 
+                    val r = com.clarissa.thewholeshare.models.Location(
+                        id, location, batch, deadline, note, status
+                    )
+                    arrLocations.add(r)
+                    println("test "+arrLocations)
+                }
+            },
+            Response.ErrorListener {
+                Toast.makeText((context as AdminMainActivity),"ERROR!", Toast.LENGTH_SHORT).show()
+            }
+        ){}
+        val queue: RequestQueue = Volley.newRequestQueue((context as AdminMainActivity))
+        queue.add(strReq)
     }
 
 }
