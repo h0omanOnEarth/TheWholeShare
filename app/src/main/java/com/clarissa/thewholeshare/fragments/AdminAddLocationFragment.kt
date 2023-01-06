@@ -93,7 +93,10 @@ class AdminAddLocationFragment : Fragment() {
             {
                     response ->
                 val status = response.getInt("status")
-
+                println("baris 1");
+                println(response);
+                println("baris 2");
+                println(status);
                 // Notify the user if the register attempt failed
                 if (status == 0) {
                     val reason = response.getString("reason")
