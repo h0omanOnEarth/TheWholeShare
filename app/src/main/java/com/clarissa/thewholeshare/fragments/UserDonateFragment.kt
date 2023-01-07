@@ -121,12 +121,12 @@ class UserDonateFragment(
                 Method.POST,
                 "${WholeShareApiService.WS_HOST}/insertParticipant",
                 Response.Listener {
-                    alertDialogSuccess("SUCCESS", "Donate request sent!")
                     spinnerAdapter.clear()
                     fetchParticipants()
                     fetchRequests()
                     clearAllFields()
                     onClickButton?.invoke("donate")
+                    alertDialogSuccess("SUCCESS", "Donate request sent!")
                 },
                 Response.ErrorListener {
                     alertDialogFailed("ERROR",it.message.toString())
