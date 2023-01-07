@@ -231,7 +231,7 @@ class UserDonateFragment(
     fun fetchRequests(){
         val strReq = object: StringRequest(
             Method.GET,
-            "${WholeShareApiService.WS_HOST}/listRequest",
+            "${WholeShareApiService.WS_HOST}/listLocationsUser",
             Response.Listener {
                 val obj: JSONArray = JSONArray(it)
                 arrRequests.clear()

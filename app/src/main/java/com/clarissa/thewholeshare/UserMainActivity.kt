@@ -273,7 +273,7 @@ class UserMainActivity : AppCompatActivity() {
         fragmentDonate.onClickButton = {resource: String ->
             if(resource=="donate"){
                 loadFragmentHome()
-                switchFragment(R.id.fragment_container_user,fragmentDonate)
+                switchFragment(R.id.fragment_container_user,fragmentListStatusDonate)
             }
         }
     }
