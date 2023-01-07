@@ -23,7 +23,8 @@ import java.util.*
 class UserDonateFragment(
     var username:String,
     var arrParticipants : MutableList<Participant>,
-    var arrRequests : MutableList<Request>
+    var arrRequests : MutableList<Request>,
+    var arrUsers : MutableList<User>
 ) : Fragment() {
 
     lateinit var spinnerLocation:Spinner
@@ -75,16 +76,13 @@ class UserDonateFragment(
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item)
         spinnerLocation.adapter = spinnerAdapter
 
-        getUserLoggedIn(username)
-//        fetchRequests()
-        fetchParticipants()
+        getUserLoggedIn()
+        fetchRequestsDonatePage()
 
         for(i in arrRequests.indices){
-            if(!isAlreadyParticipated(arrRequests[i].id)){
                 listLocations.add(arrRequests[i].location)
                 arrIdRequests.add(arrRequests[i].id)
                 spinnerAdapter.notifyDataSetChanged()
-            }
         }
 
 
@@ -130,7 +128,9 @@ class UserDonateFragment(
                 Method.POST,
                 "${WholeShareApiService.WS_HOST}/insertParticipant",
                 Response.Listener {
+                    spinnerAdapter.clear()
                     fetchParticipants()
+                    fetchRequestsDonatePage()
                     clearAllFields()
                     onClickButton?.invoke("donate")
                     alertDialogSuccess("SUCCESS", "Donate request sent!")
@@ -162,11 +162,7 @@ class UserDonateFragment(
                 val pickup_address = etPickUpAddress.text.toString()
 
                 if(loc!="" && pickup_address!=""){
-                    if(isAlreadyParticipated(arrIdRequests[selectedPosition])){
-                        alertDialogFailed("ERROR","You have already participated!")
-                    }else {
-                        doInsertParticipant(pickup_address)
-                    }
+                    doInsertParticipant(pickup_address)
                 }else{
                     alertDialogFailed("ERROR","Fill all the fields!")
                 }
@@ -177,51 +173,54 @@ class UserDonateFragment(
 
     }
 
-    //check participated or not yet
-    fun isAlreadyParticipated(id_request:Int):Boolean{
-        var isParticipated = false
-
-        for(i in arrParticipants.indices){
-            if(arrParticipants[i].request_id==id_request){
-                isParticipated = true
-                break
-            }
-        }
-
-        return isParticipated
-    }
-
 
     fun clearAllFields(){
         etPickUpAddress.text.clear()
     }
 
     //to get user who logged in
-    fun getUserLoggedIn(uname:String){
+    fun getUserLoggedIn(){
+       for(i in arrUsers.indices){
+           if(arrUsers[i].username==username){
+               userActive = arrUsers[i]
+               break
+           }
+       }
+    }
+
+
+    fun fetchRequestsDonatePage(){
         val strReq = object: StringRequest(
             Method.GET,
-            "${WholeShareApiService.WS_HOST}/listUsers",
+            "${WholeShareApiService.WS_HOST}/listLocationsUser",
             Response.Listener {
                 val obj: JSONArray = JSONArray(it)
-                println(obj.length())
+                arrRequests.clear()
                 for (i in 0 until obj.length()){
+                    var ada = -1
                     val o = obj.getJSONObject(i)
-                    println(o)
                     val id = o.getInt("id")
-                    val username = o.getString("username")
-                    val password = o.getString("password")
-                    val full_name = o.getString("full_name")
-                    val phone = o.getString("phone")
-                    val address = o.getString("address")
-                    val email = o.getString("email")
-                    val role = o.getInt("role")
+                    val location = o.getString("location")
+                    val batch = o.getInt("batch")
+                    val deadline = o.get("deadline").toString()
+                    val note = o.getString("note")
+                    val status = o.getInt("status")
+                    val created_at = o.get("created_at").toString()
+                    val updated_at = o.get("updated_at").toString()
                     val deleted_at = o.get("deleted_at").toString()
-                    val u = User(
-                        id,username,password,full_name,phone,address,email,role,deleted_at
+
+                    val req = Request(
+                        id,location,batch,deadline,note,status,created_at,updated_at,deleted_at
                     )
-                    if(username==uname) {
-                        userActive = u
-                        break
+
+                    for(j in arrParticipants.indices){
+                        if(arrParticipants[j].request_id==req.id){
+                            ada = j
+                        }
+                    }
+
+                    if(ada==-1){
+                        arrRequests.add(req)
                     }
                 }
             },
@@ -241,10 +240,8 @@ class UserDonateFragment(
             Response.Listener {
                 val obj: JSONArray = JSONArray(it)
                 arrParticipants.clear()
-                println(obj.length())
                 for (i in 0 until obj.length()){
                     val o = obj.getJSONObject(i)
-                    println(o)
                     val id = o.getInt("id")
                     val user_id = o.getInt("user_id")
                     val request_id = o.getInt("request_id")

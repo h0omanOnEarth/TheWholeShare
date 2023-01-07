@@ -86,6 +86,7 @@ class LoginActivity : AppCompatActivity() {
                         // user
                         val intent = Intent(this@LoginActivity, UserMainActivity::class.java)
                         intent.putExtra("active_username",username)
+                        intent.putExtra("active_id",loggedUser.id)
                         startActivity(intent)
                     } else if (loggedUser.role == 2) {
                         //admin

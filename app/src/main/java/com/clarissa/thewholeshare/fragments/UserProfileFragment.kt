@@ -61,7 +61,6 @@ class UserProfileFragment(
 
         getUserLoggedIn(unameActive)
 
-
         //alert dialog warning
         fun alertDialogFailed(title:String, message:String){
             val mAlertDialog = AlertDialog.Builder(view.context)
@@ -212,8 +211,5 @@ class UserProfileFragment(
         etAddress.setText(userActive.address)
         etEmail.setText(userActive.email)
     }
-
-
-
 
 }

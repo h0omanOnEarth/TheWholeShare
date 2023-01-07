@@ -38,6 +38,8 @@ class UserMainActivity : AppCompatActivity() {
     lateinit var arrParticipants : MutableList<Participant>
     lateinit var arrExpiredRequests : MutableList<Request>
     lateinit var arrRequestsNotExpired : MutableList<Request>
+    lateinit var arrUsers : MutableList<User>
+    lateinit var arrDonatePage : MutableList<Request>
 
 
     //untuk user yang sedang login
@@ -61,14 +63,17 @@ class UserMainActivity : AppCompatActivity() {
         arrParticipants = mutableListOf()
         arrExpiredRequests = mutableListOf()
         arrRequestsNotExpired = mutableListOf()
+        arrUsers = mutableListOf()
+        arrDonatePage = mutableListOf()
 
         //to get user who logged in
-        fun getUserLoggedIn(uname:String){
+        fun fetchUsers(){
             val strReq = object: StringRequest(
                 Method.GET,
                 "$WS_HOST/listUsers",
                 Response.Listener {
                     val obj: JSONArray = JSONArray(it)
+                    arrUsers.clear()
                     println(obj.length())
                     for (i in 0 until obj.length()){
                         val o = obj.getJSONObject(i)
@@ -84,11 +89,7 @@ class UserMainActivity : AppCompatActivity() {
                         val u = User(
                             id,username,password,full_name,phone,address,email,role,deleted_at
                         )
-                        if(username==uname) {
-                            userActive = u
-                            id_active = u.id
-                            break
-                        }
+                        arrUsers.add(u)
                     }
                 },
                 Response.ErrorListener {
@@ -99,11 +100,22 @@ class UserMainActivity : AppCompatActivity() {
             queue.add(strReq)
         }
 
+        fetchUsers()
+
         //ambil data dari intent
         val usernameActive = intent.getStringExtra("active_username")
+        val idActive = intent.getIntExtra("active_id",-1)
         if(usernameActive!=null){
             unameActive = usernameActive
-            getUserLoggedIn(usernameActive)
+            for(i in arrUsers.indices){
+                if(arrUsers[i].username==usernameActive){
+                    userActive = arrUsers[i]
+                }
+            }
+        }
+
+        if(idActive!=null){
+            id_active = idActive
         }
 
         fetchRequests()
@@ -112,6 +124,7 @@ class UserMainActivity : AppCompatActivity() {
         fetchExpiredRequests()
         fetchRequestsNotExpired()
         editStatusParticipants()
+        fetchRequestsDonatePage()
 
         //load semua fragment terlebih dahulu :
         loadFragmentHome()
@@ -136,6 +149,49 @@ class UserMainActivity : AppCompatActivity() {
 
             return@setOnItemSelectedListener true
         }
+    }
+
+    fun fetchRequestsDonatePage(){
+        val strReq = object: StringRequest(
+            Method.GET,
+            "${WholeShareApiService.WS_HOST}/listLocationsUser",
+            Response.Listener {
+                val obj: JSONArray = JSONArray(it)
+                arrDonatePage.clear()
+                for (i in 0 until obj.length()){
+                    var ada = -1
+                    val o = obj.getJSONObject(i)
+                    val id = o.getInt("id")
+                    val location = o.getString("location")
+                    val batch = o.getInt("batch")
+                    val deadline = o.get("deadline").toString()
+                    val note = o.getString("note")
+                    val status = o.getInt("status")
+                    val created_at = o.get("created_at").toString()
+                    val updated_at = o.get("updated_at").toString()
+                    val deleted_at = o.get("deleted_at").toString()
+
+                    val req = Request(
+                        id,location,batch,deadline,note,status,created_at,updated_at,deleted_at
+                    )
+
+                    for(j in arrParticipants.indices){
+                        if(arrParticipants[j].request_id==req.id){
+                          ada = j
+                        }
+                    }
+
+                    if(ada==-1){
+                        arrDonatePage.add(req)
+                    }
+                }
+            },
+            Response.ErrorListener {
+                Toast.makeText(this,"ERROR!", Toast.LENGTH_SHORT).show()
+            }
+        ){}
+        val queue: RequestQueue = Volley.newRequestQueue(this)
+        queue.add(strReq)
     }
 
 
@@ -342,7 +398,7 @@ class UserMainActivity : AppCompatActivity() {
                         id,user_id,request_id,pickup,status,created_at,updated_at
                     )
 
-                    if(user_id==userActive.id){
+                    if(user_id==id_active){
                         arrParticipants.add(participant)
                     }
                 }
@@ -368,7 +424,7 @@ class UserMainActivity : AppCompatActivity() {
 
     //load fragment home nya user
     fun loadFragmentHome(){
-        fragmentHome = HomeUserFragment(unameActive,arrRequests,arrNews)
+        fragmentHome = HomeUserFragment(arrRequests,arrNews)
         fragmentHome.onClickButton = {resource: String,news:News ->
             if(resource == "edit"){
                 loadFragmentDetailNews(news)
@@ -379,18 +435,19 @@ class UserMainActivity : AppCompatActivity() {
 
     //load fragment donasi nya user
     fun loadFragmentDonate(){
-        fragmentDonate = UserDonateFragment(unameActive,arrParticipants,arrRequestsNotExpired)
+        fragmentDonate = UserDonateFragment(unameActive,arrParticipants,arrDonatePage,arrUsers)
         fragmentDonate.onClickButton = {resource: String ->
             if(resource=="donate"){
-                loadFragmentHome()
+                loadListStatusDonate()
                 switchFragment(R.id.fragment_container_user,fragmentListStatusDonate)
+                navbar_user.selectedItemId = R.id.item_status_user
             }
         }
     }
 
     //load fragment list status
     fun loadListStatusDonate(){
-        fragmentListStatusDonate = UserListStatusFragment(arrParticipants,arrRequests)
+        fragmentListStatusDonate = UserListStatusFragment(unameActive,arrParticipants,arrRequests,arrExpiredRequests,arrUsers)
         fragmentListStatusDonate.onClickButton = {resource: String, status: Participant ->
             if(resource=="detail") {
                 loadDetailStatusDonate(status)

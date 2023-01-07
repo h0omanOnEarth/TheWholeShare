@@ -57,8 +57,6 @@ class UserDetailNewsFragment(
         tvContent_detailNews = view.findViewById(R.id.tvContent_detailNews)
         btnBack_detailNews = view.findViewById(R.id.btnBack_detailNews)
 
-        refreshList()
-
         tvTitle_detailNews.text = current_news.title
         tvContent_detailNews.text = current_news.content
 
@@ -76,43 +74,5 @@ class UserDetailNewsFragment(
         }
 
     }
-
-    //fetch data requests
-    fun refreshList(){
-        val strReq = object: StringRequest(
-            Method.GET,
-            "${WholeShareApiService.WS_HOST}/listRequest",
-            Response.Listener {
-                val obj: JSONArray = JSONArray(it)
-                arrRequests.clear()
-                println(obj.length())
-                for (i in 0 until obj.length()){
-                    val o = obj.getJSONObject(i)
-                    println(o)
-                    val id = o.getInt("id")
-                    val location = o.getString("location")
-                    val batch = o.getInt("batch")
-                    val deadline = o.get("deadline").toString()
-                    val note = o.getString("note")
-                    val status = o.getInt("status")
-                    val created_at = o.get("created_at").toString()
-                    val updated_at = o.get("updated_at").toString()
-                    val deleted_at = o.get("deleted_at").toString()
-
-                    val req = Request(
-                        id,location,batch,deadline,note,status,created_at,updated_at,deleted_at
-                    )
-                    arrRequests.add(req)
-                }
-                println(arrRequests.size)
-            },
-            Response.ErrorListener {
-                Toast.makeText(context,"ERROR!", Toast.LENGTH_SHORT).show()
-            }
-        ){}
-        val queue: RequestQueue = Volley.newRequestQueue(context)
-        queue.add(strReq)
-    }
-
 
 }

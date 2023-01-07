@@ -83,8 +83,6 @@ class UserDonateDetailFragment(
         tvFrom.text = status.pickup
         tvDate.text = status.created_at.toString().substring(0,10)
 
-        refreshListRequests()
-
         for(i in arrRequests.indices){
             if(arrRequests[i].id == status.request_id){
                 tvTo.text = arrRequests[i].location
@@ -96,7 +94,6 @@ class UserDonateDetailFragment(
             onClickButton?.invoke("back")
         }
 
-        fetchNews()
 
         btnToReport.setOnClickListener {
 
@@ -113,76 +110,5 @@ class UserDonateDetailFragment(
         }
 
     }
-
-    //fetch data Requests
-    fun refreshListRequests(){
-        val strReq = object: StringRequest(
-            Method.GET,
-            "${WholeShareApiService.WS_HOST}/listRequest",
-            Response.Listener {
-                val obj: JSONArray = JSONArray(it)
-                arrRequests.clear()
-
-                for (i in 0 until obj.length()){
-                    val o = obj.getJSONObject(i)
-                    val id = o.getInt("id")
-                    val location = o.getString("location")
-                    val batch = o.getInt("batch")
-                    val deadline = o.get("deadline").toString()
-                    val note = o.getString("note")
-                    val status = o.getInt("status")
-                    val created_at = o.get("created_at").toString()
-                    val updated_at = o.get("updated_at").toString()
-                    val deleted_at = o.get("deleted_at").toString()
-
-                    val req = Request(
-                        id,location,batch,deadline,note,status,created_at,updated_at,deleted_at
-                    )
-                    arrRequests.add(req)
-                }
-
-            },
-            Response.ErrorListener {
-                Toast.makeText(context,"ERROR!", Toast.LENGTH_SHORT).show()
-            }
-        ){}
-        val queue: RequestQueue = Volley.newRequestQueue(context)
-        queue.add(strReq)
-    }
-
-
-    //fetch data news
-    fun fetchNews(){
-        val strReq = object: StringRequest(
-            Method.GET,
-            "${WholeShareApiService.WS_HOST}/listNews",
-            Response.Listener {
-                val obj: JSONArray = JSONArray(it)
-                arrNews.clear()
-                for (i in 0 until obj.length()){
-                    val o = obj.getJSONObject(i)
-                    val id = o.getInt("id")
-                    val title = o.getString("title")
-                    val content = o.getString("content")
-                    val request_id = o.getInt("request_id")
-                    val created_at = o.get("created_at").toString()
-                    val updated_at = o.get("updated_at").toString()
-                    val deleted_at = o.get("deleted_at").toString()
-
-                    val news = News(
-                        id,title,content,request_id,created_at,updated_at,deleted_at
-                    )
-                    arrNews.add(news)
-                }
-                println(arrNews.size)
-            },
-            Response.ErrorListener {
-                Toast.makeText(context,"ERROR!", Toast.LENGTH_SHORT).show()
-            }
-        ){}
-        val queue: RequestQueue = Volley.newRequestQueue(context)
-        queue.add(strReq)
-    }
-
 
 }
