@@ -70,7 +70,7 @@ class UserMainActivity : AppCompatActivity() {
         fun fetchUsers(){
             val strReq = object: StringRequest(
                 Method.GET,
-                "$WS_HOST/listUsers",
+                "${WholeShareApiService.WS_HOST}/listUsers",
                 Response.Listener {
                     val obj: JSONArray = JSONArray(it)
                     arrUsers.clear()

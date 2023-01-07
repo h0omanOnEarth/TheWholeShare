@@ -28,7 +28,8 @@
             android:fontFamily="@font/montserrat"
             android:hint="Username"
             android:inputType="textPersonName"
-            android:paddingLeft="20dp" />
+            android:paddingLeft="20dp"
+            android:textColor="#000000" />
 
         <EditText
             android:id="@+id/etFullName_Profile"

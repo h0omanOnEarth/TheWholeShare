@@ -77,6 +77,7 @@ class UserDonateFragment(
         spinnerLocation.adapter = spinnerAdapter
 
         getUserLoggedIn()
+        fetchParticipants()
         fetchRequestsDonatePage()
 
         for(i in arrRequests.indices){
@@ -162,7 +163,11 @@ class UserDonateFragment(
                 val pickup_address = etPickUpAddress.text.toString()
 
                 if(loc!="" && pickup_address!=""){
-                    doInsertParticipant(pickup_address)
+                    if(isAlreadyParticipated(arrIdRequests[selectedPosition])==false) {
+                        doInsertParticipant(pickup_address)
+                    }else{
+                        alertDialogFailed("ERROR", "You have already participated!")
+                    }
                 }else{
                     alertDialogFailed("ERROR","Fill all the fields!")
                 }
@@ -221,6 +226,7 @@ class UserDonateFragment(
 
                     if(ada==-1){
                         arrRequests.add(req)
+                        spinnerAdapter.notifyDataSetChanged()
                     }
                 }
             },
@@ -256,6 +262,7 @@ class UserDonateFragment(
 
                     if(user_id==userActive.id){
                         arrParticipants.add(participant)
+                        spinnerAdapter.notifyDataSetChanged()
                     }
                 }
             },
@@ -265,6 +272,19 @@ class UserDonateFragment(
         ){}
         val queue: RequestQueue = Volley.newRequestQueue(context)
         queue.add(strReq)
+    }
+
+    fun isAlreadyParticipated(id_request:Int):Boolean{
+        var isParticipated = false
+
+        for(i in arrParticipants.indices){
+            if(arrParticipants[i].request_id==id_request && arrParticipants[i].user_id==userActive.id){
+                isParticipated = true
+                break
+            }
+        }
+
+        return isParticipated
     }
 
 

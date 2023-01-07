@@ -35,6 +35,7 @@ class UserDonateDetailFragment(
     lateinit var imgView : ImageView
     lateinit var tvId : TextView
     lateinit var btnToReport : Button
+    lateinit var tvExp : TextView
 
     var onClickButtonReport:((resource:String,news: News)->Unit)? = null
 
@@ -61,6 +62,7 @@ class UserDonateDetailFragment(
         imgView = view.findViewById(R.id.imgView_detailUserDonate)
         tvId = view.findViewById(R.id.tvId_detailDonateUser)
         btnToReport = view.findViewById(R.id.btnToReport_detailUserDonate)
+        tvExp = view.findViewById(R.id.tvExp_detailUserDonate)
 
         val statusParticipant = status.status
 
@@ -86,6 +88,7 @@ class UserDonateDetailFragment(
         for(i in arrRequests.indices){
             if(arrRequests[i].id == status.request_id){
                 tvTo.text = arrRequests[i].location
+                tvExp.text = arrRequests[i].deadline.substring(0,10)
                 break
             }
         }
