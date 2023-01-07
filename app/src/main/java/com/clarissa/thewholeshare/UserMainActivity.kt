@@ -278,7 +278,7 @@ class UserMainActivity : AppCompatActivity() {
 
     //load fragment detail news
     fun loadFragmentDetailNews(news:News){
-        fragmentDetailNews = UserDetailNewsFragment(news)
+        fragmentDetailNews = UserDetailNewsFragment(news,arrRequests)
         fragmentDetailNews.onClickButton = {resource: String->
             if(resource == "back"){
                 switchFragment(R.id.fragment_container_user,fragmentHome)
@@ -299,7 +299,7 @@ class UserMainActivity : AppCompatActivity() {
 
     //load fragment donasi nya user
     fun loadFragmentDonate(){
-        fragmentDonate = UserDonateFragment(unameActive,arrParticipants,arrRequests,arrNews)
+        fragmentDonate = UserDonateFragment(unameActive,arrParticipants,arrRequests,arrNews,arrExpiredRequests)
         fragmentDonate.onClickButton = {resource: String ->
             if(resource=="donate"){
                 loadFragmentHome()

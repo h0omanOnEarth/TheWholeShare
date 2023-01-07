@@ -24,7 +24,8 @@ class UserDonateFragment(
     var username:String,
     var arrParticipants : MutableList<Participant>,
     var arrRequests : MutableList<Request>,
-    var arrNews : MutableList<News>
+    var arrNews : MutableList<News>,
+    var arrExpiredRequests : MutableList<Request>
 ) : Fragment() {
 
     lateinit var spinnerLocation:Spinner
@@ -78,6 +79,8 @@ class UserDonateFragment(
 
         getUserLoggedIn(username)
         fetchRequests()
+        fetchNews()
+        fetchExpiredRequests()
 
         spinnerLocation.onItemSelectedListener = object  :
             AdapterView.OnItemSelectedListener{
@@ -123,7 +126,6 @@ class UserDonateFragment(
                 Response.Listener {
                     spinnerAdapter.clear()
                     fetchParticipants()
-                    fetchRequests()
                     clearAllFields()
                     onClickButton?.invoke("donate")
                     alertDialogSuccess("SUCCESS", "Donate request sent!")
@@ -295,6 +297,73 @@ class UserDonateFragment(
                     if(user_id==userActive.id){
                         arrParticipants.add(participant)
                     }
+                }
+            },
+            Response.ErrorListener {
+                Toast.makeText(context,"ERROR!", Toast.LENGTH_SHORT).show()
+            }
+        ){}
+        val queue: RequestQueue = Volley.newRequestQueue(context)
+        queue.add(strReq)
+    }
+
+    //fetch data news
+    fun fetchNews(){
+        val strReq = object: StringRequest(
+            Method.GET,
+            "${WholeShareApiService.WS_HOST}/listNews",
+            Response.Listener {
+                val obj: JSONArray = JSONArray(it)
+                arrNews.clear()
+                for (i in 0 until obj.length()){
+                    val o = obj.getJSONObject(i)
+                    val id = o.getInt("id")
+                    val title = o.getString("title")
+                    val content = o.getString("content")
+                    val request_id = o.getInt("request_id")
+                    val created_at = o.get("created_at").toString()
+                    val updated_at = o.get("updated_at").toString()
+                    val deleted_at = o.get("deleted_at").toString()
+
+                    val news = News(
+                        id,title,content,request_id,created_at,updated_at,deleted_at
+                    )
+                    arrNews.add(news)
+                }
+            },
+            Response.ErrorListener {
+                Toast.makeText(context,"ERROR!", Toast.LENGTH_SHORT).show()
+            }
+        ){}
+        val queue: RequestQueue = Volley.newRequestQueue(context)
+        queue.add(strReq)
+    }
+
+    //fungsi untuk fetch data requests yang sudah expired
+    fun fetchExpiredRequests(){
+        val strReq = object: StringRequest(
+            Method.GET,
+            "${WholeShareApiService.WS_HOST}/listLocationExpired",
+            Response.Listener {
+                val obj: JSONArray = JSONArray(it)
+                arrExpiredRequests.clear()
+                println(obj.length())
+                for (i in 0 until obj.length()){
+                    val o = obj.getJSONObject(i)
+                    val id = o.getInt("id")
+                    val location = o.getString("location")
+                    val batch = o.getInt("batch")
+                    val deadline = o.get("deadline").toString()
+                    val note = o.getString("note")
+                    val status = o.getInt("status")
+                    val created_at = o.get("created_at").toString()
+                    val updated_at = o.get("updated_at").toString()
+                    val deleted_at = o.get("deleted_at").toString()
+
+                    val req = Request(
+                        id,location,batch,deadline,note,status,created_at,updated_at,deleted_at
+                    )
+                    arrExpiredRequests.add(req)
                 }
             },
             Response.ErrorListener {

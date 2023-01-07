@@ -20,7 +20,8 @@ import org.json.JSONArray
 
 
 class UserDetailNewsFragment(
-    var current_news : News
+    var current_news : News,
+    var arrRequests : MutableList<Request>
 ) : Fragment() {
 
 
@@ -31,13 +32,10 @@ class UserDetailNewsFragment(
     lateinit var tvContent_detailNews:TextView
     lateinit var btnBack_detailNews:Button
 
-    lateinit var arrRequests : MutableList<Request>
-
     var onClickButton:((resource:String)->Unit)? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arrRequests = mutableListOf()
 
     }
 
