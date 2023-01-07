@@ -36,6 +36,7 @@ class UserMainActivity : AppCompatActivity() {
     lateinit var arrRequests : MutableList<Request>
     lateinit var arrNews : MutableList<News>
     lateinit var arrParticipants : MutableList<Participant>
+    lateinit var arrExpiredRequests : MutableList<Request>
 
 
     //untuk user yang sedang login
@@ -57,7 +58,7 @@ class UserMainActivity : AppCompatActivity() {
         arrRequests = mutableListOf()
         arrNews = mutableListOf()
         arrParticipants = mutableListOf()
-
+        arrExpiredRequests = mutableListOf()
 
         //to get user who logged in
         fun getUserLoggedIn(uname:String){
@@ -69,7 +70,6 @@ class UserMainActivity : AppCompatActivity() {
                     println(obj.length())
                     for (i in 0 until obj.length()){
                         val o = obj.getJSONObject(i)
-                        println(o)
                         val id = o.getInt("id")
                         val username = o.getString("username")
                         val password = o.getString("password")
@@ -88,8 +88,6 @@ class UserMainActivity : AppCompatActivity() {
                             break
                         }
                     }
-                    println(userActive)
-                    println(id_active)
                 },
                 Response.ErrorListener {
                     Toast.makeText(this,"ERROR!", Toast.LENGTH_SHORT).show()
@@ -109,7 +107,7 @@ class UserMainActivity : AppCompatActivity() {
         fetchRequests()
         fetchNews()
         fetchParticipants()
-
+        fetchExpiredRequests()
 
         //load semua fragment terlebih dahulu :
         loadFragmentHome()
@@ -137,6 +135,7 @@ class UserMainActivity : AppCompatActivity() {
         }
     }
 
+
     //fetch data requests
     fun fetchRequests(){
         val strReq = object: StringRequest(
@@ -148,7 +147,6 @@ class UserMainActivity : AppCompatActivity() {
                 println(obj.length())
                 for (i in 0 until obj.length()){
                     val o = obj.getJSONObject(i)
-                    println(o)
                     val id = o.getInt("id")
                     val location = o.getString("location")
                     val batch = o.getInt("batch")
@@ -164,7 +162,6 @@ class UserMainActivity : AppCompatActivity() {
                     )
                     arrRequests.add(req)
                 }
-                println(arrRequests.size)
             },
             Response.ErrorListener {
                 Toast.makeText(this,"ERROR!", Toast.LENGTH_SHORT).show()
@@ -185,7 +182,6 @@ class UserMainActivity : AppCompatActivity() {
                 println(obj.length())
                 for (i in 0 until obj.length()){
                     val o = obj.getJSONObject(i)
-                    println(o)
                     val id = o.getInt("id")
                     val title = o.getString("title")
                     val content = o.getString("content")
@@ -199,7 +195,6 @@ class UserMainActivity : AppCompatActivity() {
                     )
                     arrNews.add(news)
                 }
-                println(arrNews.size)
             },
             Response.ErrorListener {
                 Toast.makeText(this,"ERROR!", Toast.LENGTH_SHORT).show()
@@ -208,6 +203,42 @@ class UserMainActivity : AppCompatActivity() {
         val queue: RequestQueue = Volley.newRequestQueue(this)
         queue.add(strReq)
     }
+
+    //fungsi untuk fetch data requests yang sudah expired
+    fun fetchExpiredRequests(){
+        val strReq = object: StringRequest(
+            Method.GET,
+            "${WholeShareApiService.WS_HOST}/listLocationExpired",
+            Response.Listener {
+                val obj: JSONArray = JSONArray(it)
+                arrExpiredRequests.clear()
+                println(obj.length())
+                for (i in 0 until obj.length()){
+                    val o = obj.getJSONObject(i)
+                    val id = o.getInt("id")
+                    val location = o.getString("location")
+                    val batch = o.getInt("batch")
+                    val deadline = o.get("deadline").toString()
+                    val note = o.getString("note")
+                    val status = o.getInt("status")
+                    val created_at = o.get("created_at").toString()
+                    val updated_at = o.get("updated_at").toString()
+                    val deleted_at = o.get("deleted_at").toString()
+
+                    val req = Request(
+                        id,location,batch,deadline,note,status,created_at,updated_at,deleted_at
+                    )
+                    arrExpiredRequests.add(req)
+                }
+            },
+            Response.ErrorListener {
+                Toast.makeText(this,"ERROR!", Toast.LENGTH_SHORT).show()
+            }
+        ){}
+        val queue: RequestQueue = Volley.newRequestQueue(this)
+        queue.add(strReq)
+    }
+
 
     //fetch data participants
     fun fetchParticipants(){
@@ -220,7 +251,6 @@ class UserMainActivity : AppCompatActivity() {
                 println(obj.length())
                 for (i in 0 until obj.length()){
                     val o = obj.getJSONObject(i)
-                    println(o)
                     val id = o.getInt("id")
                     val user_id = o.getInt("user_id")
                     val request_id = o.getInt("request_id")
@@ -258,7 +288,7 @@ class UserMainActivity : AppCompatActivity() {
 
     //load fragment home nya user
     fun loadFragmentHome(){
-        fragmentHome = HomeUserFragment(arrRequests,arrNews)
+        fragmentHome = HomeUserFragment(unameActive,arrRequests,arrNews)
         fragmentHome.onClickButton = {resource: String,news:News ->
             if(resource == "edit"){
                 loadFragmentDetailNews(news)
@@ -280,7 +310,7 @@ class UserMainActivity : AppCompatActivity() {
 
     //load fragment list status
     fun loadListStatusDonate(){
-        fragmentListStatusDonate = UserListStatusFragment(unameActive,arrParticipants,arrRequests)
+        fragmentListStatusDonate = UserListStatusFragment(unameActive,arrParticipants,arrRequests,arrExpiredRequests)
         fragmentListStatusDonate.onClickButton = {resource: String, status: Participant ->
             if(resource=="detail") {
                 loadDetailStatusDonate(status)
@@ -290,7 +320,7 @@ class UserMainActivity : AppCompatActivity() {
     }
 
     fun loadFragmentReportDetail(news: News){
-        fragmentReportUser = UserDonateReportFragment(news)
+        fragmentReportUser = UserDonateReportFragment(news,arrRequests)
         fragmentReportUser.onClickButton = {resource: String ->
             if(resource=="back"){
                 switchFragment(R.id.fragment_container_user,fragmentDetailStatus)
@@ -300,7 +330,7 @@ class UserMainActivity : AppCompatActivity() {
 
     //load fragment detail status
     fun loadDetailStatusDonate(status:Participant){
-        fragmentDetailStatus = UserDonateDetailFragment(status)
+        fragmentDetailStatus = UserDonateDetailFragment(status,arrRequests,arrNews)
         fragmentDetailStatus.onClickButton = {resource: String ->
             if(resource=="back"){
                 switchFragment(R.id.fragment_container_user, fragmentListStatusDonate)

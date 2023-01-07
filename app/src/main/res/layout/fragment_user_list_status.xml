@@ -31,10 +31,10 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="2dp"
             android:layout_marginRight="15dp"
-            android:layout_marginBottom="15dp"
             android:background="@drawable/rounded_square_2"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="5dp">
 
 
             <androidx.recyclerview.widget.RecyclerView
@@ -44,7 +44,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginBottom="0dp" />
+                android:layout_marginBottom="10dp" />
         </LinearLayout>
 
     </LinearLayout>

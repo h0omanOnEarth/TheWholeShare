@@ -19,7 +19,8 @@ import com.clarissa.thewholeshare.models.Request
 import org.json.JSONArray
 
 class UserDonateReportFragment(
-    var current_news : News
+    var current_news : News,
+    var arrRequests : MutableList<Request>
 ) : Fragment() {
 
     lateinit var tvTitle_detailNews : TextView
@@ -29,14 +30,11 @@ class UserDonateReportFragment(
     lateinit var tvContent_detailNews: TextView
     lateinit var btnBack_detailNews: Button
 
-    lateinit var arrRequests : MutableList<Request>
-
     var onClickButton:((resource:String)->Unit)? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arrRequests = mutableListOf()
     }
 
     override fun onCreateView(
@@ -61,8 +59,6 @@ class UserDonateReportFragment(
             onClickButton?.invoke("back")
         }
 
-        refreshList()
-
         tvTitle_detailNews.text = current_news.title
         tvContent_detailNews.text = current_news.content
 
@@ -76,43 +72,5 @@ class UserDonateReportFragment(
         }
 
     }
-
-    //fetch data requests
-    fun refreshList(){
-        val strReq = object: StringRequest(
-            Method.GET,
-            "${WholeShareApiService.WS_HOST}/listRequest",
-            Response.Listener {
-                val obj: JSONArray = JSONArray(it)
-                arrRequests.clear()
-                println(obj.length())
-                for (i in 0 until obj.length()){
-                    val o = obj.getJSONObject(i)
-                    println(o)
-                    val id = o.getInt("id")
-                    val location = o.getString("location")
-                    val batch = o.getInt("batch")
-                    val deadline = o.get("deadline").toString()
-                    val note = o.getString("note")
-                    val status = o.getInt("status")
-                    val created_at = o.get("created_at").toString()
-                    val updated_at = o.get("updated_at").toString()
-                    val deleted_at = o.get("deleted_at").toString()
-
-                    val req = Request(
-                        id,location,batch,deadline,note,status,created_at,updated_at,deleted_at
-                    )
-                    arrRequests.add(req)
-                }
-                println(arrRequests.size)
-            },
-            Response.ErrorListener {
-                Toast.makeText(context,"ERROR!", Toast.LENGTH_SHORT).show()
-            }
-        ){}
-        val queue: RequestQueue = Volley.newRequestQueue(context)
-        queue.add(strReq)
-    }
-
 
 }

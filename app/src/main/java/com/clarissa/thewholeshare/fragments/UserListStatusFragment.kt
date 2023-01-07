@@ -25,7 +25,8 @@ import org.json.JSONArray
 class UserListStatusFragment(
     var username:String,
     var arrParticipants: MutableList<Participant>,
-    var arrRequests:MutableList<Request>
+    var arrRequests:MutableList<Request>,
+    var arrExpiredRequests : MutableList<Request>
 ) : Fragment() {
 
     lateinit var userActive : User
@@ -62,10 +63,8 @@ class UserListStatusFragment(
                 "${WholeShareApiService.WS_HOST}/listUsers",
                 Response.Listener {
                     val obj: JSONArray = JSONArray(it)
-                    println(obj.length())
                     for (i in 0 until obj.length()){
                         val o = obj.getJSONObject(i)
-                        println(o)
                         val id = o.getInt("id")
                         val username = o.getString("username")
                         val password = o.getString("password")
@@ -97,8 +96,9 @@ class UserListStatusFragment(
         statusAdapter =  StatusAdapter(view.context,arrParticipants,arrRequests,R.layout.item_user_status)
         rvListStatus_User.adapter = statusAdapter
 
+        fetchExpiredRequests()
         getUserLoggedIn(username)
-        fetchRequests()
+        editStatusParticipants()
 
         statusAdapter.onClick = object:StatusAdapter.clickListener{
             override fun onClick(status: Participant) {
@@ -106,6 +106,46 @@ class UserListStatusFragment(
             }
         }
 
+    }
+
+    fun doUpdateStatusParticipant(id:Int,status:Int){
+        val strReq = object : StringRequest(
+            Method.POST,
+            "${WholeShareApiService.WS_HOST}/updateStatusParticipants",
+            Response.Listener {
+
+            },
+            Response.ErrorListener {
+                println(it.message)
+                Toast.makeText(context,it.message, Toast.LENGTH_SHORT).show()
+            }
+        ){
+            override fun getParams(): MutableMap<String, String>? {
+                val params = HashMap<String,String>()
+                params["id"] = id.toString()
+                params["status"] = status.toString()
+                return params
+            }
+        }
+        val queue: RequestQueue = Volley.newRequestQueue(context)
+        queue.add(strReq)
+    }
+
+    //fungsi untuk mengubah status participants yang pending menjadi canceled karena expired
+    fun editStatusParticipants(){
+        for(i in arrParticipants.indices){
+            for( j in arrExpiredRequests.indices){
+                if(arrParticipants[i].request_id== arrExpiredRequests[j].id){
+                    println("ini expired!!")
+                    if(arrParticipants[i].status==0) {
+                        //jika pending maka ubah menjadi canceled (3)
+                        doUpdateStatusParticipant(arrParticipants[i].id,3)
+                    }
+                }
+            }
+        }
+        fetchParticipants()
+        fetchRequests()
     }
 
     //fetch data requests
@@ -116,10 +156,8 @@ class UserListStatusFragment(
             Response.Listener {
                 val obj: JSONArray = JSONArray(it)
                 arrRequests.clear()
-                println(obj.length())
                 for (i in 0 until obj.length()){
                     val o = obj.getJSONObject(i)
-                    println(o)
                     val id = o.getInt("id")
                     val location = o.getString("location")
                     val batch = o.getInt("batch")
@@ -136,7 +174,6 @@ class UserListStatusFragment(
                     arrRequests.add(req)
                     statusAdapter.notifyDataSetChanged()
                 }
-                println(arrRequests.size)
             },
             Response.ErrorListener {
                 Toast.makeText(context,"ERROR!", Toast.LENGTH_SHORT).show()
@@ -146,8 +183,73 @@ class UserListStatusFragment(
         queue.add(strReq)
     }
 
-    //fungsi untuk mengubah status participants yang pending menjadi canceled karena expired
+    //fungsi untuk fetch data requests yang sudah expired
+    fun fetchExpiredRequests(){
+        val strReq = object: StringRequest(
+            Method.GET,
+            "${WholeShareApiService.WS_HOST}/listLocationExpired",
+            Response.Listener {
+                val obj: JSONArray = JSONArray(it)
+                arrExpiredRequests.clear()
+                for (i in 0 until obj.length()){
+                    val o = obj.getJSONObject(i)
+                    val id = o.getInt("id")
+                    val location = o.getString("location")
+                    val batch = o.getInt("batch")
+                    val deadline = o.get("deadline").toString()
+                    val note = o.getString("note")
+                    val status = o.getInt("status")
+                    val created_at = o.get("created_at").toString()
+                    val updated_at = o.get("updated_at").toString()
+                    val deleted_at = o.get("deleted_at").toString()
 
+                    val req = Request(
+                        id,location,batch,deadline,note,status,created_at,updated_at,deleted_at
+                    )
+                    arrExpiredRequests.add(req)
+                }
+            },
+            Response.ErrorListener {
+                Toast.makeText(context,"ERROR!", Toast.LENGTH_SHORT).show()
+            }
+        ){}
+        val queue: RequestQueue = Volley.newRequestQueue(context)
+        queue.add(strReq)
+    }
 
+    //fetch data participants
+    fun fetchParticipants(){
+        val strReq = object: StringRequest(
+            Method.GET,
+            "${WholeShareApiService.WS_HOST}/listParticipants",
+            Response.Listener {
+                val obj: JSONArray = JSONArray(it)
+                arrParticipants.clear()
+                for (i in 0 until obj.length()){
+                    val o = obj.getJSONObject(i)
+                    val id = o.getInt("id")
+                    val user_id = o.getInt("user_id")
+                    val request_id = o.getInt("request_id")
+                    val pickup = o.getString("pickup")
+                    val status = o.getInt("status")
+                    val created_at = o.get("created_at").toString()
+                    val updated_at = o.get("updated_at").toString()
+
+                    val participant = Participant(
+                        id,user_id,request_id,pickup,status,created_at,updated_at
+                    )
+
+                    if(user_id==userActive.id){
+                        arrParticipants.add(participant)
+                    }
+                }
+            },
+            Response.ErrorListener {
+                Toast.makeText(context,"ERROR!", Toast.LENGTH_SHORT).show()
+            }
+        ){}
+        val queue: RequestQueue = Volley.newRequestQueue(context)
+        queue.add(strReq)
+    }
 
 }

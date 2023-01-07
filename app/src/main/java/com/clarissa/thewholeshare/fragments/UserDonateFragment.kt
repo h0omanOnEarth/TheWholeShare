@@ -217,7 +217,6 @@ class UserDonateFragment(
                         break
                     }
                 }
-                println(userActive)
             },
             Response.ErrorListener {
                 Toast.makeText(context,"ERROR!", Toast.LENGTH_SHORT).show()

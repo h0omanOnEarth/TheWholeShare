@@ -21,7 +21,9 @@ import com.clarissa.thewholeshare.models.Request
 import org.json.JSONArray
 
 class UserDonateDetailFragment(
-    var status : Participant
+    var status : Participant,
+    var arrRequests: MutableList<Request>,
+    var arrNews : MutableList<News>
 ) : Fragment() {
 
     var onClickButton:((resource:String)->Unit)? = null
@@ -34,16 +36,11 @@ class UserDonateDetailFragment(
     lateinit var tvId : TextView
     lateinit var btnToReport : Button
 
-    lateinit var arrRequests : MutableList<Request>
-
-    lateinit var arrNews : MutableList<News>
     var onClickButtonReport:((resource:String,news: News)->Unit)? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arrRequests = mutableListOf()
-        arrNews = mutableListOf()
     }
 
     override fun onCreateView(
@@ -128,7 +125,6 @@ class UserDonateDetailFragment(
 
                 for (i in 0 until obj.length()){
                     val o = obj.getJSONObject(i)
-                    println(o)
                     val id = o.getInt("id")
                     val location = o.getString("location")
                     val batch = o.getInt("batch")
@@ -163,10 +159,8 @@ class UserDonateDetailFragment(
             Response.Listener {
                 val obj: JSONArray = JSONArray(it)
                 arrNews.clear()
-                println(obj.length())
                 for (i in 0 until obj.length()){
                     val o = obj.getJSONObject(i)
-                    println(o)
                     val id = o.getInt("id")
                     val title = o.getString("title")
                     val content = o.getString("content")
