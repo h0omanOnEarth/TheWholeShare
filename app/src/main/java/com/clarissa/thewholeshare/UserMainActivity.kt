@@ -390,7 +390,7 @@ class UserMainActivity : AppCompatActivity() {
 
     //load fragment list status
     fun loadListStatusDonate(){
-        fragmentListStatusDonate = UserListStatusFragment(unameActive,arrParticipants,arrRequests)
+        fragmentListStatusDonate = UserListStatusFragment(arrParticipants,arrRequests)
         fragmentListStatusDonate.onClickButton = {resource: String, status: Participant ->
             if(resource=="detail") {
                 loadDetailStatusDonate(status)
