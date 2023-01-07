@@ -26,7 +26,6 @@ class UserListStatusFragment(
     var username:String,
     var arrParticipants: MutableList<Participant>,
     var arrRequests:MutableList<Request>,
-    var arrExpiredRequests : MutableList<Request>
 ) : Fragment() {
 
     lateinit var userActive : User
@@ -99,7 +98,6 @@ class UserListStatusFragment(
         getUserLoggedIn(username)
         fetchParticipants()
         fetchRequests()
-        editStatusParticipants()
 
         statusAdapter.onClick = object:StatusAdapter.clickListener{
             override fun onClick(status: Participant) {
@@ -109,44 +107,6 @@ class UserListStatusFragment(
 
     }
 
-    fun doUpdateStatusParticipant(id:Int,status:Int){
-        val strReq = object : StringRequest(
-            Method.POST,
-            "${WholeShareApiService.WS_HOST}/updateStatusParticipants",
-            Response.Listener {
-                fetchParticipants()
-                fetchRequests()
-            },
-            Response.ErrorListener {
-                println(it.message)
-                Toast.makeText(context,it.message, Toast.LENGTH_SHORT).show()
-            }
-        ){
-            override fun getParams(): MutableMap<String, String>? {
-                val params = HashMap<String,String>()
-                params["id"] = id.toString()
-                params["status"] = status.toString()
-                return params
-            }
-        }
-        val queue: RequestQueue = Volley.newRequestQueue(context)
-        queue.add(strReq)
-    }
-
-    //fungsi untuk mengubah status participants yang pending menjadi canceled karena expired
-    fun editStatusParticipants(){
-        for(i in arrParticipants.indices){
-            for( j in arrExpiredRequests.indices){
-                if(arrParticipants[i].request_id== arrExpiredRequests[j].id){
-                    println("ini expired!!")
-                    if(arrParticipants[i].status==0) {
-                        //jika pending maka ubah menjadi canceled (3)
-                        doUpdateStatusParticipant(arrParticipants[i].id,3)
-                    }
-                }
-            }
-        }
-    }
 
     //fetch data requests
     fun fetchRequests(){

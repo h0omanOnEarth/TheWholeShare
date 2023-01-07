@@ -34,15 +34,8 @@ class UserProfileFragment(
 
     lateinit var userActive : User
 
-    lateinit var arrExpiredRequests :MutableList<Request>
-    lateinit var arrParticipants : MutableList<Participant>
-    lateinit var arrRequests : MutableList<Request>
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arrExpiredRequests = mutableListOf()
-        arrParticipants = mutableListOf()
-        arrRequests = mutableListOf()
     }
 
     override fun onCreateView(
@@ -67,9 +60,7 @@ class UserProfileFragment(
         userActive = User(-1,"","","","","","",-1,"")
 
         getUserLoggedIn(unameActive)
-        fetchParticipants()
-        fetchExpiredRequests()
-        fetchRequests()
+
 
         //alert dialog warning
         fun alertDialogFailed(title:String, message:String){
@@ -178,40 +169,6 @@ class UserProfileFragment(
         }
     }
 
-    //fetch data requests
-    fun fetchRequests(){
-        val strReq = object: StringRequest(
-            Method.GET,
-            "${WholeShareApiService.WS_HOST}/listRequest",
-            Response.Listener {
-                val obj: JSONArray = JSONArray(it)
-                arrRequests.clear()
-                for (i in 0 until obj.length()){
-                    val o = obj.getJSONObject(i)
-                    val id = o.getInt("id")
-                    val location = o.getString("location")
-                    val batch = o.getInt("batch")
-                    val deadline = o.get("deadline").toString()
-                    val note = o.getString("note")
-                    val status = o.getInt("status")
-                    val created_at = o.get("created_at").toString()
-                    val updated_at = o.get("updated_at").toString()
-                    val deleted_at = o.get("deleted_at").toString()
-
-                    val req = Request(
-                        id,location,batch,deadline,note,status,created_at,updated_at,deleted_at
-                    )
-                    arrRequests.add(req)
-                }
-            },
-            Response.ErrorListener {
-                Toast.makeText(context,"ERROR!", Toast.LENGTH_SHORT).show()
-            }
-        ){}
-        val queue: RequestQueue = Volley.newRequestQueue(context)
-        queue.add(strReq)
-    }
-
     //to get user who logged in
     fun getUserLoggedIn(uname:String){
         val strReq = object: StringRequest(
@@ -256,73 +213,7 @@ class UserProfileFragment(
         etEmail.setText(userActive.email)
     }
 
-    //fungsi untuk fetch data requests yang sudah expired
-    fun fetchExpiredRequests(){
-        val strReq = object: StringRequest(
-            Method.GET,
-            "${WholeShareApiService.WS_HOST}/listLocationExpired",
-            Response.Listener {
-                val obj: JSONArray = JSONArray(it)
-                arrExpiredRequests.clear()
-                for (i in 0 until obj.length()){
-                    val o = obj.getJSONObject(i)
-                    val id = o.getInt("id")
-                    val location = o.getString("location")
-                    val batch = o.getInt("batch")
-                    val deadline = o.get("deadline").toString()
-                    val note = o.getString("note")
-                    val status = o.getInt("status")
-                    val created_at = o.get("created_at").toString()
-                    val updated_at = o.get("updated_at").toString()
-                    val deleted_at = o.get("deleted_at").toString()
 
-                    val req = Request(
-                        id,location,batch,deadline,note,status,created_at,updated_at,deleted_at
-                    )
-                    arrExpiredRequests.add(req)
-                }
-            },
-            Response.ErrorListener {
-                Toast.makeText(context,"ERROR!", Toast.LENGTH_SHORT).show()
-            }
-        ){}
-        val queue: RequestQueue = Volley.newRequestQueue(context)
-        queue.add(strReq)
-    }
 
-    //fetch data participants
-    fun fetchParticipants(){
-        val strReq = object: StringRequest(
-            Method.GET,
-            "${WholeShareApiService.WS_HOST}/listParticipants",
-            Response.Listener {
-                val obj: JSONArray = JSONArray(it)
-                arrParticipants.clear()
-                for (i in 0 until obj.length()){
-                    val o = obj.getJSONObject(i)
-                    val id = o.getInt("id")
-                    val user_id = o.getInt("user_id")
-                    val request_id = o.getInt("request_id")
-                    val pickup = o.getString("pickup")
-                    val status = o.getInt("status")
-                    val created_at = o.get("created_at").toString()
-                    val updated_at = o.get("updated_at").toString()
-
-                    val participant = Participant(
-                        id,user_id,request_id,pickup,status,created_at,updated_at
-                    )
-
-                    if(user_id==userActive.id){
-                        arrParticipants.add(participant)
-                    }
-                }
-            },
-            Response.ErrorListener {
-                Toast.makeText(context,"ERROR!", Toast.LENGTH_SHORT).show()
-            }
-        ){}
-        val queue: RequestQueue = Volley.newRequestQueue(context)
-        queue.add(strReq)
-    }
 
 }

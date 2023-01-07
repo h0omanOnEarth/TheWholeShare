@@ -37,6 +37,7 @@ class UserMainActivity : AppCompatActivity() {
     lateinit var arrNews : MutableList<News>
     lateinit var arrParticipants : MutableList<Participant>
     lateinit var arrExpiredRequests : MutableList<Request>
+    lateinit var arrRequestsNotExpired : MutableList<Request>
 
 
     //untuk user yang sedang login
@@ -59,6 +60,7 @@ class UserMainActivity : AppCompatActivity() {
         arrNews = mutableListOf()
         arrParticipants = mutableListOf()
         arrExpiredRequests = mutableListOf()
+        arrRequestsNotExpired = mutableListOf()
 
         //to get user who logged in
         fun getUserLoggedIn(uname:String){
@@ -108,26 +110,27 @@ class UserMainActivity : AppCompatActivity() {
         fetchNews()
         fetchParticipants()
         fetchExpiredRequests()
+        fetchRequestsNotExpired()
+        editStatusParticipants()
 
         //load semua fragment terlebih dahulu :
         loadFragmentHome()
-        loadFragmentDonate()
-        loadListStatusDonate()
-        loadFragmentProfile()
-
-
         //karena pertama yang diload adalah home maka : home terlebih dahulu
         switchFragment(R.id.fragment_container_user,fragmentHome)
 
         navbar_user.setOnItemSelectedListener {
 
             if(it.itemId == R.id.item_home_user){
+                loadFragmentHome()
                 switchFragment(R.id.fragment_container_user,fragmentHome)
             }else if(it.itemId== R.id.item_donate_user){
+                loadFragmentDonate()
                 switchFragment(R.id.fragment_container_user,fragmentDonate)
             }else if(it.itemId == R.id.item_status_user){
+                loadListStatusDonate()
                 switchFragment(R.id.fragment_container_user,fragmentListStatusDonate)
             }else if(it.itemId== R.id.item_profile_user){
+                loadFragmentProfile()
                 switchFragment(R.id.fragment_container_user, fragmentProfile)
             }
 
@@ -240,6 +243,82 @@ class UserMainActivity : AppCompatActivity() {
     }
 
 
+    //fetch data requests
+    fun fetchRequestsNotExpired(){
+        val strReq = object: StringRequest(
+            Method.GET,
+            "${WholeShareApiService.WS_HOST}/listLocationsUser",
+            Response.Listener {
+                val obj: JSONArray = JSONArray(it)
+                arrRequestsNotExpired.clear()
+                for (i in 0 until obj.length()){
+                    val o = obj.getJSONObject(i)
+                    val id = o.getInt("id")
+                    val location = o.getString("location")
+                    val batch = o.getInt("batch")
+                    val deadline = o.get("deadline").toString()
+                    val note = o.getString("note")
+                    val status = o.getInt("status")
+                    val created_at = o.get("created_at").toString()
+                    val updated_at = o.get("updated_at").toString()
+                    val deleted_at = o.get("deleted_at").toString()
+
+                    val req = Request(
+                        id,location,batch,deadline,note,status,created_at,updated_at,deleted_at
+                    )
+
+                    arrRequestsNotExpired.add(req)
+                }
+            },
+            Response.ErrorListener {
+                Toast.makeText(this,"ERROR!", Toast.LENGTH_SHORT).show()
+            }
+        ){}
+        val queue: RequestQueue = Volley.newRequestQueue(this)
+        queue.add(strReq)
+    }
+
+
+    fun doUpdateStatusParticipant(id:Int,status:Int){
+        val strReq = object : StringRequest(
+            Method.POST,
+            "${WholeShareApiService.WS_HOST}/updateStatusParticipants",
+            Response.Listener {
+                fetchParticipants()
+                fetchRequests()
+            },
+            Response.ErrorListener {
+                println(it.message)
+                Toast.makeText(this,it.message, Toast.LENGTH_SHORT).show()
+            }
+        ){
+            override fun getParams(): MutableMap<String, String>? {
+                val params = HashMap<String,String>()
+                params["id"] = id.toString()
+                params["status"] = status.toString()
+                return params
+            }
+        }
+        val queue: RequestQueue = Volley.newRequestQueue(this)
+        queue.add(strReq)
+    }
+
+    //fungsi untuk mengubah status participants yang pending menjadi canceled karena expired
+    fun editStatusParticipants(){
+        for(i in arrParticipants.indices){
+            for( j in arrExpiredRequests.indices){
+                if(arrParticipants[i].request_id== arrExpiredRequests[j].id){
+                    if(arrParticipants[i].status==0) {
+                        //jika pending maka ubah menjadi canceled (3)
+                        doUpdateStatusParticipant(arrParticipants[i].id,3)
+                    }
+                }
+            }
+        }
+    }
+
+
+
     //fetch data participants
     fun fetchParticipants(){
         val strReq = object: StringRequest(
@@ -281,6 +360,7 @@ class UserMainActivity : AppCompatActivity() {
         fragmentDetailNews = UserDetailNewsFragment(news,arrRequests)
         fragmentDetailNews.onClickButton = {resource: String->
             if(resource == "back"){
+                loadFragmentHome()
                 switchFragment(R.id.fragment_container_user,fragmentHome)
             }
         }
@@ -299,7 +379,7 @@ class UserMainActivity : AppCompatActivity() {
 
     //load fragment donasi nya user
     fun loadFragmentDonate(){
-        fragmentDonate = UserDonateFragment(unameActive,arrParticipants,arrRequests,arrNews,arrExpiredRequests)
+        fragmentDonate = UserDonateFragment(unameActive,arrParticipants,arrRequestsNotExpired)
         fragmentDonate.onClickButton = {resource: String ->
             if(resource=="donate"){
                 loadFragmentHome()
@@ -310,7 +390,7 @@ class UserMainActivity : AppCompatActivity() {
 
     //load fragment list status
     fun loadListStatusDonate(){
-        fragmentListStatusDonate = UserListStatusFragment(unameActive,arrParticipants,arrRequests,arrExpiredRequests)
+        fragmentListStatusDonate = UserListStatusFragment(unameActive,arrParticipants,arrRequests)
         fragmentListStatusDonate.onClickButton = {resource: String, status: Participant ->
             if(resource=="detail") {
                 loadDetailStatusDonate(status)
@@ -331,15 +411,16 @@ class UserMainActivity : AppCompatActivity() {
     //load fragment detail status
     fun loadDetailStatusDonate(status:Participant){
         fragmentDetailStatus = UserDonateDetailFragment(status,arrRequests,arrNews)
-        fragmentDetailStatus.onClickButton = {resource: String ->
-            if(resource=="back"){
-                switchFragment(R.id.fragment_container_user, fragmentListStatusDonate)
-            }
-        }
         fragmentDetailStatus.onClickButtonReport = {resource: String, news: News ->
             if(resource=="report"){
                 loadFragmentReportDetail(news)
                 switchFragment(R.id.fragment_container_user,fragmentReportUser)
+            }
+        }
+        fragmentDetailStatus.onClickButton = {resource: String ->
+            if(resource=="back"){
+                loadListStatusDonate()
+                switchFragment(R.id.fragment_container_user, fragmentListStatusDonate)
             }
         }
     }
