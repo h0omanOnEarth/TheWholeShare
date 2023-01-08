@@ -15,7 +15,7 @@ class MasterLocationAdapter(
     var data: ArrayList<Location>
 ):RecyclerView.Adapter<MasterLocationAdapter.MyHolderLocation>(){
 
-    inner class MyHolderLocation(it: View) : RecyclerView.ViewHolder(it) {
+    class MyHolderLocation(it: View) : RecyclerView.ViewHolder(it) {
         var tvLocationName: TextView = it.findViewById(R.id.tvLocationName)
         var tvNote: TextView = it.findViewById(R.id.tvNote)
         var tvpending: TextView = it.findViewById(R.id.tvPending)
@@ -29,6 +29,7 @@ class MasterLocationAdapter(
 
     override fun onBindViewHolder(holder: MyHolderLocation, position: Int) {
         var item = data[position]
+        println("test adapter alamat : " + item.address)
         holder.tvLocationName.setText(item.address)
         holder.tvNote.setText(item.note)
         var jumlahpending=0

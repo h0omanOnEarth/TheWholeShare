@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.RequestQueue
@@ -58,15 +59,16 @@ class AdminMasterFragment(
             (context as AdminMainActivity).switchFragment(3)
         }
         getRequests()
-        refreshRecycler()
+        //println("size" + arrLocations.size)
+        //refreshRecycler()
         return view
     }
     fun refreshRecycler()
     {
         adapterLocation = MasterLocationAdapter(activity as AdminMainActivity, arrLocations)
         locationrv.adapter = adapterLocation
-        val lm: RecyclerView.LayoutManager = LinearLayoutManager(activity as AdminMainActivity)
-        locationrv.layoutManager = lm
+        val mLayoutManager: RecyclerView.LayoutManager = GridLayoutManager((activity as AdminMainActivity), 1)
+        locationrv.layoutManager =  mLayoutManager
     }
     //fungsi get requests
     fun getRequests(){
@@ -86,12 +88,13 @@ class AdminMasterFragment(
                     val note = o.getString("note")
                     val status = o.getString("status")
 
-                    val r = com.clarissa.thewholeshare.models.Location(
+                    val r = Location(
                         id, location, batch, deadline, note, status
                     )
                     arrLocations.add(r)
-                    println("test "+arrLocations)
+                    println("test lokasi"+arrLocations[i].address)
                 }
+                refreshRecycler()
             },
             Response.ErrorListener {
                 Toast.makeText((context as AdminMainActivity),"ERROR!", Toast.LENGTH_SHORT).show()
@@ -99,6 +102,7 @@ class AdminMasterFragment(
         ){}
         val queue: RequestQueue = Volley.newRequestQueue((context as AdminMainActivity))
         queue.add(strReq)
+        //println("size 2" + arrLocations.size)
     }
 
 }
