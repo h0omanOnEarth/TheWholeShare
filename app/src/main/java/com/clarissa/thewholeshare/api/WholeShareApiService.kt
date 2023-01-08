@@ -18,15 +18,17 @@ class WholeShareApiService(context: Context) {
             }
 
 //        // Web service sachio:
-        //val WS_HOST: String = "https://aded-202-80-212-73.ap.ngrok.io/api"
+        val WS_HOST: String = "https://6db1-202-80-212-73.ap.ngrok.io/api"
 //        // Web service Ian:
 //        val WS_HOST: String = "https://38f1-103-213-128-156.ap.ngrok.io/api"
 
 //         Web service Clarissa :
-        val WS_HOST = " https://b02c-36-81-177-193.ap.ngrok.io/api"
+//        val WS_HOST = " https://b02c-36-81-177-193.ap.ngrok.io/api"
 
 //        //web service Cyrelle:
 //    val WS_HOST: String = "https://d362-140-0-79-152.ap.ngrok.io/api"
+        //web service Cyrelle:
+    //val WS_HOST: String = "https://d362-140-0-79-152.ap.ngrok.io/api"
 
     }
     private val requestQueue: RequestQueue by lazy {
