@@ -55,6 +55,8 @@ class UserDonateReportFragment(
         tvContent_detailNews = view.findViewById(R.id.tvContent_reportDetailDonate)
         btnBack_detailNews = view.findViewById(R.id.btnBack_reportDetailDonate)
 
+        println(current_news)
+
         btnBack_detailNews.setOnClickListener {
             onClickButton?.invoke("back")
         }

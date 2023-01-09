@@ -8,7 +8,7 @@ data class Request(
     var batch : Int,
     var deadline : String,
     var note : String,
-    var status : Int,
+    var status : String,
     var created_at : String? = null,
     var updated_at : String? = null,
     var deleted_at : String? = null

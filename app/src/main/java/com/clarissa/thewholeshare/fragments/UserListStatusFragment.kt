@@ -101,7 +101,7 @@ class UserListStatusFragment(
                     val batch = o.getInt("batch")
                     val deadline = o.get("deadline").toString()
                     val note = o.getString("note")
-                    val status = o.getInt("status")
+                    val status = o.getString("status")
                     val created_at = o.get("created_at").toString()
                     val updated_at = o.get("updated_at").toString()
                     val deleted_at = o.get("deleted_at").toString()

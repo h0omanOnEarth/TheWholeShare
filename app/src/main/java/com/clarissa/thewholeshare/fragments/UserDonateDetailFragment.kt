@@ -64,6 +64,8 @@ class UserDonateDetailFragment(
         btnToReport = view.findViewById(R.id.btnToReport_detailUserDonate)
         tvExp = view.findViewById(R.id.tvExp_detailUserDonate)
 
+        println("News" + arrNews.size)
+
         val statusParticipant = status.status
 
         if(statusParticipant==0){
