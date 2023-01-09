@@ -86,16 +86,19 @@ class LoginActivity : AppCompatActivity() {
                         // user
                         val intent = Intent(this@LoginActivity, UserMainActivity::class.java)
                         intent.putExtra("active_username",username)
+                        intent.putExtra("active_user", loggedUser)
                         startActivity(intent)
                     } else if (loggedUser.role == 2) {
                         //admin
                         val intent = Intent(this@LoginActivity, AdminMainActivity::class.java)
                         intent.putExtra("active_username",username)
+                        intent.putExtra("active_user", loggedUser)
                         startActivity(intent)
                     } else if (loggedUser.role == 3) {
                         //driver
                         val intent = Intent(this@LoginActivity, DriverMainActivity::class.java)
                         intent.putExtra("active_username",username)
+                        intent.putExtra("active_user", loggedUser)
                         startActivity(intent)
                     }
                 }
