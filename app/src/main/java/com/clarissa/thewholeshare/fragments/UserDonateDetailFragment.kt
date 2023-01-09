@@ -15,6 +15,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.clarissa.thewholeshare.R
 import com.clarissa.thewholeshare.api.WholeShareApiService
+import com.clarissa.thewholeshare.api.helpers.RequestStatuses
 import com.clarissa.thewholeshare.models.News
 import com.clarissa.thewholeshare.models.Participant
 import com.clarissa.thewholeshare.models.Request
@@ -67,18 +68,27 @@ class UserDonateDetailFragment(
         println("News" + arrNews.size)
 
         val statusParticipant = status.status
+        var statusRequest = ""
+        for(i in arrRequests.indices){
+            if(arrRequests[i].id==status.request_id){
+                statusRequest =  arrRequests[i].status
+                break
+            }
+        }
 
         if(statusParticipant==0){
             tvStatus.text = "Pending"
-            btnToReport.isEnabled = false
         }else if(statusParticipant==1){
             tvStatus.text = "On The Way"
-            btnToReport.isEnabled = false
         }else if(statusParticipant==2){
             tvStatus.text = "Delivered"
-            btnToReport.isEnabled = true
         }else if(statusParticipant==3){
             tvStatus.text = "Canceled"
+        }
+
+        if(statusRequest=="Finished"){
+            btnToReport.isEnabled = true
+        }else{
             btnToReport.isEnabled = false
         }
 
