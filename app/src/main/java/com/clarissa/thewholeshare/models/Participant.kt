@@ -4,6 +4,7 @@ data class Participant(
     var id : Int,
     var user_id : Int,
     var request_id : Int,
+    var courier_id : Int,
     var pickup : String,
     var status : Int,
     var created_at : String?= null,
