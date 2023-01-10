@@ -15,8 +15,6 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.clarissa.thewholeshare.R
 import com.clarissa.thewholeshare.api.WholeShareApiService
-import com.clarissa.thewholeshare.models.Participant
-import com.clarissa.thewholeshare.models.Request
 import com.clarissa.thewholeshare.models.User
 import org.json.JSONArray
 
@@ -49,11 +47,11 @@ class UserProfileFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        etUsername = view.findViewById(R.id.etUsername_Profile)
-        etFullName = view.findViewById(R.id.etFullName_Profile)
-        etPhone = view.findViewById(R.id.etPhoneNumber_Profile)
-        etAddress = view.findViewById(R.id.etAddress_Profile)
-        etEmail = view.findViewById(R.id.etEmail_Profile)
+        etUsername = view.findViewById(R.id.etLocation)
+        etFullName = view.findViewById(R.id.etbatch)
+        etPhone = view.findViewById(R.id.etDeadline)
+        etAddress = view.findViewById(R.id.etNote)
+        etEmail = view.findViewById(R.id.etStatus)
         etPassword = view.findViewById(R.id.etPassword_profile)
         btnEdit = view.findViewById(R.id.btnEdit_Profile)
 

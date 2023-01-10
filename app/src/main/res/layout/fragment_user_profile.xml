@@ -16,7 +16,7 @@
 
 
         <EditText
-            android:id="@+id/etUsername_Profile"
+            android:id="@+id/etLocation"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginLeft="20dp"
@@ -32,7 +32,7 @@
             android:textColor="#000000" />
 
         <EditText
-            android:id="@+id/etFullName_Profile"
+            android:id="@+id/etbatch"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginLeft="20dp"
@@ -46,7 +46,7 @@
             android:paddingLeft="20dp" />
 
         <EditText
-            android:id="@+id/etPhoneNumber_Profile"
+            android:id="@+id/etDeadline"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginLeft="20dp"
@@ -60,7 +60,7 @@
             android:paddingLeft="20dp" />
 
         <EditText
-            android:id="@+id/etAddress_Profile"
+            android:id="@+id/etNote"
             android:layout_width="match_parent"
             android:layout_height="85dp"
             android:layout_marginLeft="20dp"
@@ -76,7 +76,7 @@
             android:paddingTop="10dp" />
 
         <EditText
-            android:id="@+id/etEmail_Profile"
+            android:id="@+id/etStatus"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginLeft="20dp"

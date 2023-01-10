@@ -1,14 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".fragments.AdminUpdateLocation">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="550dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/rounded_square_1"
+        android:orientation="vertical">
 
-</FrameLayout>
+
+        <EditText
+            android:id="@+id/etLocation"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/rounded_square_2"
+            android:ems="10"
+            android:enabled="false"
+            android:fontFamily="@font/montserrat"
+            android:hint="Location"
+            android:inputType="textPersonName"
+            android:paddingLeft="20dp"
+            android:textColor="#000000" />
+
+        <EditText
+            android:id="@+id/etbatch"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/rounded_square_2"
+            android:ems="10"
+            android:fontFamily="@font/montserrat"
+            android:hint="Batch"
+            android:inputType="number"
+            android:paddingLeft="20dp" />
+
+        <EditText
+            android:id="@+id/etDeadline"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/rounded_square_2"
+            android:ems="10"
+            android:fontFamily="@font/montserrat"
+            android:hint="Deadline"
+            android:inputType="datetime"
+            android:paddingLeft="20dp" />
+
+        <EditText
+            android:id="@+id/etNote"
+            android:layout_width="match_parent"
+            android:layout_height="85dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/rounded_square_2"
+            android:ems="10"
+            android:fontFamily="@font/montserrat"
+            android:gravity="start"
+            android:hint="Note"
+            android:inputType="textMultiLine"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp" />
+
+        <EditText
+            android:id="@+id/etStatus"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/rounded_square_2"
+            android:ems="10"
+            android:hint="Status"
+            android:inputType="text"
+            android:paddingLeft="20dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnEdit_Profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/rounded_square_2"
+            android:fontFamily="@font/montserrat"
+            android:text="EDIT"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>
