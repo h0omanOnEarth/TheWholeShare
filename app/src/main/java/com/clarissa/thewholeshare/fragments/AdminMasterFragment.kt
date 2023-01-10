@@ -8,19 +8,16 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.clarissa.thewholeshare.AdminMainActivity
-import com.clarissa.thewholeshare.adapters.LocationAdapter
 import com.clarissa.thewholeshare.R
 import com.clarissa.thewholeshare.adapters.MasterLocationAdapter
 import com.clarissa.thewholeshare.api.WholeShareApiService
 import com.clarissa.thewholeshare.models.Location
-import com.clarissa.thewholeshare.models.Request
 import org.json.JSONArray
 
 
@@ -32,7 +29,7 @@ class AdminMasterFragment(
     lateinit var rvLocations:RecyclerView
     lateinit var btnToAddLocation : Button
 
-    lateinit var locationAdapter: LocationAdapter
+    lateinit var locationAdapter: MasterLocationAdapter
 
 //    //web service :
 //    val WS_HOST = "http://10.0.2.2:8000/api"

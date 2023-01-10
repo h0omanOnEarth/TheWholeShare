@@ -4,8 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.clarissa.thewholeshare.AdminMainActivity
 import com.clarissa.thewholeshare.R
 import com.clarissa.thewholeshare.models.Location
 import com.clarissa.thewholeshare.models.Request
@@ -20,6 +23,7 @@ class MasterLocationAdapter(
         var tvNote: TextView = it.findViewById(R.id.tvNote)
         var tvpending: TextView = it.findViewById(R.id.tvPending)
         var tvverified: TextView = it.findViewById(R.id.tvVerified)
+        var llocate: LinearLayout = it.findViewById(R.id.linearlocation)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolderLocation {
@@ -34,6 +38,25 @@ class MasterLocationAdapter(
         holder.tvNote.setText(item.note)
         var jumlahpending=0
         var jumlahverified=0
+        holder.llocate.setOnClickListener {
+            val popup = PopupMenu(context,it)
+            popup.menuInflater.inflate(R.menu.pop_up_menu_request,popup.menu)
+            popup.setOnMenuItemClickListener {
+                return@setOnMenuItemClickListener when(it.itemId){
+                    R.id.item_update->{
+                        (context as AdminMainActivity).switchFragUpdate()
+                        true
+                    }
+                    R.id.item_detail->{
+                        (context as AdminMainActivity).switchFragDetail()
+                        true
+                    }else->{
+                        false
+                    }
+                }
+            }
+            popup.show()
+        }
     }
 
     override fun getItemCount(): Int {

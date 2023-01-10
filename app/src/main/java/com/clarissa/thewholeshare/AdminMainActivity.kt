@@ -162,6 +162,28 @@ class AdminMainActivity : AppCompatActivity() {
         }
     }
 
+    //fungsi untuk ganti fragment update
+    fun switchFragUpdate()
+    {
+        var bundle = Bundle()
+        var fr = AdminUpdateLocation()
+        fr.arguments = bundle
+        var ft = supportFragmentManager.beginTransaction()
+        ft.replace(R.id.fragment_container_admin, fr)
+        ft.commit()
+    }
+
+    //fungsi untuk ganti fragment detail
+    fun switchFragDetail()
+    {
+        var bundle = Bundle()
+        var fr = AdminListPackageFragment()
+        fr.arguments = bundle
+        var ft = supportFragmentManager.beginTransaction()
+        ft.replace(R.id.fragment_container_admin, fr)
+        ft.commit()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.opt_menu,menu)
         return super.onCreateOptionsMenu(menu)
