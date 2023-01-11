@@ -163,9 +163,10 @@ class AdminMainActivity : AppCompatActivity() {
     }
 
     //fungsi untuk ganti fragment update
-    fun switchFragUpdate()
+    fun switchFragUpdate(id : Int)
     {
         var bundle = Bundle()
+        bundle.putInt("id",id)
         var fr = AdminUpdateLocation()
         fr.arguments = bundle
         var ft = supportFragmentManager.beginTransaction()
@@ -174,9 +175,10 @@ class AdminMainActivity : AppCompatActivity() {
     }
 
     //fungsi untuk ganti fragment detail
-    fun switchFragDetail()
+    fun switchFragDetail(id : Int)
     {
         var bundle = Bundle()
+        bundle.putInt("id",id)
         var fr = AdminListPackageFragment()
         fr.arguments = bundle
         var ft = supportFragmentManager.beginTransaction()

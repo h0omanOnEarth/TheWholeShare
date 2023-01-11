@@ -25,7 +25,7 @@
             android:paddingRight="20dp">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button8"
+                android:id="@+id/btnongoing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -36,7 +36,7 @@
                 android:textStyle="bold" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button9"
+                android:id="@+id/btnfinished"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

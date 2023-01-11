@@ -44,11 +44,11 @@ class MasterLocationAdapter(
             popup.setOnMenuItemClickListener {
                 return@setOnMenuItemClickListener when(it.itemId){
                     R.id.item_update->{
-                        (context as AdminMainActivity).switchFragUpdate()
+                        (context as AdminMainActivity).switchFragUpdate(data[position].id)
                         true
                     }
                     R.id.item_detail->{
-                        (context as AdminMainActivity).switchFragDetail()
+                        (context as AdminMainActivity).switchFragDetail(data[position].id)
                         true
                     }else->{
                         false
