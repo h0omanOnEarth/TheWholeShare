@@ -80,10 +80,10 @@ class AdminListPackageFragment : Fragment() {
                     val r = Location(
                         id, location, batch, deadline, note, status
                     )
-                    arrLocations.add(r)
-                    println("test lokasi"+arrLocations[i].address)
+                    //arrLocations.add(r)
+                    //println("test lokasi"+arrLocations[i].address)
                 }
-                refreshRecycler()
+                //refreshRecycler()
             },
             Response.ErrorListener {
                 Toast.makeText((context as AdminMainActivity),"ERROR!", Toast.LENGTH_SHORT).show()

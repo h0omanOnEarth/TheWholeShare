@@ -31,6 +31,7 @@ class UserDonateFragment(
     lateinit var etPickUpAddress:EditText
     lateinit var btnDonate:Button
     lateinit var tvBatch:TextView
+    lateinit var etNotes:EditText
 
     lateinit var spinnerAdapter: ArrayAdapter<String>
     lateinit var listLocations:MutableList<String>
@@ -64,7 +65,7 @@ class UserDonateFragment(
         etPickUpAddress = view.findViewById(R.id.etPickUpAddress_User)
         btnDonate = view.findViewById(R.id.btnDonate)
         tvBatch = view.findViewById(R.id.tvBatch)
-
+        etNotes = view.findViewById(R.id.etNotes_donate)
 
         if(listLocations.size>0) {
             tvBatch.text = "Batch : " + arrRequests[selectedPosition].batch.toString()
@@ -124,7 +125,7 @@ class UserDonateFragment(
         }
 
         //do insert data
-        fun doInsertParticipant(pickup_address:String){
+        fun doInsertParticipant(pickup_address:String,notes:String){
             val strReq = object : StringRequest(
                 Method.POST,
                 "${WholeShareApiService.WS_HOST}/insertParticipant",
@@ -145,6 +146,7 @@ class UserDonateFragment(
                     params["user_id"] = userActive.id.toString()
                     params["request_id"] = arrIdRequests[selectedPosition].toString()
                     params["pickup"] = pickup_address
+                    params["note"] = notes
                     params["status"] = "0"
                     return params
 
@@ -161,10 +163,11 @@ class UserDonateFragment(
                     loc = spinnerLocation.selectedItem.toString()
                 }
                 val pickup_address = etPickUpAddress.text.toString()
+                val notes = etNotes.text.toString()
 
-                if(loc!="" && pickup_address!=""){
+                if(loc!="" && pickup_address!=""&&notes!=""){
                     if(isAlreadyParticipated(arrIdRequests[selectedPosition])==false) {
-                        doInsertParticipant(pickup_address)
+                        doInsertParticipant(pickup_address,notes)
                     }else{
                         alertDialogFailed("ERROR", "You have already participated!")
                     }
@@ -253,12 +256,13 @@ class UserDonateFragment(
                     val user_id = o.getInt("user_id")
                     val request_id = o.getInt("request_id")
                     val pickup = o.getString("pickup")
+                    val note = o.getString("note")
                     val status = o.getInt("status")
                     val created_at = o.get("created_at").toString()
                     val updated_at = o.get("updated_at").toString()
 
                     val participant = Participant(
-                        id,user_id,request_id,pickup,status,created_at,updated_at
+                        id,user_id,request_id,pickup,note,status,created_at,updated_at
                     )
 
                     if(user_id==userActive.id){
