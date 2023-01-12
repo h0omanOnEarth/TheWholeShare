@@ -76,14 +76,19 @@ class UserDonateDetailFragment(
             }
         }
 
+        //image view & status
         if(statusParticipant==0){
             tvStatus.text = "Pending"
+            imgView.setImageResource(R.drawable.time_machine_120px)
         }else if(statusParticipant==1){
             tvStatus.text = "On The Way"
+            imgView.setImageResource(R.drawable.on_the_way)
         }else if(statusParticipant==2){
             tvStatus.text = "Delivered"
+            imgView.setImageResource(R.drawable.ok_120px)
         }else if(statusParticipant==3){
             tvStatus.text = "Canceled"
+            imgView.setImageResource(R.drawable.cancel_120px)
         }
 
         if(statusRequest=="Finished"){
