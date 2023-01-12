@@ -141,7 +141,7 @@ class DriverListDeliverFragment : Fragment() {
                 if (response.length() == 1) {
                     if (response.getJSONObject(0).has("status") && response.getJSONObject(0).has("reason")) {
                         if (response.getJSONObject(0).getInt("status") == 0) {
-                            Toast.makeText(requireContext(), "Invalid user request!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), response.getJSONObject(0).getString("reason"), Toast.LENGTH_SHORT).show()
                             return@JsonArrayRequest
                         }
                     }

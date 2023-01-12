@@ -44,7 +44,13 @@ class CourierPackageAdapter(
         holder.itemView.tag = dataset[position].id
 
         // Set what the action button in every card do depending on the mode being passed to the adapter
-        if (mode == ParticipantsStatuses.DELIVERING) {
+        if (mode == ParticipantsStatuses.PENDING) {
+            holder.packageActionButton.text = "Take"
+            holder.packageActionButton.visibility = TextView.VISIBLE
+
+            holder.packageActionButton.setOnClickListener { takePackage(holder.itemView.tag as Int) }
+        }
+        else if (mode == ParticipantsStatuses.DELIVERING) {
             holder.packageActionButton.text = "Finish"
             holder.packageActionButton.visibility = TextView.VISIBLE
 
@@ -65,9 +71,62 @@ class CourierPackageAdapter(
     }
 
     /**
-     * Sent a request to the server to update the status of the package from delivering to finish being delivered.
+     * Sent a request to take this package and deliver it to the destination.
+     *
+     * @param packageId The package id that is going to be taken by the current authenticated courier.
+     */
+    private fun takePackage(packageId: Int) {
+        Log.d("TAKE_PACKAGE", "Taking Package")
+
+        // Create the request body parameters
+        val requestBody = JSONObject()
+        requestBody.put("user_id", activeUserId)
+        requestBody.put("participant_id", packageId)
+
+        // Create the request object
+        val takeRequest = JsonObjectRequest(Request.Method.PUT, "${WholeShareApiService.WS_HOST}/requests/takePackage", requestBody,
+            { response ->
+                if (response.getInt("status") == 0) {
+                    alertDialogFailed("Request Failed", response.getString("reason"))
+                }
+                else if (response.getInt("status") == 1) {
+                    val targetPackage = dataset.find { it.id == packageId }
+                    Log.d("TAKE_PACKAGE", "targetPackage: ${targetPackage}")
+
+                    if (targetPackage != null) {
+                        val packageIndex = dataset.indexOf(targetPackage)
+
+                        try {
+                            val removeStatus = dataset.remove(targetPackage)
+                            if (removeStatus) {
+                                this.notifyItemRemoved(packageIndex)
+                            }
+                        }
+                        catch (e: Exception) {
+                            Log.d("FINISH_REQUEST", "error: ${e.message}")
+                        }
+                    }
+                }
+                else if (response.getInt("status") == 2) {
+                    alertDialogFailed("Request Failed", response.getString("reason"))
+                    this.notifyDataSetChanged()
+                }
+            },
+            { error ->
+                alertDialogFailed("Request Error!", error.toString())
+            }
+        )
+        // Set the request timeout policy
+        takeRequest.retryPolicy = DefaultRetryPolicy(5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+
+        WholeShareApiService.getInstance(context).addToRequestQueue(takeRequest)
+    }
+
+    /**
+     * Sent a request to the server to update the status of the package to the targeted status.
      *
      * @param packageId The id of the participant package that is going to be updated.
+     * @param newStatus An integer which represents the new status the package is going to have.
      */
     private fun updatePackageStatus(packageId: Int, newStatus: Int) {
         // Create the request parameter to sent in the request
