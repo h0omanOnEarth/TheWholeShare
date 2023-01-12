@@ -53,7 +53,7 @@ class UserProfileFragment(
         etAddress = view.findViewById(R.id.etNote)
         etEmail = view.findViewById(R.id.etStatus)
         etPassword = view.findViewById(R.id.etPassword_profile)
-        btnEdit = view.findViewById(R.id.btnEdit_Profile)
+        btnEdit = view.findViewById(R.id.btnEdit_Loc)
 
         userActive = User(-1,"","","","","","",-1,"")
 

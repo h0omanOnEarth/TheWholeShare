@@ -104,7 +104,8 @@ class AdminListPackageFragment : Fragment() {
                 refreshRecycler()
             },
             Response.ErrorListener {
-                Toast.makeText((context as AdminMainActivity),"ERROR!", Toast.LENGTH_SHORT).show()
+//                println(it.message)
+//                Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
             }
         ) {
             override fun getParams(): MutableMap<String, String>? {

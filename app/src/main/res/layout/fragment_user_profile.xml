@@ -103,7 +103,7 @@
             android:paddingLeft="20dp" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnEdit_Profile"
+            android:id="@+id/btnEdit_Loc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
