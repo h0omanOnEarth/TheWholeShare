@@ -37,6 +37,7 @@ class AdminListPackageFragment : Fragment() {
     lateinit var rv : RecyclerView
 
     var idRequest : Int = -1
+    var stat : Int = 2
     var arrPackage = ArrayList<Participant>()
 
     lateinit var dp : ListPackageAdapter
@@ -44,6 +45,7 @@ class AdminListPackageFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         idRequest = arguments?.getInt("id",-1)!!
+        println("id : "+idRequest)
     }
 
     override fun onCreateView(
@@ -52,33 +54,42 @@ class AdminListPackageFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_admin_list_package, container, false)
-        getPackage(idRequest)
-        return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         btnmake = view.findViewById(R.id.btnmakereport)
         btnongoing = view.findViewById(R.id.btnongoing)
         btncancel = view.findViewById(R.id.btncancel)
         btnfinish = view.findViewById(R.id.btnfinished)
         rv = view.findViewById(R.id.rvdetaillistpackage)
+        getPackage(idRequest,stat)
+        btnfinish.setOnClickListener(View.OnClickListener {
+            getPackage(idRequest,3)
+        })
+        btnongoing.setOnClickListener(View.OnClickListener {
+            getPackage(idRequest,2)
+        })
+        btncancel.setOnClickListener(View.OnClickListener {
+            getPackage(idRequest,4)
+        })
+        return view
     }
 
-    fun getPackage(id : Int) {
+
+
+    fun getPackage(id : Int, stat : Int) {
+        arrPackage.clear()
         val strReq = object: StringRequest(
-            Method.GET,
+            Method.POST,
             "${WholeShareApiService.WS_HOST}/listPackageByRequest",
             Response.Listener {
+                println("cek it : " +it)
                 val obj: JSONArray = JSONArray(it)
-                println(obj.length())
+                println("obj : " + obj.length())
                 for (i in 0 until obj.length()) {
                     val o = obj.getJSONObject(i)
                     println(o)
                     val id = o.getInt("id")
-                    val user_id = o.getInt("fk_user")
-                    val request_id = o.getInt("fk_request")
-                    val fullname = o.getString("fullname")
+                    val user_id = o.getInt("user_id")
+                    val request_id = o.getInt("request_id")
+                    val fullname = o.getString("full_name")
                     val pickup = o.getString("pickup")
                     val note = o.get("note").toString()
                     val status = o.getInt("status")
@@ -89,7 +100,8 @@ class AdminListPackageFragment : Fragment() {
                     arrPackage.add(r)
                     //println("test lokasi"+arrLocations[i].address)
                 }
-                //refreshRecycler()
+                println("size : "+arrPackage.size)
+                refreshRecycler()
             },
             Response.ErrorListener {
                 Toast.makeText((context as AdminMainActivity),"ERROR!", Toast.LENGTH_SHORT).show()
@@ -98,6 +110,8 @@ class AdminListPackageFragment : Fragment() {
             override fun getParams(): MutableMap<String, String>? {
                 val params = HashMap<String, String>()
                 params["id"] = id.toString()
+                params["stat"] = stat.toString()
+
                 return params
             }
         }
