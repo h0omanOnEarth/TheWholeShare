@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
@@ -17,6 +18,8 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.clarissa.thewholeshare.AdminMainActivity
 import com.clarissa.thewholeshare.R
+import com.clarissa.thewholeshare.adapters.ListPackageAdapter
+import com.clarissa.thewholeshare.adapters.MasterLocationAdapter
 import com.clarissa.thewholeshare.api.WholeShareApiService
 import com.clarissa.thewholeshare.models.Location
 import com.clarissa.thewholeshare.models.Participant
@@ -36,6 +39,8 @@ class AdminListPackageFragment : Fragment() {
     var idRequest : Int = -1
     var arrPackage = ArrayList<Participant>()
 
+    lateinit var dp : ListPackageAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         idRequest = arguments?.getInt("id",-1)!!
@@ -47,7 +52,7 @@ class AdminListPackageFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_admin_list_package, container, false)
-
+        getPackage(idRequest)
         return view
     }
 
@@ -71,16 +76,17 @@ class AdminListPackageFragment : Fragment() {
                     val o = obj.getJSONObject(i)
                     println(o)
                     val id = o.getInt("id")
-                    val location = o.getString("location")
-                    val batch = o.getInt("batch")
-                    val deadline = o.get("deadline").toString()
-                    val note = o.getString("note")
-                    val status = o.getString("status")
+                    val user_id = o.getInt("fk_user")
+                    val request_id = o.getInt("fk_request")
+                    val fullname = o.getString("fullname")
+                    val pickup = o.getString("pickup")
+                    val note = o.get("note").toString()
+                    val status = o.getInt("status")
 
-                    val r = Location(
-                        id, location, batch, deadline, note, status
+                    val r = Participant(
+                        id, user_id, request_id, pickup, note, status, fullname
                     )
-                    //arrLocations.add(r)
+                    arrPackage.add(r)
                     //println("test lokasi"+arrLocations[i].address)
                 }
                 //refreshRecycler()
@@ -97,5 +103,13 @@ class AdminListPackageFragment : Fragment() {
         }
         val queue: RequestQueue = Volley.newRequestQueue((context as AdminMainActivity))
         queue.add(strReq)
+    }
+
+    fun refreshRecycler()
+    {
+        dp = ListPackageAdapter(activity as AdminMainActivity, arrPackage)
+        rv.adapter = dp
+        val mLayoutManager: RecyclerView.LayoutManager = GridLayoutManager((activity as AdminMainActivity), 1)
+        rv.layoutManager =  mLayoutManager
     }
 }

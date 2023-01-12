@@ -18,7 +18,7 @@ class WholeShareApiService(context: Context) {
             }
 
 //        // Web service sachio:
-    //val WS_HOST: String = "https://f65d-202-80-212-73.ap.ngrok.io/api"
+    //val WS_HOST: String = "https://3043-182-1-67-172.ap.ngrok.io/api"
 //        // Web service Ian:
 //        val WS_HOST: String = "https://38f1-103-213-128-156.ap.ngrok.io/api"
 
@@ -26,8 +26,7 @@ class WholeShareApiService(context: Context) {
         //val WS_HOST = "https://8abf-36-81-177-193.ap.ngrok.io/api"
 
         //web service Cyrelle:
-    val WS_HOST: String = "https://846a-140-0-79-152.ap.ngrok.io/api"
-
+        val WS_HOST: String = "https://846a-140-0-79-152.ap.ngrok.io/api"
     }
     private val requestQueue: RequestQueue by lazy {
         // applicationContext is key, it keeps you from leaking the
