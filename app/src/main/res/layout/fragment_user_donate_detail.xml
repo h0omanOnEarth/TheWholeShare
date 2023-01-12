@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="550dp"
+        android:layout_height="590dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/rounded_square_1"
@@ -79,6 +79,34 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/montserrat"
                 android:text="Jl. NgagelJaya No.19"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvjudulnote"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/montserrat"
+                android:paddingRight="4dp"
+                android:text="Notes :"
+                android:textAlignment="textEnd"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tvNote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/montserrat"
+                android:text="lorem ipsum"
+                android:scrollbars="vertical"
                 android:textColor="#000000"
                 android:textSize="18sp" />
         </LinearLayout>
