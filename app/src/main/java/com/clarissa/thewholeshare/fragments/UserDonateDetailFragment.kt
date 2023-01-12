@@ -1,6 +1,7 @@
 package com.clarissa.thewholeshare.fragments
 
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +21,7 @@ import com.clarissa.thewholeshare.models.News
 import com.clarissa.thewholeshare.models.Participant
 import com.clarissa.thewholeshare.models.Request
 import org.json.JSONArray
+import org.w3c.dom.Text
 
 class UserDonateDetailFragment(
     var status : Participant,
@@ -37,6 +39,7 @@ class UserDonateDetailFragment(
     lateinit var tvId : TextView
     lateinit var btnToReport : Button
     lateinit var tvExp : TextView
+    lateinit var tvnote : TextView
 
     var onClickButtonReport:((resource:String,news: News)->Unit)? = null
 
@@ -64,6 +67,7 @@ class UserDonateDetailFragment(
         tvId = view.findViewById(R.id.tvId_detailDonateUser)
         btnToReport = view.findViewById(R.id.btnToReport_detailUserDonate)
         tvExp = view.findViewById(R.id.tvExp_detailUserDonate)
+        tvnote = view.findViewById(R.id.tvNote)
 
         println("News" + arrNews.size)
 
@@ -76,14 +80,19 @@ class UserDonateDetailFragment(
             }
         }
 
+        //image view & status
         if(statusParticipant==0){
             tvStatus.text = "Pending"
+            imgView.setImageResource(R.drawable.time_machine_120px)
         }else if(statusParticipant==1){
             tvStatus.text = "On The Way"
+            imgView.setImageResource(R.drawable.on_the_way)
         }else if(statusParticipant==2){
             tvStatus.text = "Delivered"
+            imgView.setImageResource(R.drawable.ok_120px)
         }else if(statusParticipant==3){
             tvStatus.text = "Canceled"
+            imgView.setImageResource(R.drawable.cancel_120px)
         }
 
         if(statusRequest=="Finished"){
@@ -96,6 +105,10 @@ class UserDonateDetailFragment(
 
         tvFrom.text = status.pickup
         tvDate.text = status.created_at.toString().substring(0,10)
+
+        //cetak notes
+        tvnote.text = status.note
+        tvnote.movementMethod = ScrollingMovementMethod()
 
         for(i in arrRequests.indices){
             if(arrRequests[i].id == status.request_id){
