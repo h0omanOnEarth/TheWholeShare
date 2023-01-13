@@ -36,6 +36,9 @@ class AdminReportFragment : Fragment() {
     var arrParticipants = ArrayList<Participant>()
     var idRequest:Int = -1
 
+    var batchlama=-1
+    var batchbaru=-1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         idRequest = arguments?.getInt("id",-1)!!
@@ -48,7 +51,7 @@ class AdminReportFragment : Fragment() {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_admin_report, container, false)
         getRequests()
-        //getParticipants()
+        getParticipants()
         return view
     }
     //fungsi get requests
@@ -74,6 +77,7 @@ class AdminReportFragment : Fragment() {
                     )
                     arrLocations.add(r)
                 }
+                setBatchLama()
             },
             Response.ErrorListener {
                 Toast.makeText(context,"ERROR!", Toast.LENGTH_SHORT).show()
@@ -82,6 +86,15 @@ class AdminReportFragment : Fragment() {
         val queue: RequestQueue = Volley.newRequestQueue(context)
         queue.add(strReq)
     }
+
+    //fungsi set batch lama
+    fun setBatchLama() {
+        println("jum arr loc = " + arrLocations.size)
+        batchlama = arrLocations[idRequest - 1].batch
+        batchbaru = batchlama+1
+        println("batch: "+batchlama)
+    }
+
     //fungsi get participants
     fun getParticipants(){
         val strReq = object: StringRequest(
@@ -120,8 +133,7 @@ class AdminReportFragment : Fragment() {
         btnsend = view.findViewById(R.id.btnSend_report)
         btncancel = view.findViewById(R.id.btnCancel_report)
         println("size req = "+arrLocations.size)
-        val batchlama = arrLocations[idRequest-1].batch
-        val batchbaru = batchlama+1
+        println("batchlama:"+batchlama+" batchbaru: "+batchbaru)
 
         btnsend.setOnClickListener {
             val title = ettitle.text.toString()
@@ -129,8 +141,8 @@ class AdminReportFragment : Fragment() {
             if(title!=""&&content!="")
             {
                 addReport(title,content)
-                //updateRequest(batchbaru)
-                //deleteParticipant()
+                updateRequest(batchbaru)
+                deleteParticipant()
             }
             else
             {
@@ -223,8 +235,8 @@ class AdminReportFragment : Fragment() {
             Response.Listener {
             },
             Response.ErrorListener {
-                println(it.message)
-                Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+//                println(it.message)
+//                Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
             }
         ) {
             override fun getParams(): MutableMap<String, String>? {

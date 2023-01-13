@@ -90,7 +90,6 @@ class AdminUpdateLocation : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         etlocation = view.findViewById(R.id.etLocation)
         etbatch = view.findViewById(R.id.etbatch)
         etdeadline = view.findViewById(R.id.etDeadline)
