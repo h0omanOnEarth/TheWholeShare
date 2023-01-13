@@ -76,10 +76,10 @@ class AdminReportFragment : Fragment() {
                 }
             },
             Response.ErrorListener {
-                Toast.makeText((context as AdminMainActivity),"ERROR!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,"ERROR!", Toast.LENGTH_SHORT).show()
             }
         ){}
-        val queue: RequestQueue = Volley.newRequestQueue((context as AdminMainActivity))
+        val queue: RequestQueue = Volley.newRequestQueue(context)
         queue.add(strReq)
     }
     //fungsi get participants
@@ -122,6 +122,7 @@ class AdminReportFragment : Fragment() {
         println("size req = "+arrLocations.size)
         val batchlama = arrLocations[idRequest-1].batch
         val batchbaru = batchlama+1
+
         btnsend.setOnClickListener {
             val title = ettitle.text.toString()
             val content = etreport.text.toString()
