@@ -69,6 +69,11 @@ class AdminListPackageFragment : Fragment() {
         btncancel.setOnClickListener(View.OnClickListener {
             getPackage(idRequest,4)
         })
+
+        //make report
+        btnmake.setOnClickListener {
+            (context as AdminMainActivity).switchMakeReport(idRequest)
+        }
         return view
     }
 

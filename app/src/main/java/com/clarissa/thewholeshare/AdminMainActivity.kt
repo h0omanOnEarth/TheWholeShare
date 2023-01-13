@@ -186,6 +186,18 @@ class AdminMainActivity : AppCompatActivity() {
         ft.commit()
     }
 
+    //fungsi untuk make report
+    fun switchMakeReport(id : Int)
+    {
+        var bundle = Bundle()
+        bundle.putInt("id",id)
+        var fr = AdminReportFragment()
+        fr.arguments = bundle
+        var ft = supportFragmentManager.beginTransaction()
+        ft.replace(R.id.fragment_container_admin, fr)
+        ft.commit()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.opt_menu,menu)
         return super.onCreateOptionsMenu(menu)
