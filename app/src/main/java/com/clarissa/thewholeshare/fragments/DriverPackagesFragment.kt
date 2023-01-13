@@ -36,7 +36,7 @@ class DriverPackagesFragment : Fragment() {
 
         // Initialize Variables
         activeUser = this.requireArguments()["active_user"] as User
-        packageAdapter = CourierPackageAdapter(requireContext(), packageList, ParticipantsStatuses.PENDING, activeUser.id)
+        packageAdapter = CourierPackageAdapter(requireContext(), packageList, ParticipantsStatuses.PENDING, activeUser.id, this)
     }
 
     override fun onCreateView(

@@ -78,7 +78,7 @@ class DriverMainActivity : AppCompatActivity() {
         fragmentListDeliverPackages = DriverListDeliverFragment()
         fragmentListCanceledPackages = DriverListCanceledFragment()
         fragmentProfile = UserProfileFragment(userActive.username)
-        fragmentDetailAvailablePackage = DriverPackageDetailFragment()
+//        fragmentDetailAvailablePackage = DriverPackageDetailFragment()
         fragmentDetailDeliverPackage = DriverDeliveredPackageDetailFragment()
         fragmentDetailCanceledPackage = DriverCanceledPageDetailFragment()
         fragmentFinishPackage = DriverFinishDetailFragment()

@@ -17,7 +17,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/idDetailLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="-20dp"
@@ -45,7 +45,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/textView7"
+                android:id="@+id/addressDetailLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -73,7 +73,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/textView11"
+                android:id="@+id/noteDetailLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -100,7 +100,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/textView13"
+                android:id="@+id/pickupDetailLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
@@ -128,7 +128,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/textView15"
+                android:id="@+id/userPackageDetailLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"

@@ -1,6 +1,9 @@
 package com.clarissa.thewholeshare.adapters
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +11,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
@@ -16,13 +21,15 @@ import com.clarissa.thewholeshare.R
 import com.clarissa.thewholeshare.api.WholeShareApiService
 import com.clarissa.thewholeshare.api.helpers.ParticipantsStatuses
 import com.clarissa.thewholeshare.api.responses.CourierPackage
+import com.clarissa.thewholeshare.fragments.DriverPackageDetailFragment
 import org.json.JSONObject
 
 class CourierPackageAdapter(
     val context: Context,
     val dataset: ArrayList<CourierPackage>,
     var mode: Int,
-    val activeUserId: Int
+    val activeUserId: Int,
+    val parentFragment: Fragment
 ) : RecyclerView.Adapter<CourierPackageAdapter.PackageViewHolder>() {
     class PackageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val packageIdLabel = view.findViewById<TextView>(R.id.packageIdLabel)
@@ -48,12 +55,14 @@ class CourierPackageAdapter(
             holder.packageActionButton.text = "Take"
             holder.packageActionButton.visibility = TextView.VISIBLE
 
+            // Set the action button event to take the request
             holder.packageActionButton.setOnClickListener { takePackage(holder.itemView.tag as Int) }
         }
         else if (mode == ParticipantsStatuses.DELIVERING) {
             holder.packageActionButton.text = "Finish"
             holder.packageActionButton.visibility = TextView.VISIBLE
 
+            // Set the action button event to finish delivering the request
             holder.packageActionButton.setOnClickListener { updatePackageStatus(holder.itemView.tag as Int, ParticipantsStatuses.DELIVERED) }
         }
         else if (mode == ParticipantsStatuses.DELIVERED) {
@@ -61,9 +70,13 @@ class CourierPackageAdapter(
             holder.packageActionButton.text = "Undo"
             holder.packageActionButton.visibility = TextView.GONE
 
+            // Set the action button event to undo the delivery
 //            holder.packageActionButton.setOnClickListener { updatePackageStatus(holder.itemView.tag as Int, ParticipantsStatuses.DELIVERING) }
         }
         else holder.packageActionButton.visibility = TextView.GONE
+
+        // Set the card event to go to the details panel
+        holder.itemView.setOnClickListener { navigateToDetails(holder.itemView.tag as Int) }
     }
 
     override fun getItemCount(): Int {
@@ -164,6 +177,30 @@ class CourierPackageAdapter(
         finishRequest.retryPolicy = DefaultRetryPolicy(5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
 
         WholeShareApiService.getInstance(context).addToRequestQueue(finishRequest)
+    }
+
+    /**
+     * Move to a new fragment that will show the detail of the package that is being clicked.
+     *
+     * @param packageId The id of the package being clicked.
+     */
+    private fun navigateToDetails(packageId: Int) {
+        val detailBundle = Bundle()
+        detailBundle.putInt("package_id", packageId)
+        detailBundle.putInt("mode", mode)
+        detailBundle.putInt("active_user_id", activeUserId)
+
+        // Create the target detail fragment
+        val detailFragment = DriverPackageDetailFragment(parentFragment);
+        detailFragment.arguments = detailBundle
+
+        // Create the fragment transaction object to prepare the transition
+        val fragmentTransaction = (context as AppCompatActivity).supportFragmentManager.beginTransaction()
+
+        // Set the replace fragment
+//        fragmentTransaction.hide(parentFragment)
+        fragmentTransaction.replace(R.id.fragment_container_driver, detailFragment)
+        fragmentTransaction.commit()
     }
 
     //alert dialog warning
