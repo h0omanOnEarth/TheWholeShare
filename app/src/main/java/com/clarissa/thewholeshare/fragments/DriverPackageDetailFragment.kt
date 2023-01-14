@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
+import com.clarissa.thewholeshare.DriverMainActivity
 import com.clarissa.thewholeshare.R
 import com.clarissa.thewholeshare.api.WholeShareApiService
 import com.clarissa.thewholeshare.api.helpers.ParticipantsStatuses
@@ -88,7 +89,7 @@ class DriverPackageDetailFragment(
             cancelPackageButton.text = "Cancel"
 
             takePackageButton.setOnClickListener {
-                updatePackageStatus(this.packageId!!, ParticipantsStatuses.DELIVERED)
+                navigateToFinish()
             }
             cancelPackageButton.setOnClickListener {
                 cancelPackageDelivery(packageId!!)
@@ -99,9 +100,7 @@ class DriverPackageDetailFragment(
             cancelPackageButton.visibility = View.GONE
         }
         backDetailButton.setOnClickListener {
-            val packageTransaction = requireActivity().supportFragmentManager.beginTransaction()
-            packageTransaction.replace(R.id.fragment_container_driver, previousFragment)
-            packageTransaction.commit()
+            (requireActivity() as DriverMainActivity).switchFragment(R.id.fragment_container_driver, previousFragment, Bundle())
         }
     }
 
@@ -177,40 +176,17 @@ class DriverPackageDetailFragment(
     }
 
     /**
-     * Sent a request to the server to update the status of the package to the targeted status.
-     *
-     * @param packageId The id of the participant package that is going to be updated.
-     * @param newStatus An integer which represents the new status the package is going to have.
+     * Navigate to the finish fragment to confirm and submit a photo of the delivered item.
      */
-    private fun updatePackageStatus(packageId: Int, newStatus: Int) {
-        // Create the request parameter to sent in the request
-        val requestBody = JSONObject()
-        requestBody.put("user_id", activeUserId)
-        requestBody.put("participant_id", packageId)
-        requestBody.put("new_status", newStatus)
+    private fun navigateToFinish() {
+        val fragmentBundle = Bundle()
+        fragmentBundle.putInt("package_id", packageId!!)
+        fragmentBundle.putInt("active_user_id", activeUserId!!)
 
-        // Create the request object
-        val finishRequest = JsonObjectRequest(Request.Method.PUT, "${WholeShareApiService.WS_HOST}/requests/updatePackageStatus", requestBody,
-            { response ->
-                // Check the response is successful or not
-                if (response.getInt("status") == 0)
-                    alertDialogFailed("Request Failed", response.getString("reason"))
-                else if (response.getInt("status") == 1) {
-                    // Switch to the previous fragment
-                    val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
+        val finishFragment = DriverFinishDetailFragment(this)
 
-                    fragmentTransaction.replace(R.id.fragment_container_driver, previousFragment)
-                    fragmentTransaction.commit()
-                }
-                else alertDialogFailed("Unknown Error!", "Unknown Status Code!")
-            },
-            { error ->
-                alertDialogFailed("Request Error", "${error}")
-            }
-        )
-        finishRequest.retryPolicy = DefaultRetryPolicy(5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        (requireActivity() as DriverMainActivity).switchFragment(R.id.fragment_container_driver, finishFragment, fragmentBundle)
 
-        WholeShareApiService.getInstance(requireContext()).addToRequestQueue(finishRequest)
     }
 
     /**
@@ -233,9 +209,7 @@ class DriverPackageDetailFragment(
                     alertDialogSuccess("Successfully Cancelled", response.getString("message"))
 
                     // Change from the detailed fragment to the previous fragment.
-                    val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
-                    fragmentTransaction.replace(R.id.fragment_container_driver, previousFragment)
-                    fragmentTransaction.commit()
+                    (requireActivity() as DriverMainActivity).switchFragment(R.id.fragment_container_driver, previousFragment, Bundle())
                 }
             },
             { error ->

@@ -1,8 +1,6 @@
 package com.clarissa.thewholeshare.adapters
 
 import android.app.Activity
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,15 +15,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
+import com.clarissa.thewholeshare.DriverMainActivity
 import com.clarissa.thewholeshare.R
 import com.clarissa.thewholeshare.api.WholeShareApiService
 import com.clarissa.thewholeshare.api.helpers.ParticipantsStatuses
 import com.clarissa.thewholeshare.api.responses.CourierPackage
+import com.clarissa.thewholeshare.fragments.DriverFinishDetailFragment
 import com.clarissa.thewholeshare.fragments.DriverPackageDetailFragment
 import org.json.JSONObject
 
 class CourierPackageAdapter(
-    val context: Context,
+    val activity: Activity,
     val dataset: ArrayList<CourierPackage>,
     var mode: Int,
     val activeUserId: Int,
@@ -39,7 +39,7 @@ class CourierPackageAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PackageViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_package, parent, false)
+        val view = LayoutInflater.from(activity).inflate(R.layout.item_package, parent, false)
         
         return PackageViewHolder(view)
     }
@@ -63,7 +63,8 @@ class CourierPackageAdapter(
             holder.packageActionButton.visibility = TextView.VISIBLE
 
             // Set the action button event to finish delivering the request
-            holder.packageActionButton.setOnClickListener { updatePackageStatus(holder.itemView.tag as Int, ParticipantsStatuses.DELIVERED) }
+//            holder.packageActionButton.setOnClickListener { updatePackageStatus(holder.itemView.tag as Int, ParticipantsStatuses.DELIVERED) }
+            holder.packageActionButton.setOnClickListener { navigateToFinish(holder.itemView.tag as Int) }
         }
         else if (mode == ParticipantsStatuses.DELIVERED) {
             // An unused button to undo the state of the package. (Add the event and add the visibility to use it)
@@ -81,6 +82,19 @@ class CourierPackageAdapter(
 
     override fun getItemCount(): Int {
         return dataset.size
+    }
+
+    /**
+     * Navigate to the finish fragment to confirm and submit a photo of the delivered item.
+     */
+    private fun navigateToFinish(packageId: Int) {
+        val fragmentBundle = Bundle()
+        fragmentBundle.putInt("package_id", packageId)
+        fragmentBundle.putInt("active_user_id", activeUserId)
+
+        val finishFragment = DriverFinishDetailFragment(parentFragment)
+
+        (activity as DriverMainActivity).switchFragment(R.id.fragment_container_driver, finishFragment, fragmentBundle)
     }
 
     /**
@@ -132,7 +146,7 @@ class CourierPackageAdapter(
         // Set the request timeout policy
         takeRequest.retryPolicy = DefaultRetryPolicy(5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
 
-        WholeShareApiService.getInstance(context).addToRequestQueue(takeRequest)
+        WholeShareApiService.getInstance(activity).addToRequestQueue(takeRequest)
     }
 
     /**
@@ -176,7 +190,7 @@ class CourierPackageAdapter(
         )
         finishRequest.retryPolicy = DefaultRetryPolicy(5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
 
-        WholeShareApiService.getInstance(context).addToRequestQueue(finishRequest)
+        WholeShareApiService.getInstance(activity).addToRequestQueue(finishRequest)
     }
 
     /**
@@ -192,20 +206,13 @@ class CourierPackageAdapter(
 
         // Create the target detail fragment
         val detailFragment = DriverPackageDetailFragment(parentFragment);
-        detailFragment.arguments = detailBundle
 
-        // Create the fragment transaction object to prepare the transition
-        val fragmentTransaction = (context as AppCompatActivity).supportFragmentManager.beginTransaction()
-
-        // Set the replace fragment
-//        fragmentTransaction.hide(parentFragment)
-        fragmentTransaction.replace(R.id.fragment_container_driver, detailFragment)
-        fragmentTransaction.commit()
+        (activity as DriverMainActivity).switchFragment(R.id.fragment_container_driver, detailFragment, detailBundle)
     }
 
     //alert dialog warning
     private fun alertDialogFailed(title: String, message: String){
-        val mAlertDialog = AlertDialog.Builder(context)
+        val mAlertDialog = AlertDialog.Builder(activity)
         mAlertDialog.setIcon(R.drawable.high_priority_80px) //set alertdialog icon
         mAlertDialog.setTitle(title) //set alertdialog title
         mAlertDialog.setMessage(message) //set alertdialog message

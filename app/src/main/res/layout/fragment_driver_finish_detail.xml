@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,14 +16,14 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView30"
+            android:id="@+id/finishDeliverMessageLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="50dp"
             android:layout_marginRight="20dp"
             android:fontFamily="@font/montserrat"
-            android:text="Are you sure want to finish this package?"
+            android:text="Finish deliver #ID Package?"
             android:textColor="#000000"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -42,14 +43,37 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:orientation="horizontal"
+            android:layout_height="275dp"
+            android:orientation="vertical"
             android:paddingLeft="20dp"
             android:paddingTop="20dp"
-            android:paddingRight="20dp"></LinearLayout>
+            android:paddingRight="20dp">
+
+            <ImageView
+                android:id="@+id/deliverPhotoImageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxHeight="200dp"
+                tools:src="@tools:sample/avatars" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/submitDeliveryPhotoButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/rounded_square_2"
+                android:fontFamily="@font/montserrat"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:text="Add Photo"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button16"
+            android:id="@+id/finishPackageButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -61,7 +85,7 @@
             android:textStyle="bold" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button17"
+            android:id="@+id/backFinishButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"

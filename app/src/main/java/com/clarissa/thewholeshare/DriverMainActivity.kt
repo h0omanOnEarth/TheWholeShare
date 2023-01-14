@@ -1,11 +1,17 @@
 package com.clarissa.thewholeshare
 
+import android.content.ContentValues
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import com.android.volley.RequestQueue
 import com.android.volley.Response
@@ -20,20 +26,9 @@ import org.json.JSONArray
 class DriverMainActivity : AppCompatActivity() {
     lateinit var navbar_driver : BottomNavigationView
 
-    //inisialisasi semua fragment dari driver
-    lateinit var fragmentHome : DriverHomeFragment
-    lateinit var fragmentListAvailablePackages : DriverPackagesFragment
-    lateinit var fragmentListDeliverPackages : DriverListDeliverFragment
-    lateinit var fragmentListCanceledPackages : DriverListCanceledFragment
-    lateinit var fragmentProfile : UserProfileFragment
-    //fragments detail :
-    lateinit var fragmentDetailAvailablePackage : DriverPackageDetailFragment
-    lateinit var fragmentDetailDeliverPackage : DriverDeliveredPackageDetailFragment
-    lateinit var fragmentDetailCanceledPackage : DriverCanceledPageDetailFragment
-    lateinit var fragmentFinishPackage : DriverFinishDetailFragment
-
-    //untuk user yang sedang login
+    // Untuk user yang sedang login
     lateinit var userActive : User
+    lateinit var activeFragment: Fragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,54 +40,37 @@ class DriverMainActivity : AppCompatActivity() {
         // Initialize Variables
         userActive = intent.getSerializableExtra("active_user") as User // Get the logged user
 
-        // Load the fragments for this activity
-        loadFragments()
-
-        switchFragment(R.id.fragment_container_driver, fragmentHome)
+        switchFragment(R.id.fragment_container_driver, DriverHomeFragment(), Bundle())
 
         // Add navigation event
         navbar_driver.setOnItemSelectedListener {
             // Switches the fragment based on what button is clicked
             when (it.itemId) {
                 R.id.item_home_driver ->
-                    switchFragment(R.id.fragment_container_driver, fragmentHome)
+                    switchFragment(R.id.fragment_container_driver, DriverHomeFragment(), Bundle())
                 R.id.item_packages_driver ->
-                    switchFragment(R.id.fragment_container_driver, fragmentListAvailablePackages)
+                    switchFragment(R.id.fragment_container_driver, DriverPackagesFragment(), Bundle())
                 R.id.item_delivered_driver ->
-                    switchFragment(R.id.fragment_container_driver, fragmentListDeliverPackages)
+                    switchFragment(R.id.fragment_container_driver, DriverListDeliverFragment(), Bundle())
                 R.id.item_canceled_driver ->
-                    switchFragment(R.id.fragment_container_driver, fragmentListCanceledPackages)
+                    switchFragment(R.id.fragment_container_driver, DriverListCanceledFragment(), Bundle())
                 R.id.item_profile_driver ->
-                    switchFragment(R.id.fragment_container_driver, fragmentProfile)
+                    switchFragment(R.id.fragment_container_driver, UserProfileFragment(userActive.username), Bundle())
             }
             return@setOnItemSelectedListener true
         }
     }
 
-    /**
-     * Loads the fragments needed for this activity.
-     */
-    fun loadFragments() {
-        fragmentHome = DriverHomeFragment()
-        fragmentListAvailablePackages = DriverPackagesFragment()
-        fragmentListDeliverPackages = DriverListDeliverFragment()
-        fragmentListCanceledPackages = DriverListCanceledFragment()
-        fragmentProfile = UserProfileFragment(userActive.username)
-//        fragmentDetailAvailablePackage = DriverPackageDetailFragment()
-        fragmentDetailDeliverPackage = DriverDeliveredPackageDetailFragment()
-        fragmentDetailCanceledPackage = DriverCanceledPageDetailFragment()
-        fragmentFinishPackage = DriverFinishDetailFragment()
-    }
-
     //fungsi untuk berganti fragment
-    fun switchFragment(containerViewId:Int, fragment: Fragment){
-        val bundle = Bundle()
+    public fun switchFragment(containerViewId:Int, fragment: Fragment, bundle: Bundle){
         bundle.putSerializable("active_user", userActive)
         fragment.arguments = bundle
 
         val fragmentManager = supportFragmentManager.beginTransaction()
         fragmentManager.replace(containerViewId, fragment)
         fragmentManager.commit()
+
+        activeFragment = fragment
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -106,4 +84,14 @@ class DriverMainActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+//    private fun openCameraInterface(fragment: Fragment) {
+//        val content = ContentValues()
+//        content.put(MediaStore.Images.Media.TITLE, "WholeSharePhoto")
+//        content.put(MediaStore.Images.Media.DESCRIPTION, "A report photo for WholeShare")
+//
+//        imageUri = contentResolver?.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, content)
+//
+//
+//    }
 }
