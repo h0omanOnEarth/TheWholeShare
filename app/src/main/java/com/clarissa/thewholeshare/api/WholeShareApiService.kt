@@ -20,7 +20,7 @@ class WholeShareApiService(context: Context) {
 //        // Web service sachio:
 //        val WS_HOST: String = "https://9664-202-80-215-209.ap.ngrok.io/api"
 //        // Web service Ian:
-        val WS_HOST: String = "https://a0e0-202-80-212-209.ap.ngrok.io/api"
+        val WS_HOST: String = "https://02ab-202-80-212-209.ap.ngrok.io/api"
 
 //         Web service Clarissa :
         //val WS_HOST = "https://8abf-36-81-177-193.ap.ngrok.io/api"
