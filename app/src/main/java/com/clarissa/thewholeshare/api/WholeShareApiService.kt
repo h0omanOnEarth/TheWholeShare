@@ -17,17 +17,10 @@ class WholeShareApiService(context: Context) {
                 }
             }
 
-//        // Web service sachio:
-//        val WS_HOST: String = "https://9664-202-80-215-209.ap.ngrok.io/api"
-//        // Web service Ian:
-        val WS_HOST: String = "https://02ab-202-80-212-209.ap.ngrok.io/api"
-
-//         Web service Clarissa :
-        //val WS_HOST = "https://8abf-36-81-177-193.ap.ngrok.io/api"
-
-        //web service Cyrelle:
-//    val WS_HOST: String = "https://8f41-140-0-79-152.ap.ngrok.io/api"
-
+        /** Application Domain URLs */
+        val DOMAIN: String = "https://02ab-202-80-212-209.ap.ngrok.io"
+        val WS_HOST: String = "${DOMAIN}/api"
+        val WS_STORAGE_IMAGE: String = "${DOMAIN}/storage/images"
     }
     private val requestQueue: RequestQueue by lazy {
         // applicationContext is key, it keeps you from leaking the
