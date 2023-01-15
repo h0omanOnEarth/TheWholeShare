@@ -1,13 +1,15 @@
 package com.clarissa.thewholeshare.fragments
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,9 +19,16 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
+import com.android.volley.DefaultRetryPolicy
 import com.clarissa.thewholeshare.DriverMainActivity
 import com.clarissa.thewholeshare.R
+import com.clarissa.thewholeshare.api.WholeShareApiService
+import com.clarissa.thewholeshare.api.custom.MultiPartRequest
 import kotlinx.coroutines.*
+import org.json.JSONObject
+import java.io.ByteArrayOutputStream
+import java.io.IOException
 
 
 class DriverFinishDetailFragment(
@@ -35,9 +44,6 @@ class DriverFinishDetailFragment(
     // Variables
     var activeUserId: Int? = null
     var packageId: Int? = null
-
-    // Coroutine
-    val coroutine = CoroutineScope(Dispatchers.Default)
 
     // Camera Variables
     val CAMERA_REQUEST_CODE = 1888
@@ -106,10 +112,88 @@ class DriverFinishDetailFragment(
      * Sent the request to the server by uploading a picture of the report and finishing the delivery.
      */
     private fun finishDelivery() {
-        // TODO: Sent a request to the server and switch back to the original fragment
+        val path = getPath(imageUri!!)
+        if (path != null) {
+            try {
+                val bitmap = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, imageUri)
+                uploadBitMap(bitmap)
+            }
+            catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+        else {
+            Toast.makeText(requireContext(), "No image is found!", Toast.LENGTH_LONG).show()
+        }
     }
 
-    public fun updateImageView(imageUri: Uri?) {
+    /**
+     * Get the file absolute path from the Uri given in the parameter.
+     *
+     * @param uri The uri which is to be parsed as a file path.
+     * @return The string containing the path of the file.
+     */
+    @SuppressLint("Range")
+    private fun getPath(uri: Uri): String {
+        // Get the document Id from the uri
+        Log.d("GET_PATH", "uri: $uri")
+        var cursor = requireActivity().contentResolver?.query(uri, arrayOf(MediaStore.Images.Media.DATA), null, null, null)!!
+        cursor.moveToFirst()
+        Log.d("GET_PATH", "getString: ${cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA))}")
+        val path: String = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+        cursor.close()
+
+        return path
+    }
+
+    /**
+     * Upload the picture that has been fetched by the Application after taking a photo to the server and update the status of the package.
+     */
+    private fun uploadBitMap(bitmap: Bitmap) {
+        val uploadRequest = object : MultiPartRequest(Method.POST, "${WholeShareApiService.WS_HOST}/requests/uploadPhoto",
+            { response ->
+                val jsonObject = JSONObject(String(response.data))
+
+                // Check if the operation has failed.
+                if (jsonObject.getInt("status") == 0) {
+                    Toast.makeText(requireContext(), jsonObject.getString("reason"), Toast.LENGTH_LONG).show()
+                }
+                else {
+                    // Change the fragment to the previous fragment
+                    (requireActivity() as DriverMainActivity).switchFragment(R.id.fragment_container_driver, previousFragment, Bundle())
+                }
+            },
+            { error ->
+                error.printStackTrace()
+            }
+        ) {
+            override fun getByteData(): Map<String, DataPart> {
+                val params = HashMap<String, DataPart>()
+                val imageName = "report_$packageId"
+                params.put("image", DataPart("$imageName.png", getFileDataFromDrawable(bitmap)!!))
+                return params
+            }
+
+            override fun getParams(): MutableMap<String, String>? {
+                val params = HashMap<String, String>()
+                params.put("user_id", activeUserId.toString())
+                params.put("package_id", packageId.toString())
+                params.put("image_name", "courier_delivered_$packageId.png")
+                return params
+            }
+        }
+        uploadRequest.retryPolicy = DefaultRetryPolicy(5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+
+        WholeShareApiService.getInstance(requireContext()).addToRequestQueue(uploadRequest)
+    }
+
+    fun getFileDataFromDrawable(bitmap: Bitmap): ByteArray? {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 80, byteArrayOutputStream)
+        return byteArrayOutputStream.toByteArray()
+    }
+
+    private fun updateImageView(imageUri: Uri?) {
         deliverPhotoImageView.setImageURI(imageUri)
     }
 

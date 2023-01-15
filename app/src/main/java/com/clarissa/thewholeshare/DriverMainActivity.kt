@@ -64,7 +64,7 @@ class DriverMainActivity : AppCompatActivity() {
     //fungsi untuk berganti fragment
     public fun switchFragment(containerViewId:Int, fragment: Fragment, bundle: Bundle){
         bundle.putSerializable("active_user", userActive)
-        fragment.arguments = bundle
+        fragment.arguments = if (fragment.arguments == null) bundle else fragment.arguments
 
         val fragmentManager = supportFragmentManager.beginTransaction()
         fragmentManager.replace(containerViewId, fragment)
