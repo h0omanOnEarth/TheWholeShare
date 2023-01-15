@@ -20,7 +20,9 @@ class AdminDetailVerifiedPackageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_admin_detail_verified_package, container, false)
+        val view =  inflater.inflate(R.layout.fragment_admin_detail_verified_package, container, false)
+
+        return view
     }
 
 

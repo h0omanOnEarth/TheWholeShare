@@ -8,6 +8,7 @@ data class Participant(
     var note : String,
     var status : Int,
     var fullname : String ="",
+    var location : String = "",
     var created_at : String?= null,
     var updated_at : String? = null
 ) {

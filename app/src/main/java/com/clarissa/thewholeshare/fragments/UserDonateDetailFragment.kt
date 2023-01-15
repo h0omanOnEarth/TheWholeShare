@@ -9,19 +9,10 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import com.android.volley.RequestQueue
-import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
 import com.clarissa.thewholeshare.R
-import com.clarissa.thewholeshare.api.WholeShareApiService
-import com.clarissa.thewholeshare.api.helpers.RequestStatuses
 import com.clarissa.thewholeshare.models.News
 import com.clarissa.thewholeshare.models.Participant
 import com.clarissa.thewholeshare.models.Request
-import org.json.JSONArray
-import org.w3c.dom.Text
 
 class UserDonateDetailFragment(
     var status : Participant,
@@ -58,7 +49,7 @@ class UserDonateDetailFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        btnBack = view.findViewById(R.id.btnBack_detailUserDonate)
+        btnBack = view.findViewById(R.id.btnverif)
         tvTo = view.findViewById(R.id.tvTo_detailDonateUser)
         tvFrom = view.findViewById(R.id.tvFrom_detailUserDonate)
         tvStatus = view.findViewById(R.id.tvStatus_detailUserDonate)

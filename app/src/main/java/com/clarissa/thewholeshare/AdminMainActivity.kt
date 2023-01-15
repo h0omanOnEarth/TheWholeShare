@@ -186,6 +186,17 @@ class AdminMainActivity : AppCompatActivity() {
         ft.commit()
     }
 
+    fun switchFragVerif(id : Int)
+    {
+        var bundle = Bundle()
+        bundle.putInt("id",id)
+        var fr = AdminVerifyPackageFragment()
+        fr.arguments = bundle
+        var ft = supportFragmentManager.beginTransaction()
+        ft.replace(R.id.fragment_container_admin, fr)
+        ft.commit()
+    }
+
     //fungsi untuk make report
     fun switchMakeReport(id : Int)
     {
