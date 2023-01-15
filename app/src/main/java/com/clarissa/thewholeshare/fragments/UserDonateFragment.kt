@@ -255,6 +255,7 @@ class UserDonateFragment(
                     val id = o.getInt("id")
                     val user_id = o.getInt("user_id")
                     val request_id = o.getInt("request_id")
+                    val courier_id = o.getInt("courier_id")
                     val pickup = o.getString("pickup")
                     val note = o.getString("note")
                     val status = o.getInt("status")
@@ -262,7 +263,7 @@ class UserDonateFragment(
                     val updated_at = o.get("updated_at").toString()
 
                     val participant = Participant(
-                        id,user_id,request_id,pickup,note,status,created_at,updated_at
+                        id,user_id,request_id,courier_id, pickup,note,status,created_at,updated_at
                     )
 
                     if(user_id==userActive.id){

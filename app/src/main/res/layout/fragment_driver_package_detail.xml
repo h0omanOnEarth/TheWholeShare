@@ -16,7 +16,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tvId_detailDonateUser"
+            android:id="@+id/idDetailLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -29,8 +29,9 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="37dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:layout_marginBottom="6sp"
             android:orientation="horizontal">
 
             <TextView
@@ -44,20 +45,21 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/tvTo_detailDonateUser"
+                android:id="@+id/addressDetailLabel"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/montserrat"
-                android:text="Jl. Kedinding No.17"
+                android:text="Request Location"
                 android:textColor="#000000"
                 android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12sp"
             android:orientation="horizontal">
 
             <TextView
@@ -72,20 +74,21 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/tvnote"
+                android:id="@+id/noteDetailLabel"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/montserrat"
-                android:text="TextView"
+                android:text="Nothing"
                 android:textColor="#000000"
                 android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="37dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6sp"
             android:orientation="horizontal">
 
             <TextView
@@ -99,20 +102,21 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/tvStatus_detailUserDonate"
+                android:id="@+id/pickupDetailLabel"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/montserrat"
-                android:text="TextView"
+                android:text="Pickup Location"
                 android:textColor="#000000"
                 android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="37dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6sp"
             android:orientation="horizontal">
 
             <TextView
@@ -127,30 +131,49 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/tvDate_detailUserDonate"
+                android:id="@+id/userPackageDetailLabel"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/montserrat"
-                android:text="TextView"
+                android:text="Donator Username"
                 android:textColor="#000000"
                 android:textSize="18sp" />
         </LinearLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnTake_driver_detail_package"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/rounded_square_2"
-            android:fontFamily="@font/montserrat"
-            android:text="TAKE" />
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/takePackageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_square_2"
+                android:fontFamily="@font/montserrat"
+                android:text="TAKE" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/cancelPackageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/rounded_square_2"
+                android:fontFamily="@font/montserrat"
+                android:text="CANCEL" />
+        </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnBack_driver_detail_package"
+            android:id="@+id/backDetailButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
