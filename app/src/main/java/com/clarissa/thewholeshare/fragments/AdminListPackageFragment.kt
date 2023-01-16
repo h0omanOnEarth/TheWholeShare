@@ -1,5 +1,7 @@
 package com.clarissa.thewholeshare.fragments
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -48,6 +50,7 @@ class AdminListPackageFragment : Fragment() {
         println("id : "+idRequest)
     }
 
+    @SuppressLint("ResourceAsColor")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -60,13 +63,17 @@ class AdminListPackageFragment : Fragment() {
         btnfinish = view.findViewById(R.id.btnfinished)
         rv = view.findViewById(R.id.rvdetaillistpackage)
         getPackage(idRequest,stat)
+        setBtnOnGoing()
         btnfinish.setOnClickListener(View.OnClickListener {
+            setBtnFinish()
             getPackage(idRequest,3)
         })
         btnongoing.setOnClickListener(View.OnClickListener {
+            setBtnOnGoing()
             getPackage(idRequest,2)
         })
         btncancel.setOnClickListener(View.OnClickListener {
+            setBtnCancel()
             getPackage(idRequest,4)
         })
 
@@ -76,7 +83,33 @@ class AdminListPackageFragment : Fragment() {
         }
         return view
     }
-
+    fun setBtnOnGoing()
+    {
+        btnongoing.setBackgroundResource(R.drawable.rounded_square_3)
+        btnongoing.setTextColor(Color.WHITE)
+        btnfinish.setBackgroundResource(R.drawable.rounded_square_2)
+        btnfinish.setTextColor(Color.BLACK)
+        btncancel.setBackgroundResource(R.drawable.rounded_square_2)
+        btncancel.setTextColor(Color.BLACK)
+    }
+    fun setBtnFinish()
+    {
+        btnfinish.setBackgroundResource(R.drawable.rounded_square_3)
+        btnfinish.setTextColor(Color.WHITE)
+        btnongoing.setBackgroundResource(R.drawable.rounded_square_2)
+        btnongoing.setTextColor(Color.BLACK)
+        btncancel.setBackgroundResource(R.drawable.rounded_square_2)
+        btncancel.setTextColor(Color.BLACK)
+    }
+    fun setBtnCancel()
+    {
+        btncancel.setBackgroundResource(R.drawable.rounded_square_3)
+        btncancel.setTextColor(Color.WHITE)
+        btnfinish.setBackgroundResource(R.drawable.rounded_square_2)
+        btnfinish.setTextColor(Color.BLACK)
+        btnongoing.setBackgroundResource(R.drawable.rounded_square_2)
+        btnongoing.setTextColor(Color.BLACK)
+    }
 
 
     fun getPackage(id : Int, stat : Int) {

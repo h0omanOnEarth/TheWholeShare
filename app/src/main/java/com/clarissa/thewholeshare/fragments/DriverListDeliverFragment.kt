@@ -1,5 +1,6 @@
 package com.clarissa.thewholeshare.fragments
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -64,14 +65,31 @@ class DriverListDeliverFragment : Fragment() {
 
         // Load Events
         fetchOngoingPackages(packageListRecyclerView, packageList)
+        setBtnOnGoing()
 
         // Register Events
         showOngoingButton.setOnClickListener {
             fetchOngoingPackages(packageListRecyclerView, packageList)
+            setBtnOnGoing()
         }
         showFinishedButton.setOnClickListener {
             fetchDeliveredPackages(packageListRecyclerView, packageList)
+            setBtnFinished()
         }
+    }
+    fun setBtnOnGoing()
+    {
+        showOngoingButton.setBackgroundResource(R.drawable.rounded_square_3)
+        showOngoingButton.setTextColor(Color.WHITE)
+        showFinishedButton.setBackgroundResource(R.drawable.rounded_square_2)
+        showFinishedButton.setTextColor(Color.BLACK)
+    }
+    fun setBtnFinished()
+    {
+        showOngoingButton.setBackgroundResource(R.drawable.rounded_square_2)
+        showOngoingButton.setTextColor(Color.BLACK)
+        showFinishedButton.setBackgroundResource(R.drawable.rounded_square_3)
+        showFinishedButton.setTextColor(Color.WHITE)
     }
 
     /**
