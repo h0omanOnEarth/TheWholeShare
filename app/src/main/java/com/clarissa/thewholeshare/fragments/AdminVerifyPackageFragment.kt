@@ -12,6 +12,7 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.clarissa.thewholeshare.AdminMainActivity
 import com.clarissa.thewholeshare.R
 import com.clarissa.thewholeshare.api.WholeShareApiService
 import com.clarissa.thewholeshare.models.Location
@@ -61,6 +62,17 @@ class AdminVerifyPackageFragment : Fragment() {
         tvid = view.findViewById(R.id.tvId_detailDonateUser)
 
         getData()
+        btnback.setOnClickListener(View.OnClickListener {
+            (context as AdminMainActivity).switchFragment(1)
+        })
+        btnverif.setOnClickListener(View.OnClickListener {
+            updateStatus(3)
+            (context as AdminMainActivity).switchFragment(1)
+        })
+        btncancel.setOnClickListener(View.OnClickListener {
+            updateStatus(4)
+            (context as AdminMainActivity).switchFragment(1)
+        })
 
         return view
     }
@@ -112,16 +124,45 @@ class AdminVerifyPackageFragment : Fragment() {
         tvnote.setText(note)
         if(status==2){
             tvstatus.setText("Delivered")
+            btnverif.isEnabled=true
+            btncancel.isEnabled=true
         }
         else if(status==3){
             tvstatus.setText("Verified")
+            btnverif.isEnabled=false
+            btncancel.isEnabled=false
+
         }
         else if(status==4){
             tvstatus.setText("Cancelled")
+            btncancel.isEnabled=false
+            btnverif.isEnabled=false
         }
         tvdate.setText(date)
         tvsender.setText(sender)
         tvfrom.setText(from)
         tvverif.setText(verif)
+    }
+
+    fun updateStatus(stat : Int){
+        val strReq = object : StringRequest(
+            Method.POST,
+            "${WholeShareApiService.WS_HOST}/updateStatusParticipants",
+            Response.Listener {
+            },
+            Response.ErrorListener {
+//                println(it.message)
+//                Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+            }
+        ) {
+            override fun getParams(): MutableMap<String, String>? {
+                val params = HashMap<String, String>()
+                params["id"] = idpackage.toString()
+                params["status"] = stat.toString()
+                return params
+            }
+        }
+        val queue: RequestQueue = Volley.newRequestQueue(context)
+        queue.add(strReq)
     }
 }
