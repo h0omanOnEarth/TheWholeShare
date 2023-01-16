@@ -5,6 +5,7 @@ data class News(
     var title : String,
     var content : String,
     var request_id : Int,
+    var batch : Int,
     var created_at : String? =null,
     var updated_at : String? = null,
     var deleted_at : String? = null,

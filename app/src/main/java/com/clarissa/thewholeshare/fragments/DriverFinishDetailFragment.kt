@@ -160,7 +160,7 @@ class DriverFinishDetailFragment(
                 }
                 else {
                     // Change the fragment to the previous fragment
-                    (requireActivity() as DriverMainActivity).switchFragment(R.id.fragment_container_driver, previousFragment, Bundle())
+                    (requireActivity() as DriverMainActivity).switchFragment(R.id.fragment_container_driver, DriverListDeliverFragment(), Bundle())
                 }
             },
             { error ->

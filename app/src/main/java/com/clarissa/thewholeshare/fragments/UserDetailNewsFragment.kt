@@ -63,7 +63,8 @@ class UserDetailNewsFragment(
         for(i in arrRequests.indices){
             if(arrRequests[i].id==current_news.request_id){
                 tvLocation_detailNews.text = arrRequests[i].location
-                tvBatch_detailNews.text = arrRequests[i].batch.toString()
+//                tvBatch_detailNews.text = arrRequests[i].batch.toString()
+                tvBatch_detailNews.text = current_news.batch.toString()
                 tvDeadline_detailNews.text = arrRequests[i].deadline
                 break
             }

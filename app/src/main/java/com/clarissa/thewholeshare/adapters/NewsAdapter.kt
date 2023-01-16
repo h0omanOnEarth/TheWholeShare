@@ -37,13 +37,13 @@ class NewsAdapter(
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         var item = arrNews[position]
         var location : String = ""
-        var batch : Int = -1
+        var batch : Int = item.batch
         var deadline : String = ""
 
         for(i in arrRequests.indices){
             if(arrRequests[i].id == item.request_id){
                 location = arrRequests[i].location
-                batch = arrRequests[i].batch
+//                batch = arrRequests[i].batch
                 deadline = arrRequests[i].deadline
                 break
             }

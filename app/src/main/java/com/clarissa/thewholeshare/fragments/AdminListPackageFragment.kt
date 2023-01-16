@@ -128,7 +128,7 @@ class AdminListPackageFragment : Fragment() {
 
     fun refreshRecycler()
     {
-        dp = ListPackageAdapter(activity as AdminMainActivity, arrPackage)
+        dp = ListPackageAdapter(requireActivity() as AdminMainActivity, arrPackage)
         rv.adapter = dp
         val mLayoutManager: RecyclerView.LayoutManager = GridLayoutManager((activity as AdminMainActivity), 1)
         rv.layoutManager =  mLayoutManager

@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.clarissa.thewholeshare.R
+import com.clarissa.thewholeshare.api.helpers.ParticipantsStatuses
 import com.clarissa.thewholeshare.models.Location
 import com.clarissa.thewholeshare.models.News
 import com.clarissa.thewholeshare.models.Participant
@@ -40,19 +41,23 @@ class StatusAdapter(
         holder.tvFrom.text = item.pickup
 
         when (item.status) {
-            0 -> { // pending
+            ParticipantsStatuses.PENDING -> { // pending
                 holder.imgView_status.setImageResource(R.drawable.time_machine_120px)
                 holder.tvStatus.text = "Pending"
             }
-            1 -> { // delivering
+            ParticipantsStatuses.DELIVERING -> { // delivering
                 holder.imgView_status.setImageResource(R.drawable.on_the_way)
                 holder.tvStatus.text = "On The Way"
             }
-            2 -> { //finished
+            ParticipantsStatuses.DELIVERED -> { //finished
                 holder.imgView_status.setImageResource(R.drawable.ok_120px)
                 holder.tvStatus.text = "Delivered"
             }
-            3->{ //canceled
+            ParticipantsStatuses.VERIFIED -> { //finished
+                holder.imgView_status.setImageResource(R.drawable.ok_120px)
+                holder.tvStatus.text = "Verified"
+            }
+            ParticipantsStatuses.CANCELLED->{ //canceled
                 holder.imgView_status.setImageResource(R.drawable.cancel_120px)
                 holder.tvStatus.text = "Canceled"
             }

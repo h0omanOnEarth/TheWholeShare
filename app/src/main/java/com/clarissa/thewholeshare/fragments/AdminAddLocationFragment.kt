@@ -15,6 +15,7 @@ import com.clarissa.thewholeshare.AdminMainActivity
 import com.clarissa.thewholeshare.MainActivity
 import com.clarissa.thewholeshare.R
 import com.clarissa.thewholeshare.api.WholeShareApiService
+import com.clarissa.thewholeshare.api.helpers.ParticipantsStatuses
 import com.clarissa.thewholeshare.models.Location
 import com.clarissa.thewholeshare.models.User
 import com.google.gson.Gson
@@ -88,7 +89,7 @@ class AdminAddLocationFragment : Fragment() {
         requestBody.put("batch",1)
         requestBody.put("deadline",deadline)
         requestBody.put("note",note)
-        requestBody.put("status","menunggu")
+        requestBody.put("status",ParticipantsStatuses.PENDING)
 
         val addRequest = JsonObjectRequest(Request.Method.POST,"${ WholeShareApiService.WS_HOST}/addrequest",requestBody,
             {

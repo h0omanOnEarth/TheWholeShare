@@ -104,7 +104,6 @@ class AdminUpdateLocation : Fragment() {
             val note = etnote.text.toString()
             val status = etstatus.text.toString()
             if(loc!="" &&batch!="" && dead!="" && note!="" &&status!=""){
-                Toast.makeText(context, "tes2", Toast.LENGTH_SHORT).show()
                 getUpdate(idloc,loc,batch.toInt(),dead,note,status)
             }
             else{

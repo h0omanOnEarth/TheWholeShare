@@ -120,7 +120,7 @@ class DriverPackageDetailFragment(
                     val detail = response.getJSONObject("detail")
                     idDetailLabel.text = "#${detail.getString("id")}"
                     addressDetailLabel.text = detail.getString("location")
-                    noteDetailLabel.text = "" // detail.getString("location")
+                    noteDetailLabel.text = detail.getString("note")
                     pickupDetailLabel.text = detail.getString("pickup")
                     userPackageDetailLabel.text = detail.getString("full_name")
                 }

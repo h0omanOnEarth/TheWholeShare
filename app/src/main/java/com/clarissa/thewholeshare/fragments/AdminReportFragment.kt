@@ -21,6 +21,7 @@ import com.clarissa.thewholeshare.R
 import com.clarissa.thewholeshare.api.WholeShareApiService
 import com.clarissa.thewholeshare.models.Location
 import com.clarissa.thewholeshare.models.Participant
+import com.google.gson.Gson
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.HashMap
@@ -106,17 +107,18 @@ class AdminReportFragment : Fragment() {
                 for (i in 0 until obj.length()) {
                     val o = obj.getJSONObject(i)
                     println(o)
-                    val id = o.getInt("id")
-                    val user_id = o.getInt("user_id")
-                    val request_id = o.getInt("request_id")
-                    val courier_id = o.getInt("courier_id")
-                    val pickup = o.getString("pickup")
-                    val note = o.getString("note")
-                    val status = o.getInt("status")
-
-                    val p = Participant(
-                        id, user_id, request_id, courier_id, pickup, note, status
-                    )
+//                    val id = o.getInt("id")
+//                    val user_id = o.getInt("user_id")
+//                    val request_id = o.getInt("request_id")
+//                    val courier_id = o.getInt("courier_id")
+//                    val pickup = o.getString("pickup")
+//                    val note = o.getString("note")
+//                    val status = o.getInt("status")
+//
+//                    val p = Participant(
+//                        id, user_id, request_id, courier_id, pickup, note, status
+//                    )
+                    val p = Gson().fromJson(o.toString(), Participant::class.java)
                     arrParticipants.add(p)
                 }
             },
@@ -183,6 +185,7 @@ class AdminReportFragment : Fragment() {
         requestBody.put("title",title)
         requestBody.put("content",content)
         requestBody.put("request_id",idRequest)
+        requestBody.put("batch", arrLocations[idRequest - 1].batch)
         val addReport = JsonObjectRequest(
             Request.Method.POST,"${ WholeShareApiService.WS_HOST}/addreport",requestBody,
             {

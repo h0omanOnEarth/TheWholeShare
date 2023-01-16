@@ -85,8 +85,8 @@ class UserDonateDetailFragment(
         }else if(statusParticipant == ParticipantsStatuses.DELIVERING){
             tvStatus.text = "On The Way"
             imgView.setImageResource(R.drawable.on_the_way)
-        }else if(statusParticipant == ParticipantsStatuses.DELIVERED){
-            tvStatus.text = "Delivered"
+        }else if(statusParticipant == ParticipantsStatuses.DELIVERED || statusParticipant == ParticipantsStatuses.VERIFIED){
+            tvStatus.text = if (statusParticipant == ParticipantsStatuses.DELIVERED) "Delivered" else "Verified"
 //            imgView.setImageResource(R.drawable.ok_120px)
             Picasso.with(requireContext()).load("${WholeShareApiService.WS_STORAGE_IMAGE}/courier_delivered_${status.id}.png").into(imgView)
         }else if(statusParticipant == ParticipantsStatuses.CANCELLED){
