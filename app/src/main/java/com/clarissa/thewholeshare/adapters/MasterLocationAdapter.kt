@@ -21,8 +21,6 @@ class MasterLocationAdapter(
     class MyHolderLocation(it: View) : RecyclerView.ViewHolder(it) {
         var tvLocationName: TextView = it.findViewById(R.id.tvLocationName)
         var tvNote: TextView = it.findViewById(R.id.tvNote)
-        var tvpending: TextView = it.findViewById(R.id.tvPending)
-        var tvverified: TextView = it.findViewById(R.id.tvVerified)
         var llocate: LinearLayout = it.findViewById(R.id.linearlocation)
     }
 

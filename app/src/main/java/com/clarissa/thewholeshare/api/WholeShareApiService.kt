@@ -18,7 +18,7 @@ class WholeShareApiService(context: Context) {
             }
 
         /** Application Domain URLs */
-        val DOMAIN: String = "https://c2c6-140-0-79-152.ap.ngrok.io"
+        val DOMAIN: String = "https://525e-158-140-167-43.ap.ngrok.io"
         val WS_HOST: String = "${DOMAIN}/api"
         val WS_STORAGE_IMAGE: String = "${DOMAIN}/storage/images"
 
