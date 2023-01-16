@@ -1,11 +1,13 @@
 package com.clarissa.thewholeshare.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.android.volley.RequestQueue
@@ -17,6 +19,7 @@ import com.clarissa.thewholeshare.R
 import com.clarissa.thewholeshare.api.WholeShareApiService
 import com.clarissa.thewholeshare.models.Location
 import com.clarissa.thewholeshare.models.Participant
+import com.squareup.picasso.Picasso
 import org.json.JSONArray
 import org.w3c.dom.Text
 import java.util.HashMap
@@ -34,6 +37,7 @@ class AdminVerifyPackageFragment : Fragment() {
     lateinit var btncancel : Button
     lateinit var btnback : Button
     lateinit var tvid : TextView
+    lateinit var imageViewPhoto: ImageView
 
     var arrPackage = ArrayList<Participant>()
 
@@ -60,6 +64,8 @@ class AdminVerifyPackageFragment : Fragment() {
         btnback = view.findViewById(R.id.btnback)
         btncancel = view.findViewById(R.id.btncancel_admin)
         tvid = view.findViewById(R.id.tvId_detailDonateUser)
+        imageViewPhoto = view.findViewById(R.id.imgView_detailUserDonate)
+
 
         getData()
         btnback.setOnClickListener(View.OnClickListener {
@@ -131,18 +137,21 @@ class AdminVerifyPackageFragment : Fragment() {
         else if(status==3){
             tvstatus.setText("Verified")
             btnverif.isEnabled=false
-            btncancel.isEnabled=false
+            btncancel.isEnabled=true
 
         }
         else if(status==4){
             tvstatus.setText("Cancelled")
             btncancel.isEnabled=false
-            btnverif.isEnabled=false
+            btnverif.isEnabled=true
         }
         tvdate.setText(date)
         tvsender.setText(sender)
         tvfrom.setText(from)
         tvverif.setText(verif)
+
+        Log.d("NAMA_FILE", "isiData: courier_delivered_${idpackage}.png")
+        Picasso.with(requireContext()).load("${WholeShareApiService.WS_STORAGE_IMAGE}/courier_delivered_${idpackage}.png").into(imageViewPhoto)
     }
 
     fun updateStatus(stat : Int){

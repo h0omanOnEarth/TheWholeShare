@@ -17,16 +17,10 @@ class WholeShareApiService(context: Context) {
                 }
             }
 
-//        // Web service sachio:
-    val WS_HOST: String = "https://525e-158-140-167-43.ap.ngrok.io/api"
-//        // Web service Ian:
-//        val WS_HOST: String = "https://38f1-103-213-128-156.ap.ngrok.io/api"
-
-//         Web service Clarissa :
-        //val WS_HOST = "https://8abf-36-81-177-193.ap.ngrok.io/api"
-
-        //web service Cyrelle:
-//    val WS_HOST: String = "https://8f41-140-0-79-152.ap.ngrok.io/api"
+        /** Application Domain URLs */
+        val DOMAIN: String = "https://0836-103-213-129-76.ap.ngrok.io"
+        val WS_HOST: String = "${DOMAIN}/api"
+        val WS_STORAGE_IMAGE: String = "${DOMAIN}/storage/images"
 
     }
     private val requestQueue: RequestQueue by lazy {
