@@ -124,7 +124,7 @@ class UserDonateDetailFragment(
 
         btnToReport.setOnClickListener {
 
-            var news : News = News(-1,"","",-1)
+            var news : News = News(-1,"","",-1,0)
 
             for(i in arrNews.indices){
                 if(arrNews[i].request_id==status.request_id){
