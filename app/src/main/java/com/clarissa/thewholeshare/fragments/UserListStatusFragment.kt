@@ -20,6 +20,7 @@ import com.clarissa.thewholeshare.models.News
 import com.clarissa.thewholeshare.models.Participant
 import com.clarissa.thewholeshare.models.Request
 import com.clarissa.thewholeshare.models.User
+import com.google.gson.Gson
 import org.json.JSONArray
 
 class UserListStatusFragment(
@@ -66,7 +67,6 @@ class UserListStatusFragment(
                 }
             }
         }
-
 
         statusAdapter =  StatusAdapter(view.context,arrParticipants,arrRequests,R.layout.item_user_status)
         rvListStatus_User.adapter = statusAdapter
@@ -132,20 +132,23 @@ class UserListStatusFragment(
                 statusAdapter.notifyDataSetChanged()
                 for (i in 0 until obj.length()){
                     val o = obj.getJSONObject(i)
-                    val id = o.getInt("id")
-                    val user_id = o.getInt("user_id")
-                    val request_id = o.getInt("request_id")
-                    val pickup = o.getString("pickup")
-                    val note = o.getString("note")
-                    val status = o.getInt("status")
-                    val created_at = o.get("created_at").toString()
-                    val updated_at = o.get("updated_at").toString()
+//                    val id = o.getInt("id")
+//                    val user_id = o.getInt("user_id")
+//                    val request_id = o.getInt("request_id")
+//                    val courier_id = o.getInt("courier_id")
+//                    val pickup = o.getString("pickup")
+//                    val note = o.getString("note")
+//                    val status = o.getInt("status")
+//                    val created_at = o.get("created_at").toString()
+//                    val updated_at = o.get("updated_at").toString()
+//
+//                    val participant = Participant(
+//                        id,user_id,request_id, courier_id,pickup,note,status,created_at,updated_at
+//                    )
 
-                    val participant = Participant(
-                        id,user_id,request_id,pickup,note,status,created_at,updated_at
-                    )
+                    val participant = Gson().fromJson(o.toString(), Participant::class.java)
 
-                    if(user_id==userActive.id){
+                    if(participant.user_id == userActive.id){
                         arrParticipants.add(participant)
                         statusAdapter.notifyDataSetChanged()
                     }

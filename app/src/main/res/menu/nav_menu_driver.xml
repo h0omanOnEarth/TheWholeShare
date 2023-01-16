@@ -16,7 +16,8 @@
     <item
         android:id="@+id/item_canceled_driver"
         android:icon="@drawable/cancel_subscription_50px"
-        android:title="Canceled" />
+        android:title="Canceled"
+        android:visible="false" />
     <item
         android:id="@+id/item_profile_driver"
         android:icon="@drawable/profile"

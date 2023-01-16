@@ -2,17 +2,24 @@ package com.clarissa.thewholeshare.fragments
 
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.LinearLayout.LayoutParams
 import android.widget.TextView
 import com.clarissa.thewholeshare.R
+import com.clarissa.thewholeshare.api.WholeShareApiService
+import com.clarissa.thewholeshare.api.helpers.ParticipantsStatuses
 import com.clarissa.thewholeshare.models.News
 import com.clarissa.thewholeshare.models.Participant
 import com.clarissa.thewholeshare.models.Request
+import com.squareup.picasso.Picasso
+import kotlinx.coroutines.*
 
 class UserDonateDetailFragment(
     var status : Participant,
@@ -72,16 +79,17 @@ class UserDonateDetailFragment(
         }
 
         //image view & status
-        if(statusParticipant==0){
+        if(statusParticipant == ParticipantsStatuses.PENDING){
             tvStatus.text = "Pending"
             imgView.setImageResource(R.drawable.time_machine_120px)
-        }else if(statusParticipant==1){
+        }else if(statusParticipant == ParticipantsStatuses.DELIVERING){
             tvStatus.text = "On The Way"
             imgView.setImageResource(R.drawable.on_the_way)
-        }else if(statusParticipant==2){
+        }else if(statusParticipant == ParticipantsStatuses.DELIVERED){
             tvStatus.text = "Delivered"
-            imgView.setImageResource(R.drawable.ok_120px)
-        }else if(statusParticipant==3){
+//            imgView.setImageResource(R.drawable.ok_120px)
+            Picasso.with(requireContext()).load("${WholeShareApiService.WS_STORAGE_IMAGE}/courier_delivered_${status.id}.png").into(imgView)
+        }else if(statusParticipant == ParticipantsStatuses.CANCELLED){
             tvStatus.text = "Canceled"
             imgView.setImageResource(R.drawable.cancel_120px)
         }
@@ -127,7 +135,5 @@ class UserDonateDetailFragment(
 
             onClickButtonReport?.invoke("report",news)
         }
-
     }
-
 }

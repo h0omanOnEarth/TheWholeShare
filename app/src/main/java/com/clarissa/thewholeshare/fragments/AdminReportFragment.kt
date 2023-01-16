@@ -109,12 +109,13 @@ class AdminReportFragment : Fragment() {
                     val id = o.getInt("id")
                     val user_id = o.getInt("user_id")
                     val request_id = o.getInt("request_id")
+                    val courier_id = o.getInt("courier_id")
                     val pickup = o.getString("pickup")
                     val note = o.getString("note")
                     val status = o.getInt("status")
 
                     val p = Participant(
-                        id, user_id, request_id, pickup, note, status
+                        id, user_id, request_id, courier_id, pickup, note, status
                     )
                     arrParticipants.add(p)
                 }
